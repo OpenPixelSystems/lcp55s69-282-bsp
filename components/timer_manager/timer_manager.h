@@ -101,7 +101,8 @@
  *
  * @param name The name string of the timer manager handle.
  */
-#define TIMER_MANAGER_HANDLE_DEFINE(name) uint32_t name[(TIMER_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
+#define TIMER_MANAGER_HANDLE_DEFINE(name) uint32_t name[(TIMER_HANDLE_SIZE + sizeof(uint32_t) - \
+							 1U) / sizeof(uint32_t)]
 
 /*****************************************************************************
 ******************************************************************************
@@ -109,33 +110,30 @@
 ******************************************************************************
 *****************************************************************************/
 /**@brief Timer status. */
-typedef enum _timer_status
-{
-    kStatus_TimerSuccess    = kStatus_Success,                           /*!< Success */
-    kStatus_TimerInvalidId  = MAKE_STATUS(kStatusGroup_TIMERMANAGER, 1), /*!< Invalid Id */
-    kStatus_TimerNotSupport = MAKE_STATUS(kStatusGroup_TIMERMANAGER, 2), /*!< Not Support */
-    kStatus_TimerOutOfRange = MAKE_STATUS(kStatusGroup_TIMERMANAGER, 3), /*!< Out Of Range */
-    kStatus_TimerError      = MAKE_STATUS(kStatusGroup_TIMERMANAGER, 4), /*!< Fail */
+typedef enum _timer_status {
+	kStatus_TimerSuccess	= kStatus_Success,                              /*!< Success */
+	kStatus_TimerInvalidId	= MAKE_STATUS(kStatusGroup_TIMERMANAGER, 1),    /*!< Invalid Id */
+	kStatus_TimerNotSupport = MAKE_STATUS(kStatusGroup_TIMERMANAGER, 2),    /*!< Not Support */
+	kStatus_TimerOutOfRange = MAKE_STATUS(kStatusGroup_TIMERMANAGER, 3),    /*!< Out Of Range */
+	kStatus_TimerError	= MAKE_STATUS(kStatusGroup_TIMERMANAGER, 4),    /*!< Fail */
 } timer_status_t;
 
 /**@brief Timer modes. */
-typedef enum _timer_mode
-{
-    kTimerModeSingleShot     = 0x01U, /**< The timer will expire only once. */
-    kTimerModeIntervalTimer  = 0x02U, /**< The timer will restart each time it expires. */
-    kTimerModeSetMinuteTimer = 0x04U, /**< The timer will one minute timer. */
-    kTimerModeSetSecondTimer = 0x08U, /**< The timer will one second timer. */
-    kTimerModeLowPowerTimer  = 0x10U, /**< The timer will low power mode timer. */
+typedef enum _timer_mode {
+	kTimerModeSingleShot		= 0x01U,        /**< The timer will expire only once. */
+	kTimerModeIntervalTimer		= 0x02U,        /**< The timer will restart each time it expires. */
+	kTimerModeSetMinuteTimer	= 0x04U,        /**< The timer will one minute timer. */
+	kTimerModeSetSecondTimer	= 0x08U,        /**< The timer will one second timer. */
+	kTimerModeLowPowerTimer		= 0x10U,        /**< The timer will low power mode timer. */
 } timer_mode_t;
 
 /**@brief Timer config. */
-typedef struct _timer_config
-{
-    uint32_t srcClock_Hz; /**< The timer source clock. */
-    uint8_t instance;     /*!< Hardware timer module instance, for example: if you want use FTM0,then the instance
-                               is configured to 0, if you want use FTM2 hardware timer, then configure the instance
-                               to 2, detail information please refer to the SOC corresponding RM. Invalid instance
-                               value will cause initialization failure. */
+typedef struct _timer_config {
+	uint32_t	srcClock_Hz;    /**< The timer source clock. */
+	uint8_t		instance;       /*!< Hardware timer module instance, for example: if you want use FTM0,then the instance
+	                                 *   is configured to 0, if you want use FTM2 hardware timer, then configure the instance
+	                                 *   to 2, detail information please refer to the SOC corresponding RM. Invalid instance
+	                                 *   value will cause initialization failure. */
 } timer_config_t;
 
 /*
@@ -151,12 +149,12 @@ typedef void (*timer_callback_t)(void *param);
 /*
  * \brief   Converts the macro argument from seconds to microseconds
  */
-#define TmSecondsToMicroseconds(n) ((uint64_t)((n)*1000000UL))
+#define TmSecondsToMicroseconds(n) ((uint64_t)((n) * 1000000UL))
 
 /*
  * \brief   Converts the macro argument from seconds to milliseconds
  */
-#define TmSecondsToMilliseconds(n) ((uint32_t)((n)*1000UL))
+#define TmSecondsToMilliseconds(n) ((uint32_t)((n) * 1000UL))
 
 /*
  * \brief   Converts the macro argument from microseconds to seconds
@@ -247,7 +245,8 @@ timer_status_t TM_Close(timer_handle_t timerHandle);
  * @retval kStatus_TimerSuccess   Timer install callback succeed.
  *
  */
-timer_status_t TM_InstallCallback(timer_handle_t timerHandle, timer_callback_t callback, void *callbackParam);
+timer_status_t TM_InstallCallback(timer_handle_t timerHandle, timer_callback_t callback,
+				  void *callbackParam);
 
 /*!
  * @brief  Start a specified timer

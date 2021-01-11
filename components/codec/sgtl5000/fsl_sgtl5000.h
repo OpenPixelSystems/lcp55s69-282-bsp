@@ -329,8 +329,8 @@
 #define SGTL5000_ANA_GND_MASK    0x01f0
 #define SGTL5000_ANA_GND_SHIFT   0x4
 #define SGTL5000_ANA_GND_WIDTH   0x5
-#define SGTL5000_ANA_GND_BASE    0x320 /* mv */
-#define SGTL5000_ANA_GND_STP     0x19  /*mv */
+#define SGTL5000_ANA_GND_BASE    0x320  /* mv */
+#define SGTL5000_ANA_GND_STP     0x19   /*mv */
 #define SGTL5000_BIAS_CTRL_MASK  0x000e
 #define SGTL5000_BIAS_CTRL_SHIFT 0x1
 #define SGTL5000_BIAS_CTRL_WIDTH 0x3
@@ -747,17 +747,16 @@
 #define SGTL_I2C_BITRATE 100000U
 
 /*! @brief Modules in Sgtl5000 board. */
-typedef enum _sgtl5000_module
-{
-    kSGTL_ModuleADC = 0x0, /*!< ADC module in SGTL5000 */
-    kSGTL_ModuleDAC,       /*!< DAC module in SGTL5000 */
-    kSGTL_ModuleDAP,       /*!< DAP module in SGTL5000 */
-    kSGTL_ModuleHP,        /*!< Headphone module in SGTL5000 */
-    kSGTL_ModuleI2SIN,     /*!< I2S-IN module in SGTL5000 */
-    kSGTL_ModuleI2SOUT,    /*!< I2S-OUT module in SGTL5000 */
-    kSGTL_ModuleLineIn,    /*!< Line-in moudle in SGTL5000 */
-    kSGTL_ModuleLineOut,   /*!< Line-out module in SGTL5000 */
-    kSGTL_ModuleMicin      /*!< Micphone module in SGTL5000 */
+typedef enum _sgtl5000_module {
+	kSGTL_ModuleADC = 0x0,  /*!< ADC module in SGTL5000 */
+	kSGTL_ModuleDAC,        /*!< DAC module in SGTL5000 */
+	kSGTL_ModuleDAP,        /*!< DAP module in SGTL5000 */
+	kSGTL_ModuleHP,         /*!< Headphone module in SGTL5000 */
+	kSGTL_ModuleI2SIN,      /*!< I2S-IN module in SGTL5000 */
+	kSGTL_ModuleI2SOUT,     /*!< I2S-OUT module in SGTL5000 */
+	kSGTL_ModuleLineIn,     /*!< Line-in moudle in SGTL5000 */
+	kSGTL_ModuleLineOut,    /*!< Line-out module in SGTL5000 */
+	kSGTL_ModuleMicin       /*!< Micphone module in SGTL5000 */
 } sgtl_module_t;
 
 /*!
@@ -765,86 +764,77 @@ typedef enum _sgtl5000_module
  * @note Only provide some typical data route, not all route listed.
  * Users cannot combine any routes, once a new route is set, the precios one would be replaced.
  */
-typedef enum _sgtl_route
-{
-    kSGTL_RouteBypass = 0x0,             /*!< LINEIN->Headphone. */
-    kSGTL_RoutePlayback,                 /*!< I2SIN->DAC->Headphone. */
-    kSGTL_RoutePlaybackandRecord,        /*!< I2SIN->DAC->Headphone, LINEIN->ADC->I2SOUT. */
-    kSGTL_RoutePlaybackwithDAP,          /*!< I2SIN->DAP->DAC->Headphone. */
-    kSGTL_RoutePlaybackwithDAPandRecord, /*!< I2SIN->DAP->DAC->HP, LINEIN->ADC->I2SOUT. */
-    kSGTL_RouteRecord                    /*!< LINEIN->ADC->I2SOUT. */
+typedef enum _sgtl_route {
+	kSGTL_RouteBypass = 0x0,                /*!< LINEIN->Headphone. */
+	kSGTL_RoutePlayback,                    /*!< I2SIN->DAC->Headphone. */
+	kSGTL_RoutePlaybackandRecord,           /*!< I2SIN->DAC->Headphone, LINEIN->ADC->I2SOUT. */
+	kSGTL_RoutePlaybackwithDAP,             /*!< I2SIN->DAP->DAC->Headphone. */
+	kSGTL_RoutePlaybackwithDAPandRecord,    /*!< I2SIN->DAP->DAC->HP, LINEIN->ADC->I2SOUT. */
+	kSGTL_RouteRecord                       /*!< LINEIN->ADC->I2SOUT. */
 } sgtl_route_t;
 
 /*!
  * @brief The audio data transfer protocol choice.
  * Sgtl5000 only supports I2S format and PCM format.
  */
-typedef enum _sgtl_protocol
-{
-    kSGTL_BusI2S = 0x0,      /*!< I2S Type */
-    kSGTL_BusLeftJustified,  /*!< Left justified */
-    kSGTL_BusRightJustified, /*!< Right Justified */
-    kSGTL_BusPCMA,           /*!< PCMA */
-    kSGTL_BusPCMB            /*!< PCMB */
+typedef enum _sgtl_protocol {
+	kSGTL_BusI2S = 0x0,             /*!< I2S Type */
+	kSGTL_BusLeftJustified,         /*!< Left justified */
+	kSGTL_BusRightJustified,        /*!< Right Justified */
+	kSGTL_BusPCMA,                  /*!< PCMA */
+	kSGTL_BusPCMB                   /*!< PCMB */
 } sgtl_protocol_t;
 
 /*! @brief sgtl play channel  */
-enum _sgtl_play_channel
-{
-    kSGTL_HeadphoneLeft  = 0, /*!< headphone left channel */
-    kSGTL_HeadphoneRight = 1, /*!< headphone right channel */
-    kSGTL_LineoutLeft    = 2, /*!< lineout left channel */
-    kSGTL_LineoutRight   = 3, /*!< lineout right channel */
+enum _sgtl_play_channel {
+	kSGTL_HeadphoneLeft	= 0,    /*!< headphone left channel */
+	kSGTL_HeadphoneRight	= 1,    /*!< headphone right channel */
+	kSGTL_LineoutLeft	= 2,    /*!< lineout left channel */
+	kSGTL_LineoutRight	= 3,    /*!< lineout right channel */
 };
 
 /*! @brief sgtl record source */
-enum _sgtl_record_source
-{
-    kSGTL_RecordSourceLineIn = 0U, /*!< record source line in */
-    kSGTL_RecordSourceMic    = 1U, /*!< record source single end */
+enum _sgtl_record_source {
+	kSGTL_RecordSourceLineIn	= 0U,   /*!< record source line in */
+	kSGTL_RecordSourceMic		= 1U,   /*!< record source single end */
 };
 
 /*! @brief sgtl play source */
-enum _stgl_play_source
-{
-    kSGTL_PlaySourceLineIn = 0U, /*!< play source line in */
-    kSGTL_PlaySourceDAC    = 1U, /*!< play source line in */
+enum _stgl_play_source {
+	kSGTL_PlaySourceLineIn	= 0U,   /*!< play source line in */
+	kSGTL_PlaySourceDAC	= 1U,   /*!< play source line in */
 };
 
 /*! @brief SGTL SCLK valid edge */
-typedef enum _sgtl_sclk_edge
-{
-    kSGTL_SclkValidEdgeRising   = 0U, /*!< SCLK valid edge */
-    kSGTL_SclkValidEdgeFailling = 1U, /*!< SCLK failling edge */
+typedef enum _sgtl_sclk_edge {
+	kSGTL_SclkValidEdgeRising	= 0U,   /*!< SCLK valid edge */
+	kSGTL_SclkValidEdgeFailling	= 1U,   /*!< SCLK failling edge */
 } sgtl_sclk_edge_t;
 
 /*! @brief Audio format configuration. */
-typedef struct _sgtl_audio_format
-{
-    uint32_t mclk_HZ;          /*!< master clock */
-    uint32_t sampleRate;       /*!< Sample rate */
-    uint32_t bitWidth;         /*!< Bit width */
-    sgtl_sclk_edge_t sclkEdge; /*!< sclk valid edge */
+typedef struct _sgtl_audio_format {
+	uint32_t		mclk_HZ;        /*!< master clock */
+	uint32_t		sampleRate;     /*!< Sample rate */
+	uint32_t		bitWidth;       /*!< Bit width */
+	sgtl_sclk_edge_t	sclkEdge;       /*!< sclk valid edge */
 } sgtl_audio_format_t;
 
 /*! @brief Initailize structure of sgtl5000 */
-typedef struct _sgtl_config
-{
-    sgtl_route_t route;         /*!< Audio data route.*/
-    sgtl_protocol_t bus;        /*!< Audio transfer protocol */
-    bool master_slave;          /*!< Master or slave. True means master, false means slave. */
-    sgtl_audio_format_t format; /*!< audio format */
+typedef struct _sgtl_config {
+	sgtl_route_t		route;          /*!< Audio data route.*/
+	sgtl_protocol_t		bus;            /*!< Audio transfer protocol */
+	bool			master_slave;   /*!< Master or slave. True means master, false means slave. */
+	sgtl_audio_format_t	format;         /*!< audio format */
 
-    uint8_t slaveAddress;         /*!< code device slave address */
-    codec_i2c_config_t i2cConfig; /*!< i2c bus configuration */
+	uint8_t			slaveAddress;   /*!< code device slave address */
+	codec_i2c_config_t	i2cConfig;      /*!< i2c bus configuration */
 } sgtl_config_t;
 
 /*! @brief SGTL codec handler
  */
-typedef struct _sgtl_handle
-{
-    sgtl_config_t *config;                    /*!< sgtl config pointer */
-    uint8_t i2cHandle[SGTL_I2C_HANDLER_SIZE]; /*!< i2c handle */
+typedef struct _sgtl_handle {
+	sgtl_config_t * config;                                 /*!< sgtl config pointer */
+	uint8_t		i2cHandle[SGTL_I2C_HANDLER_SIZE];       /*!< i2c handle */
 } sgtl_handle_t;
 
 /*******************************************************************************
@@ -967,7 +957,8 @@ status_t SGTL_Deinit(sgtl_handle_t *handle);
  * @param bits Bit depth of audio file (Sgtl5000 only supports 16bit, 20bit, 24bit
  * and 32 bit in HW).
  */
-status_t SGTL_ConfigDataFormat(sgtl_handle_t *handle, uint32_t mclk, uint32_t sample_rate, uint32_t bits);
+status_t SGTL_ConfigDataFormat(sgtl_handle_t *handle, uint32_t mclk, uint32_t sample_rate, uint32_t
+			       bits);
 
 /*!
  * @brief select SGTL codec play source.

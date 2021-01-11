@@ -123,7 +123,8 @@
 /*! @brief SERIAL_PORT_UART_HANDLE_SIZE/SERIAL_PORT_USB_CDC_HANDLE_SIZE + serial manager dedicated size */
 #if ((defined(SERIAL_MANAGER_HANDLE_SIZE_TEMP) && (SERIAL_MANAGER_HANDLE_SIZE_TEMP > 0U)))
 #else
-#error SERIAL_PORT_TYPE_UART, SERIAL_PORT_TYPE_USBCDC, SERIAL_PORT_TYPE_SWO and SERIAL_PORT_TYPE_USBCDC_VIRTUAL should not be cleared at same time.
+#error \
+	SERIAL_PORT_TYPE_UART, SERIAL_PORT_TYPE_USBCDC, SERIAL_PORT_TYPE_SWO and SERIAL_PORT_TYPE_USBCDC_VIRTUAL should not be cleared at same time.
 #endif
 
 /*! @brief Definition of serial manager handle size. */
@@ -149,7 +150,7 @@
  * @param name The name string of the serial manager handle.
  */
 #define SERIAL_MANAGER_HANDLE_DEFINE(name) \
-    uint32_t name[((SERIAL_MANAGER_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t))]
+	uint32_t name[((SERIAL_MANAGER_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t))]
 
 /*!
  * @brief Defines the serial manager write handle
@@ -167,7 +168,8 @@
  * @param name The name string of the serial manager write handle.
  */
 #define SERIAL_MANAGER_WRITE_HANDLE_DEFINE(name) \
-    uint32_t name[((SERIAL_MANAGER_WRITE_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t))]
+	uint32_t name[((SERIAL_MANAGER_WRITE_HANDLE_SIZE + sizeof(uint32_t) - 1U) / \
+		       sizeof(uint32_t))]
 
 /*!
  * @brief Defines the serial manager read handle
@@ -185,7 +187,8 @@
  * @param name The name string of the serial manager read handle.
  */
 #define SERIAL_MANAGER_READ_HANDLE_DEFINE(name) \
-    uint32_t name[((SERIAL_MANAGER_READ_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t))]
+	uint32_t name[((SERIAL_MANAGER_READ_HANDLE_SIZE + sizeof(uint32_t) - 1U) / \
+		       sizeof(uint32_t))]
 
 /*! @brief Macro to determine whether use common task. */
 #ifndef SERIAL_MANAGER_USE_COMMON_TASK
@@ -212,53 +215,54 @@ typedef void *serial_write_handle_t;
 typedef void *serial_read_handle_t;
 
 /*! @brief serial port type*/
-typedef enum _serial_port_type
-{
-    kSerialPort_Uart = 1U,     /*!< Serial port UART */
-    kSerialPort_UsbCdc,        /*!< Serial port USB CDC */
-    kSerialPort_Swo,           /*!< Serial port SWO */
-    kSerialPort_UsbCdcVirtual, /*!< Serial port USB CDC Virtual */
+typedef enum _serial_port_type {
+	kSerialPort_Uart = 1U,          /*!< Serial port UART */
+	kSerialPort_UsbCdc,             /*!< Serial port USB CDC */
+	kSerialPort_Swo,                /*!< Serial port SWO */
+	kSerialPort_UsbCdcVirtual,      /*!< Serial port USB CDC Virtual */
 } serial_port_type_t;
 
 /*! @brief serial manager config structure*/
-typedef struct _serial_manager_config
-{
+typedef struct _serial_manager_config {
 #if defined(DEBUG_CONSOLE_TRANSFER_NON_BLOCKING)
-    uint8_t *ringBuffer;     /*!< Ring buffer address, it is used to buffer data received by the hardware.
-                                  Besides, the memory space cannot be free during the lifetime of the serial
-                                  manager module. */
-    uint32_t ringBufferSize; /*!< The size of the ring buffer */
+	uint8_t *		ringBuffer;     /*!< Ring buffer address, it is used to buffer data received by the hardware.
+	                                         *   Besides, the memory space cannot be free during the lifetime of the serial
+	                                         *   manager module. */
+	uint32_t		ringBufferSize; /*!< The size of the ring buffer */
 #endif
-    serial_port_type_t type; /*!< Serial port type */
-    void *portConfig;        /*!< Serial port configuration */
+	serial_port_type_t	type;           /*!< Serial port type */
+	void *			portConfig;     /*!< Serial port configuration */
 } serial_manager_config_t;
 
 /*! @brief serial manager error code*/
-typedef enum _serial_manager_status
-{
-    kStatus_SerialManager_Success = kStatus_Success,                            /*!< Success */
-    kStatus_SerialManager_Error   = MAKE_STATUS(kStatusGroup_SERIALMANAGER, 1), /*!< Failed */
-    kStatus_SerialManager_Busy    = MAKE_STATUS(kStatusGroup_SERIALMANAGER, 2), /*!< Busy */
-    kStatus_SerialManager_Notify  = MAKE_STATUS(kStatusGroup_SERIALMANAGER, 3), /*!< Ring buffer is not empty */
-    kStatus_SerialManager_Canceled =
-        MAKE_STATUS(kStatusGroup_SERIALMANAGER, 4), /*!< the non-blocking request is canceled */
-    kStatus_SerialManager_HandleConflict = MAKE_STATUS(kStatusGroup_SERIALMANAGER, 5), /*!< The handle is opened */
-    kStatus_SerialManager_RingBufferOverflow =
-        MAKE_STATUS(kStatusGroup_SERIALMANAGER, 6), /*!< The ring buffer is overflowed */
-    kStatus_SerialManager_NotConnected = MAKE_STATUS(kStatusGroup_SERIALMANAGER, 7), /*!< The host is not connected */
+typedef enum _serial_manager_status {
+	kStatus_SerialManager_Success			= kStatus_Success,      /*!< Success */
+	kStatus_SerialManager_Error			= MAKE_STATUS(kStatusGroup_SERIALMANAGER,
+								      1),       /*!< Failed */
+	kStatus_SerialManager_Busy			= MAKE_STATUS(kStatusGroup_SERIALMANAGER,
+								      2),       /*!< Busy */
+	kStatus_SerialManager_Notify			= MAKE_STATUS(kStatusGroup_SERIALMANAGER,
+								      3),       /*!< Ring buffer is not empty */
+	kStatus_SerialManager_Canceled			=
+		MAKE_STATUS(kStatusGroup_SERIALMANAGER, 4),                     /*!< the non-blocking request is canceled */
+	kStatus_SerialManager_HandleConflict		= MAKE_STATUS(kStatusGroup_SERIALMANAGER,
+								      5),       /*!< The handle is opened */
+	kStatus_SerialManager_RingBufferOverflow	=
+		MAKE_STATUS(kStatusGroup_SERIALMANAGER, 6),                     /*!< The ring buffer is overflowed */
+	kStatus_SerialManager_NotConnected		= MAKE_STATUS(kStatusGroup_SERIALMANAGER,
+								      7),       /*!< The host is not connected */
 } serial_manager_status_t;
 
 /*! @brief Callback message structure */
-typedef struct _serial_manager_callback_message
-{
-    uint8_t *buffer; /*!< Transferred buffer */
-    uint32_t length; /*!< Transferred data length */
+typedef struct _serial_manager_callback_message {
+	uint8_t *	buffer; /*!< Transferred buffer */
+	uint32_t	length; /*!< Transferred data length */
 } serial_manager_callback_message_t;
 
 /*! @brief callback function */
-typedef void (*serial_manager_callback_t)(void *callbackParam,
-                                          serial_manager_callback_message_t *message,
-                                          serial_manager_status_t status);
+typedef void (*serial_manager_callback_t)(void *				callbackParam,
+					  serial_manager_callback_message_t *	message,
+					  serial_manager_status_t		status);
 
 /*******************************************************************************
  * API
@@ -328,7 +332,8 @@ extern "C" {
  * @retval kStatus_SerialManager_Error An error occurred.
  * @retval kStatus_SerialManager_Success The Serial Manager module initialization succeed.
  */
-serial_manager_status_t SerialManager_Init(serial_handle_t serialHandle, serial_manager_config_t *config);
+serial_manager_status_t SerialManager_Init(serial_handle_t		serialHandle,
+					   serial_manager_config_t *	config);
 
 /*!
  * @brief De-initializes the serial manager module instance.
@@ -389,7 +394,8 @@ serial_manager_status_t SerialManager_Deinit(serial_handle_t serialHandle);
  *                                   sizeof(s_nonBlockingWelcome2) - 1U);
  *  @endcode
  */
-serial_manager_status_t SerialManager_OpenWriteHandle(serial_handle_t serialHandle, serial_write_handle_t writeHandle);
+serial_manager_status_t SerialManager_OpenWriteHandle(serial_handle_t		serialHandle,
+						      serial_write_handle_t	writeHandle);
 
 /*!
  * @brief Closes a writing handle for the serial manager module.
@@ -434,7 +440,8 @@ serial_manager_status_t SerialManager_CloseWriteHandle(serial_write_handle_t wri
  *                                  sizeof(s_nonBlockingBuffer));
  *  @endcode
  */
-serial_manager_status_t SerialManager_OpenReadHandle(serial_handle_t serialHandle, serial_read_handle_t readHandle);
+serial_manager_status_t SerialManager_OpenReadHandle(serial_handle_t		serialHandle,
+						     serial_read_handle_t	readHandle);
 
 /*!
  * @brief Closes a reading for the serial manager module.
@@ -465,8 +472,7 @@ serial_manager_status_t SerialManager_CloseReadHandle(serial_read_handle_t readH
  * @retval kStatus_SerialManager_Error An error occurred.
  */
 serial_manager_status_t SerialManager_WriteBlocking(serial_write_handle_t writeHandle,
-                                                    uint8_t *buffer,
-                                                    uint32_t length);
+						    uint8_t *buffer, uint32_t length);
 
 /*!
  * @brief Reads data with the blocking mode.
@@ -486,7 +492,8 @@ serial_manager_status_t SerialManager_WriteBlocking(serial_write_handle_t writeH
  * @retval kStatus_SerialManager_Busy Previous transmission still not finished; data not all received yet.
  * @retval kStatus_SerialManager_Error An error occurred.
  */
-serial_manager_status_t SerialManager_ReadBlocking(serial_read_handle_t readHandle, uint8_t *buffer, uint32_t length);
+serial_manager_status_t SerialManager_ReadBlocking(serial_read_handle_t readHandle, uint8_t *buffer,
+						   uint32_t length);
 
 #if (defined(SERIAL_MANAGER_NON_BLOCKING_MODE) && (SERIAL_MANAGER_NON_BLOCKING_MODE > 0U))
 /*!
@@ -509,8 +516,7 @@ serial_manager_status_t SerialManager_ReadBlocking(serial_read_handle_t readHand
  * @retval kStatus_SerialManager_Error An error occurred.
  */
 serial_manager_status_t SerialManager_WriteNonBlocking(serial_write_handle_t writeHandle,
-                                                       uint8_t *buffer,
-                                                       uint32_t length);
+						       uint8_t *buffer, uint32_t length);
 
 /*!
  * @brief Reads data with the non-blocking mode.
@@ -532,8 +538,7 @@ serial_manager_status_t SerialManager_WriteNonBlocking(serial_write_handle_t wri
  * @retval kStatus_SerialManager_Error An error occurred.
  */
 serial_manager_status_t SerialManager_ReadNonBlocking(serial_read_handle_t readHandle,
-                                                      uint8_t *buffer,
-                                                      uint32_t length);
+						      uint8_t *buffer, uint32_t length);
 
 /*!
  * @brief Tries to read data.
@@ -551,10 +556,8 @@ serial_manager_status_t SerialManager_ReadNonBlocking(serial_read_handle_t readH
  * @retval kStatus_SerialManager_Busy Previous transmission still not finished; data not all received yet.
  * @retval kStatus_SerialManager_Error An error occurred.
  */
-serial_manager_status_t SerialManager_TryRead(serial_read_handle_t readHandle,
-                                              uint8_t *buffer,
-                                              uint32_t length,
-                                              uint32_t *receivedLength);
+serial_manager_status_t SerialManager_TryRead(serial_read_handle_t readHandle, uint8_t *buffer,
+					      uint32_t length, uint32_t *receivedLength);
 
 /*!
  * @brief Cancels unfinished send transmission.
@@ -600,8 +603,8 @@ serial_manager_status_t SerialManager_CancelReading(serial_read_handle_t readHan
  * @retval kStatus_SerialManager_Success Successfully install the callback.
  */
 serial_manager_status_t SerialManager_InstallTxCallback(serial_write_handle_t writeHandle,
-                                                        serial_manager_callback_t callback,
-                                                        void *callbackParam);
+							serial_manager_callback_t callback, void *
+							callbackParam);
 
 /*!
  * @brief Installs a RX callback and callback parameter.
@@ -616,8 +619,8 @@ serial_manager_status_t SerialManager_InstallTxCallback(serial_write_handle_t wr
  * @retval kStatus_SerialManager_Success Successfully install the callback.
  */
 serial_manager_status_t SerialManager_InstallRxCallback(serial_read_handle_t readHandle,
-                                                        serial_manager_callback_t callback,
-                                                        void *callbackParam);
+							serial_manager_callback_t callback, void *
+							callbackParam);
 
 #endif
 

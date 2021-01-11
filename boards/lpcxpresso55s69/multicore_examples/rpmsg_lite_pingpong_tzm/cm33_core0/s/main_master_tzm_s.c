@@ -53,9 +53,8 @@ extern uint32_t m0_image_size;
 
 #define NON_SECURE_START 0x00010000
 
-typedef struct the_message
-{
-    uint32_t DATA;
+typedef struct the_message {
+	uint32_t DATA;
 } THE_MESSAGE, *THE_MESSAGE_PTR;
 
 #define SH_MEM_TOTAL_SIZE (6144U)
@@ -87,43 +86,42 @@ uint32_t get_core1_image_size(void);
 #ifdef CORE1_IMAGE_COPY_TO_RAM
 uint32_t get_core1_image_size(void)
 {
-    uint32_t core1_image_size;
+	uint32_t core1_image_size;
 #if defined(__CC_ARM) || defined(__ARMCC_VERSION)
-    core1_image_size = (uint32_t)&Image$$CORE1_REGION$$Length;
+	core1_image_size = (uint32_t)&Image$$CORE1_REGION$$Length;
 #elif defined(__ICCARM__)
 #pragma section = "__sec_core"
-    core1_image_size = (uint32_t)__section_end("__sec_core") - (uint32_t)&core1_image_start;
+	core1_image_size = (uint32_t)__section_end("__sec_core") - (uint32_t)&core1_image_start;
 #elif defined(__GNUC__)
-    core1_image_size = (uint32_t)m0_image_size;
+	core1_image_size = (uint32_t)m0_image_size;
 #endif
-    return core1_image_size;
+	return core1_image_size;
 }
 #endif
-THE_MESSAGE volatile msg = {0};
+THE_MESSAGE volatile msg = { 0 };
 extern struct rpmsg_lite_instance *rpmsg_lite_instance_s;
 struct rpmsg_lite_instance rpmsg_lite_ctxt_s;
 
 /* This is the read callback, note we are in a task context when this callback
-is invoked, so kernel primitives can be used freely */
+ * is invoked, so kernel primitives can be used freely */
 static int32_t my_ept_read_cb(void *payload, uint32_t payload_len, uint32_t src, void *priv)
 {
-    int32_t *has_received = priv;
+	int32_t *has_received = priv;
 
-    if (payload_len <= sizeof(THE_MESSAGE))
-    {
-        (void)memcpy((void *)&msg, payload, payload_len);
-        *has_received = 1;
-    }
-    PRINTF("Primary core received a msg\r\n");
-    PRINTF("Message: Size=%x, DATA = %i\r\n", (unsigned int)payload_len, (int)msg.DATA);
-    return RL_RELEASE;
+	if (payload_len <= sizeof(THE_MESSAGE)) {
+		(void)memcpy((void *)&msg, payload, payload_len);
+		*has_received = 1;
+	}
+	PRINTF("Primary core received a msg\r\n");
+	PRINTF("Message: Size=%x, DATA = %i\r\n", (unsigned int)payload_len, (int)msg.DATA);
+	return RL_RELEASE;
 }
 
 static void RPMsgRemoteReadyEventHandler(uint16_t eventData, void *context)
 {
-    uint16_t *data = (uint16_t *)context;
+	uint16_t *data = (uint16_t *)context;
 
-    *data = eventData;
+	*data = eventData;
 }
 
 /*!
@@ -131,16 +129,16 @@ static void RPMsgRemoteReadyEventHandler(uint16_t eventData, void *context)
  */
 void SystemInitHook(void)
 {
-    /* The TrustZone should be configured as early as possible after RESET.
-       Therefore it is called from SystemInit() during startup. The SystemInitHook()
-       weak function overloading is used for this purpose. */
-    BOARD_InitTrustZone();
+	/* The TrustZone should be configured as early as possible after RESET.
+	 * Therefore it is called from SystemInit() during startup. The SystemInitHook()
+	 * weak function overloading is used for this purpose. */
+	BOARD_InitTrustZone();
 
-    /* Initialize MCMGR - low level multicore management library. Call this
-       function as close to the reset entry as possible to allow CoreUp event
-       triggering. The SystemInitHook() weak function overloading is used in this
-       application. */
-    (void)MCMGR_EarlyInit();
+	/* Initialize MCMGR - low level multicore management library. Call this
+	 * function as close to the reset entry as possible to allow CoreUp event
+	 * triggering. The SystemInitHook() weak function overloading is used in this
+	 * application. */
+	(void)MCMGR_EarlyInit();
 }
 
 /*!
@@ -148,106 +146,109 @@ void SystemInitHook(void)
  */
 int main(void)
 {
-    volatile int32_t has_received;
-    volatile uint16_t RPMsgRemoteReadyEventData = 0;
-    struct rpmsg_lite_ept_static_context my_ept_context_s;
-    struct rpmsg_lite_endpoint *my_ept_s;
-    funcptr_ns ResetHandler_ns;
+	volatile int32_t has_received;
+	volatile uint16_t RPMsgRemoteReadyEventData = 0;
+	struct rpmsg_lite_ept_static_context my_ept_context_s;
+	struct rpmsg_lite_endpoint *my_ept_s;
+	funcptr_ns ResetHandler_ns;
 
-    /* Initialize standard SDK demo application pins */
-    /* set BOD VBAT level to 1.65V */
-    POWER_SetBodVbatLevel(kPOWER_BodVbatLevel1650mv, kPOWER_BodHystLevel50mv, false);
-    /* attach main clock divide to FLEXCOMM0 (debug console) */
-    CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
+	/* Initialize standard SDK demo application pins */
+	/* set BOD VBAT level to 1.65V */
+	POWER_SetBodVbatLevel(kPOWER_BodVbatLevel1650mv, kPOWER_BodHystLevel50mv, false);
+	/* attach main clock divide to FLEXCOMM0 (debug console) */
+	CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
 
-    BOARD_InitBootPins();
-    BOARD_InitBootClocks();
-    BOARD_InitDebugConsole();
+	BOARD_InitBootPins();
+	BOARD_InitBootClocks();
+	BOARD_InitDebugConsole();
 
-    /* Check the silicone version */
-    if (0x0 == Chip_GetVersion())
-    {
-        /* The rpmsg_lite_pingpong_tzm example does not work correctly in A0 silicone version */
-        assert(false);
-    }
+	/* Check the silicone version */
+	if (0x0 == Chip_GetVersion()) {
+		/* The rpmsg_lite_pingpong_tzm example does not work correctly in A0 silicone version */
+		assert(false);
+	}
 
 #ifdef CORE1_IMAGE_COPY_TO_RAM
-    /* Calculate size of the image */
-    uint32_t core1_image_size;
-    core1_image_size = get_core1_image_size();
-    (void)PRINTF("Copy CORE1 image to address: 0x%x, size: %d\r\n", (void *)(char *)CORE1_BOOT_ADDRESS,
-                 core1_image_size);
+	/* Calculate size of the image */
+	uint32_t core1_image_size;
+	core1_image_size = get_core1_image_size();
+	(void)PRINTF("Copy CORE1 image to address: 0x%x, size: %d\r\n",
+		     (void *)(char *)CORE1_BOOT_ADDRESS,
+		     core1_image_size);
 
-    /* Copy application from FLASH to RAM */
-    (void)memcpy((void *)(char *)CORE1_BOOT_ADDRESS, (void *)CORE1_IMAGE_START, core1_image_size);
+	/* Copy application from FLASH to RAM */
+	(void)memcpy((void *)(char *)CORE1_BOOT_ADDRESS, (void *)CORE1_IMAGE_START,
+		     core1_image_size);
 #endif
 
-    /* Initialize MCMGR before calling its API */
-    (void)MCMGR_Init();
+	/* Initialize MCMGR before calling its API */
+	(void)MCMGR_Init();
 
-    /* Register the application event before starting the secondary core */
-    (void)MCMGR_RegisterEvent(kMCMGR_RemoteApplicationEvent, RPMsgRemoteReadyEventHandler,
-                              (void *)&RPMsgRemoteReadyEventData);
+	/* Register the application event before starting the secondary core */
+	(void)MCMGR_RegisterEvent(kMCMGR_RemoteApplicationEvent, RPMsgRemoteReadyEventHandler,
+				  (void *)&RPMsgRemoteReadyEventData);
 
-    /* Boot Secondary core application */
-    (void)MCMGR_StartCore(kMCMGR_Core1, (void *)(char *)CORE1_BOOT_ADDRESS, (uint32_t)rpmsg_lite_base,
-                          kMCMGR_Start_Synchronous);
+	/* Boot Secondary core application */
+	(void)MCMGR_StartCore(kMCMGR_Core1, (void *)(char *)CORE1_BOOT_ADDRESS,
+			      (uint32_t)rpmsg_lite_base,
+			      kMCMGR_Start_Synchronous);
 
-    /* Print the initial banner */
-    (void)PRINTF("\r\nRPMsg demo starts\r\n");
-    (void)PRINTF("\r\nData exchange in secure domain\r\n");
+	/* Print the initial banner */
+	(void)PRINTF("\r\nRPMsg demo starts\r\n");
+	(void)PRINTF("\r\nData exchange in secure domain\r\n");
 
-    /* Wait until the secondary core application signals the rpmsg remote has been initialized and is ready to
-     * communicate. */
-    while (APP_RPMSG_READY_EVENT_DATA != RPMsgRemoteReadyEventData)
-    {
-    };
+	/* Wait until the secondary core application signals the rpmsg remote has been initialized and is ready to
+	 * communicate. */
+	while (APP_RPMSG_READY_EVENT_DATA != RPMsgRemoteReadyEventData) {
+	}
+	;
 
-    rpmsg_lite_instance_s =
-        rpmsg_lite_master_init(rpmsg_lite_base, SH_MEM_TOTAL_SIZE, RPMSG_LITE_LINK_ID, RL_NO_FLAGS, &rpmsg_lite_ctxt_s);
+	rpmsg_lite_instance_s =
+		rpmsg_lite_master_init(rpmsg_lite_base, SH_MEM_TOTAL_SIZE, RPMSG_LITE_LINK_ID,
+				       RL_NO_FLAGS, &rpmsg_lite_ctxt_s);
 
-    my_ept_s = rpmsg_lite_create_ept(rpmsg_lite_instance_s, LOCAL_EPT_ADDR, my_ept_read_cb, (void *)&has_received,
-                                     &my_ept_context_s);
+	my_ept_s = rpmsg_lite_create_ept(rpmsg_lite_instance_s, LOCAL_EPT_ADDR, my_ept_read_cb,
+					 (void *)&has_received,
+					 &my_ept_context_s);
 
-    has_received = 0;
+	has_received = 0;
 
-    /* Wait until the secondary core application signals the rpmsg remote endpoint has been created. */
-    while (APP_RPMSG_EP_READY_EVENT_DATA != RPMsgRemoteReadyEventData)
-    {
-    };
+	/* Wait until the secondary core application signals the rpmsg remote endpoint has been created. */
+	while (APP_RPMSG_EP_READY_EVENT_DATA != RPMsgRemoteReadyEventData) {
+	}
+	;
 
-    /* Send the first message to the remoteproc */
-    msg.DATA = 0U;
-    (void)rpmsg_lite_send(rpmsg_lite_instance_s, my_ept_s, REMOTE_EPT_ADDR, (char *)&msg, sizeof(THE_MESSAGE),
-                          RL_DONT_BLOCK);
+	/* Send the first message to the remoteproc */
+	msg.DATA = 0U;
+	(void)rpmsg_lite_send(rpmsg_lite_instance_s, my_ept_s, REMOTE_EPT_ADDR, (char *)&msg,
+			      sizeof(THE_MESSAGE),
+			      RL_DONT_BLOCK);
 
-    while (msg.DATA <= 50U)
-    {
-        if (1 == has_received)
-        {
-            has_received = 0;
-            msg.DATA++;
-            (void)rpmsg_lite_send(rpmsg_lite_instance_s, my_ept_s, REMOTE_EPT_ADDR, (char *)&msg, sizeof(THE_MESSAGE),
-                                  RL_DONT_BLOCK);
-        }
-    }
+	while (msg.DATA <= 50U) {
+		if (1 == has_received) {
+			has_received = 0;
+			msg.DATA++;
+			(void)rpmsg_lite_send(rpmsg_lite_instance_s, my_ept_s, REMOTE_EPT_ADDR,
+					      (char *)&msg, sizeof(THE_MESSAGE),
+					      RL_DONT_BLOCK);
+		}
+	}
 
-    /* jump to the non-secure domain */
-    /* Set non-secure main stack (MSP_NS) */
-    __TZ_set_MSP_NS(*((uint32_t *)(NON_SECURE_START)));
+	/* jump to the non-secure domain */
+	/* Set non-secure main stack (MSP_NS) */
+	__TZ_set_MSP_NS(*((uint32_t *)(NON_SECURE_START)));
 
-    /* Set non-secure vector table */
-    SCB_NS->VTOR = NON_SECURE_START;
+	/* Set non-secure vector table */
+	SCB_NS->VTOR = NON_SECURE_START;
 
-    /* Get non-secure reset handler */
-    ResetHandler_ns = (funcptr_ns)(*((uint32_t *)((NON_SECURE_START) + 4U)));
+	/* Get non-secure reset handler */
+	ResetHandler_ns = (funcptr_ns)(*((uint32_t *)((NON_SECURE_START)+4U)));
 
-    /* Call non-secure application */
-    (void)PRINTF("\r\nEntering normal world now.\r\n");
-    /* Jump to normal world */
-    ResetHandler_ns();
-    for (;;)
-    {
-        /* This point should never be reached */
-    }
+	/* Call non-secure application */
+	(void)PRINTF("\r\nEntering normal world now.\r\n");
+	/* Jump to normal world */
+	ResetHandler_ns();
+	for (;;) {
+		/* This point should never be reached */
+	}
 }

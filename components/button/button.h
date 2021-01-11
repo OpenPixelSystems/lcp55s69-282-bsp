@@ -39,7 +39,8 @@ typedef void *button_handle_t;
  *
  * @param name The name string of the button handle.
  */
-#define BUTTON_HANDLE_DEFINE(name) uint32_t name[((BUTTON_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t))]
+#define BUTTON_HANDLE_DEFINE(name) uint32_t name[((BUTTON_HANDLE_SIZE + sizeof(uint32_t) - 1U) / \
+						  sizeof(uint32_t))]
 
 /*!
  * @brief Defines the button handle array
@@ -58,7 +59,7 @@ typedef void *button_handle_t;
  * @param count The amount of button handle.
  */
 #define BUTTON_HANDLE_ARRAY_DEFINE(name, count) \
-    uint32_t name[count][((BUTTON_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t))]
+	uint32_t name[count][((BUTTON_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t))]
 
 /*! @brief Definition of button timer interval,unit is ms. */
 #define BUTTON_TIMER_INTERVAL (25U)
@@ -91,51 +92,45 @@ typedef void *button_handle_t;
 #define BUTTON_EVENT_BUTTON (1U)
 
 /*! @brief The status type of button */
-typedef enum _button_status
-{
-    kStatus_BUTTON_Success    = kStatus_Success,                     /*!< Success */
-    kStatus_BUTTON_Error      = MAKE_STATUS(kStatusGroup_BUTTON, 1), /*!< Failed */
-    kStatus_BUTTON_LackSource = MAKE_STATUS(kStatusGroup_BUTTON, 2), /*!< Lack of sources */
+typedef enum _button_status {
+	kStatus_BUTTON_Success		= kStatus_Success,                      /*!< Success */
+	kStatus_BUTTON_Error		= MAKE_STATUS(kStatusGroup_BUTTON, 1),  /*!< Failed */
+	kStatus_BUTTON_LackSource	= MAKE_STATUS(kStatusGroup_BUTTON, 2),  /*!< Lack of sources */
 } button_status_t;
 
 /*! @brief The event type of button */
-typedef enum _button_event
-{
-    kBUTTON_EventOneClick = 0x01U, /*!< One click with short time, the duration of key down and key up is less than
-                                      #BUTTON_SHORT_PRESS_THRESHOLD. */
-    kBUTTON_EventDoubleClick,      /*!< Double click with short time, the duration of key down and key up is less than
-                                      #BUTTON_SHORT_PRESS_THRESHOLD.      And the duration of the two button actions does not
-                                      exceed #BUTTON_DOUBLE_CLICK_THRESHOLD. */
-    kBUTTON_EventShortPress,       /*!< Press with short time, the duration of key down and key up is no less than
-                                      #BUTTON_SHORT_PRESS_THRESHOLD       and less than #BUTTON_LONG_PRESS_THRESHOLD. */
-    kBUTTON_EventLongPress,        /*!< Press with long time, the duration of key down and key up is no less than
-                                      #BUTTON_LONG_PRESS_THRESHOLD. */
-    kBUTTON_EventError,            /*!< Error event if the button actions cannot be identified. */
+typedef enum _button_event {
+	kBUTTON_EventOneClick = 0x01U,  /*!< One click with short time, the duration of key down and key up is less than
+	                                 #BUTTON_SHORT_PRESS_THRESHOLD. */
+	kBUTTON_EventDoubleClick,       /*!< Double click with short time, the duration of key down and key up is less than
+	                                 #BUTTON_SHORT_PRESS_THRESHOLD.      And the duration of the two button actions does not
+	                                 * exceed #BUTTON_DOUBLE_CLICK_THRESHOLD. */
+	kBUTTON_EventShortPress,        /*!< Press with short time, the duration of key down and key up is no less than
+	                                 #BUTTON_SHORT_PRESS_THRESHOLD       and less than #BUTTON_LONG_PRESS_THRESHOLD. */
+	kBUTTON_EventLongPress,         /*!< Press with long time, the duration of key down and key up is no less than
+	                                 #BUTTON_LONG_PRESS_THRESHOLD. */
+	kBUTTON_EventError,             /*!< Error event if the button actions cannot be identified. */
 } button_event_t;
 
 /*! @brief The callback message struct of button */
-typedef struct _button_callback_message_struct
-{
-    button_event_t event;
+typedef struct _button_callback_message_struct {
+	button_event_t event;
 } button_callback_message_t;
 
 /*! @brief The callback function of button */
-typedef button_status_t (*button_callback_t)(void *buttonHandle,
-                                             button_callback_message_t *message,
-                                             void *callbackParam);
+typedef button_status_t (*button_callback_t)(void *buttonHandle, button_callback_message_t *message,
+					     void *callbackParam);
 
 /*! @brief The button gpio config structure */
-typedef struct _button_gpio_config
-{
-    uint8_t port;            /*!< GPIO Port */
-    uint8_t pin;             /*!< GPIO Pin */
-    uint8_t pinStateDefault; /*!< GPIO Pin voltage when button is not pressed (0 - low level, 1 - high level)*/
+typedef struct _button_gpio_config {
+	uint8_t port;                   /*!< GPIO Port */
+	uint8_t pin;                    /*!< GPIO Pin */
+	uint8_t pinStateDefault;        /*!< GPIO Pin voltage when button is not pressed (0 - low level, 1 - high level)*/
 } button_gpio_config_t;
 
 /*! @brief The button config structure */
-typedef struct _button_config
-{
-    button_gpio_config_t gpio;
+typedef struct _button_config {
+	button_gpio_config_t gpio;
 } button_config_t;
 
 /*******************************************************************************
@@ -218,7 +213,8 @@ button_status_t BUTTON_Init(button_handle_t buttonHandle, button_config_t *butto
  * @return Indicates whether callback install was successful or not.
  * @retval kStatus_BUTTON_Success Successfully install the callback.
  */
-button_status_t BUTTON_InstallCallback(button_handle_t buttonHandle, button_callback_t callback, void *callbackParam);
+button_status_t BUTTON_InstallCallback(button_handle_t buttonHandle, button_callback_t callback,
+				       void *callbackParam);
 
 /*! @}*/
 

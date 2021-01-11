@@ -48,7 +48,8 @@ status_t HAL_CODEC_CS42888_Deinit(void *handle);
  * @param bitWidth bit width.
  * @return kStatus_Success is success, else configure failed.
  */
-status_t HAL_CODEC_CS42888_SetFormat(void *handle, uint32_t mclk, uint32_t sampleRate, uint32_t bitWidth);
+status_t HAL_CODEC_CS42888_SetFormat(void *handle, uint32_t mclk, uint32_t sampleRate, uint32_t
+				     bitWidth);
 
 /*!
  * @brief set audio codec module volume.
@@ -95,13 +96,14 @@ status_t HAL_CODEC_CS42888_SetRecord(void *handle, uint32_t recordSource);
  *
  * @param handle codec handle.
  * @param leftRecordChannel audio codec record channel, reference _codec_record_channel, can be a value or combine value
- of member in _codec_record_channel.
+ * of member in _codec_record_channel.
  * @param rightRecordChannel audio codec record channel, reference _codec_record_channel, can be a value combine of
- member in _codec_record_channel.
-
+ * member in _codec_record_channel.
+ *
  * @return kStatus_Success is success, else configure failed.
  */
-status_t HAL_CODEC_CS42888_SetRecordChannel(void *handle, uint32_t leftRecordChannel, uint32_t rightRecordChannel);
+status_t HAL_CODEC_CS42888_SetRecordChannel(void *handle, uint32_t leftRecordChannel, uint32_t
+					    rightRecordChannel);
 
 /*!
  * @brief codec set play source.

@@ -51,48 +51,43 @@ typedef void *osa_timer_handle_t;
 /*! @brief Type for the Timer callback function pointer. */
 typedef void (*osa_timer_fct_ptr_t)(void const *argument);
 /*! @brief Thread Definition structure contains startup information of a thread.*/
-typedef struct osa_task_def_tag
-{
-    osa_task_ptr_t pthread; /*!< start address of thread function*/
-    uint32_t tpriority;     /*!< initial thread priority*/
-    uint32_t instances;     /*!< maximum number of instances of that thread function*/
-    uint32_t stacksize;     /*!< stack size requirements in bytes; 0 is default stack size*/
-    uint32_t *tstack;       /*!< stack pointer*/
-    void *tlink;            /*!< link pointer*/
-    uint8_t *tname;         /*!< name pointer*/
-    uint8_t useFloat;       /*!< is use float*/
+typedef struct osa_task_def_tag {
+	osa_task_ptr_t	pthread;        /*!< start address of thread function*/
+	uint32_t	tpriority;      /*!< initial thread priority*/
+	uint32_t	instances;      /*!< maximum number of instances of that thread function*/
+	uint32_t	stacksize;      /*!< stack size requirements in bytes; 0 is default stack size*/
+	uint32_t *	tstack;         /*!< stack pointer*/
+	void *		tlink;          /*!< link pointer*/
+	uint8_t *	tname;          /*!< name pointer*/
+	uint8_t		useFloat;       /*!< is use float*/
 } osa_task_def_t;
 /*! @brief Thread Link Definition structure .*/
-typedef struct osa_thread_link_tag
-{
-    uint8_t link[12];                  /*!< link*/
-    osa_task_handle_t osThreadId;      /*!< thread id*/
-    osa_task_def_t *osThreadDefHandle; /*!< pointer of thread define handle*/
-    uint32_t *osThreadStackHandle;     /*!< pointer of thread stack handle*/
+typedef struct osa_thread_link_tag {
+	uint8_t			link[12];               /*!< link*/
+	osa_task_handle_t	osThreadId;             /*!< thread id*/
+	osa_task_def_t *	osThreadDefHandle;      /*!< pointer of thread define handle*/
+	uint32_t *		osThreadStackHandle;    /*!< pointer of thread stack handle*/
 } osa_thread_link_t, *osa_thread_link_handle_t;
 
 /*! @brief Definition structure contains timer parameters.*/
-typedef struct osa_time_def_tag
-{
-    osa_timer_fct_ptr_t pfCallback; /* < start address of a timer function */
-    void *argument;                 /* < argument of a timer function */
+typedef struct osa_time_def_tag {
+	osa_timer_fct_ptr_t	pfCallback;     /* < start address of a timer function */
+	void *			argument;       /* < argument of a timer function */
 } osa_time_def_t;
 
 /*! @brief Type for the timer definition*/
-typedef enum _osa_timer
-{
-    KOSA_TimerOnce     = 0, /*!< one-shot timer*/
-    KOSA_TimerPeriodic = 1  /*!< repeating timer*/
+typedef enum _osa_timer {
+	KOSA_TimerOnce		= 0,    /*!< one-shot timer*/
+	KOSA_TimerPeriodic	= 1     /*!< repeating timer*/
 } osa_timer_t;
 
 /*! @brief Defines the return status of OSA's functions */
-typedef enum _osa_status
-{
-    KOSA_StatusSuccess = kStatus_Success,                  /*!< Success */
-    KOSA_StatusError   = MAKE_STATUS(kStatusGroup_OSA, 1), /*!< Failed */
-    KOSA_StatusTimeout = MAKE_STATUS(kStatusGroup_OSA, 2), /*!< Timeout occurs while waiting */
-    KOSA_StatusIdle    = MAKE_STATUS(kStatusGroup_OSA, 3), /*!< Used for bare metal only, the wait object is not ready
-                                                                 and timeout still not occur */
+typedef enum _osa_status {
+	KOSA_StatusSuccess	= kStatus_Success,                      /*!< Success */
+	KOSA_StatusError	= MAKE_STATUS(kStatusGroup_OSA, 1),     /*!< Failed */
+	KOSA_StatusTimeout	= MAKE_STATUS(kStatusGroup_OSA, 2),     /*!< Timeout occurs while waiting */
+	KOSA_StatusIdle		= MAKE_STATUS(kStatusGroup_OSA, 3),     /*!< Used for bare metal only, the wait object is not ready
+	                                                                 *    and timeout still not occur */
 } osa_status_t;
 
 #ifdef USE_RTOS
@@ -181,9 +176,9 @@ typedef enum _osa_status
 /*! @brief Constant to pass as timeout value in order to wait indefinitely. */
 #define osaWaitForever_c ((uint32_t)(-1))
 #define osaEventFlagsAll_c ((osa_event_flags_t)(0x00FFFFFF))
-#define osThreadStackArray(name) osThread_##name##_stack
+#define osThreadStackArray(name) osThread_ ## name ## _stack
 #define osThreadStackDef(name, stacksize, instances) \
-    uint32_t osThreadStackArray(name)[SIZE_IN_UINT32_UNITS(stacksize) * (instances)];
+	uint32_t osThreadStackArray(name)[SIZE_IN_UINT32_UNITS(stacksize) * (instances)];
 
 /* ==== Thread Management ==== */
 
@@ -196,45 +191,57 @@ typedef enum _osa_status
  */
 #if defined(FSL_RTOS_MQX)
 #define OSA_TASK_DEFINE(name, priority, instances, stackSz, useFloat)                                        \
-    osa_thread_link_t osThreadLink_##name[instances]                               = {0};                    \
-    osThreadStackDef(name, stackSz, instances) osa_task_def_t os_thread_def_##name = {                       \
-        (name),           (priority), (instances), (stackSz), osThreadStackArray(name), osThreadLink_##name, \
-        (uint8_t *)#name, (useFloat)}
+	osa_thread_link_t osThreadLink_ ## name[instances] = { 0 };                    \
+	osThreadStackDef(name, stackSz, instances) osa_task_def_t os_thread_def_ ## name = {                       \
+		(name),			  (priority),			(instances), \
+		(stackSz), \
+		osThreadStackArray(name), \
+		osThreadLink_ ## name, \
+		(uint8_t *)#name,	  (useFloat) }
 #elif defined(FSL_RTOS_UCOSII)
 #if gTaskMultipleInstancesManagement_c
 #define OSA_TASK_DEFINE(name, priority, instances, stackSz, useFloat)                                        \
-    osa_thread_link_t osThreadLink_##name[instances]                               = {0};                    \
-    osThreadStackDef(name, stackSz, instances) osa_task_def_t os_thread_def_##name = {                       \
-        (name),           (priority), (instances), (stackSz), osThreadStackArray(name), osThreadLink_##name, \
-        (uint8_t *)#name, (useFloat)}
+	osa_thread_link_t osThreadLink_ ## name[instances] = { 0 };                    \
+	osThreadStackDef(name, stackSz, instances) osa_task_def_t os_thread_def_ ## name = {                       \
+		(name),			  (priority),			(instances), \
+		(stackSz), \
+		osThreadStackArray(name), \
+		osThreadLink_ ## name, \
+		(uint8_t *)#name,	  (useFloat) }
 #else
 #define OSA_TASK_DEFINE(name, priority, instances, stackSz, useFloat)                  \
-    osThreadStackDef(name, stackSz, instances) osa_task_def_t os_thread_def_##name = { \
-        (name), (priority), (instances), (stackSz), osThreadStackArray(name), NULL, (uint8_t *)#name, (useFloat)}
+	osThreadStackDef(name, stackSz, instances) osa_task_def_t os_thread_def_ ## name = { \
+		(name),		  (priority),		(instances),	       (stackSz), \
+		osThreadStackArray( \
+			name), \
+		NULL, \
+		(uint8_t *)#name, (useFloat) }
 #endif
 #else
 #define OSA_TASK_DEFINE(name, priority, instances, stackSz, useFloat)                             \
-    osa_task_def_t os_thread_def_##name = {(name), (priority), (instances),      (stackSz), \
-                                                 NULL,   NULL,       (uint8_t *)#name, (useFloat)}
+	osa_task_def_t os_thread_def_ ## name = { (name),    (priority),    (instances),      \
+						  (stackSz), \
+						  NULL,	     NULL,	    (uint8_t *)#name, \
+						  (useFloat) }
 #endif
 /* Access a Thread defintion.
  * \param         name          name of the thread definition object.
  */
-#define OSA_TASK(name) &os_thread_def_##name
+#define OSA_TASK(name) & os_thread_def_ ## name
 
-#define OSA_TASK_PROTO(name) externosa_task_def_t os_thread_def_##name
+#define OSA_TASK_PROTO(name) externosa_task_def_t os_thread_def_ ## name
 /*  ==== Timer Management  ====
  * Define a Timer object.
  * \param         name          name of the timer object.
  * \param         function      name of the timer call back function.
  */
 
-#define OSA_TIMER_DEF(name, function) osa_time_def_t os_timer_def_##name = {(function), NULL}
+#define OSA_TIMER_DEF(name, function) osa_time_def_t os_timer_def_ ## name = { (function), NULL }
 
 /* Access a Timer definition.
  * \param         name          name of the timer object.
  */
-#define OSA_TIMER(name) &os_timer_def_##name
+#define OSA_TIMER(name) & os_timer_def_ ## name
 
 /* ==== Buffer Definition ==== */
 
@@ -254,7 +261,7 @@ typedef enum _osa_status
  * @param name The name string of the semaphore handle.
  */
 #define OSA_SEMAPHORE_HANDLE_DEFINE(name) \
-    uint32_t name[(OSA_SEM_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
+	uint32_t name[(OSA_SEM_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
 
 /*!
  * @brief Defines the mutex handle
@@ -271,7 +278,8 @@ typedef enum _osa_status
  *
  * @param name The name string of the mutex handle.
  */
-#define OSA_MUTEX_HANDLE_DEFINE(name) uint32_t name[(OSA_MUTEX_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
+#define OSA_MUTEX_HANDLE_DEFINE(name) uint32_t name[(OSA_MUTEX_HANDLE_SIZE + sizeof(uint32_t) - \
+						     1U) / sizeof(uint32_t)]
 
 /*!
  * @brief Defines the event handle
@@ -288,7 +296,8 @@ typedef enum _osa_status
  *
  * @param name The name string of the event handle.
  */
-#define OSA_EVENT_HANDLE_DEFINE(name) uint32_t name[(OSA_EVENT_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
+#define OSA_EVENT_HANDLE_DEFINE(name) uint32_t name[(OSA_EVENT_HANDLE_SIZE + sizeof(uint32_t) - \
+						     1U) / sizeof(uint32_t)]
 
 /*!
  * @brief Defines the message queue handle
@@ -311,11 +320,12 @@ typedef enum _osa_status
 #if defined(FSL_RTOS_FREE_RTOS)
 /*< Macro For FREE_RTOS*/
 #define OSA_MSGQ_HANDLE_DEFINE(name, numberOfMsgs, msgSize) \
-    uint32_t name[(OSA_MSGQ_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
+	uint32_t name[(OSA_MSGQ_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
 #else
 /*< Macro For BARE_MATEL*/
 #define OSA_MSGQ_HANDLE_DEFINE(name, numberOfMsgs, msgSize) \
-    uint32_t name[((OSA_MSGQ_HANDLE_SIZE + numberOfMsgs * msgSize) + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
+	uint32_t name[((OSA_MSGQ_HANDLE_SIZE + numberOfMsgs * msgSize) + sizeof(uint32_t) - 1U) / \
+		      sizeof(uint32_t)]
 #endif
 
 /*!
@@ -333,7 +343,8 @@ typedef enum _osa_status
  *
  * @param name The name string of the TASK handle.
  */
-#define OSA_TASK_HANDLE_DEFINE(name) uint32_t name[(OSA_TASK_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
+#define OSA_TASK_HANDLE_DEFINE(name) uint32_t name[(OSA_TASK_HANDLE_SIZE + sizeof(uint32_t) - 1U) / \
+						   sizeof(uint32_t)]
 
 #if defined(FSL_RTOS_FREE_RTOS)
 #include "fsl_os_abstraction_free_rtos.h"
@@ -425,7 +436,8 @@ void OSA_ExitCritical(uint32_t sr);
  * @retval KOSA_StatusError   The task can not be created.
  */
 #if ((defined(FSL_OSA_TASK_ENABLE)) && (FSL_OSA_TASK_ENABLE > 0U))
-osa_status_t OSA_TaskCreate(osa_task_handle_t taskHandle, osa_task_def_t *thread_def, osa_task_param_t task_param);
+osa_status_t OSA_TaskCreate(osa_task_handle_t taskHandle, osa_task_def_t *thread_def,
+			    osa_task_param_t task_param);
 #endif /* FSL_OSA_TASK_ENABLE */
 
 /*!
@@ -685,9 +697,8 @@ osa_status_t OSA_EventClear(osa_event_handle_t eventHandle, osa_event_flags_t fl
  * @retval KOSA_StatusSuccess The event flags were successfully got.
  * @retval KOSA_StatusError   An incorrect parameter was passed.
  */
-osa_status_t OSA_EventGet(osa_event_handle_t eventHandle,
-                          osa_event_flags_t flagsMask,
-                          osa_event_flags_t *pFlagsOfEvent);
+osa_status_t OSA_EventGet(osa_event_handle_t eventHandle, osa_event_flags_t flagsMask,
+			  osa_event_flags_t *pFlagsOfEvent);
 
 /*!
  * @brief Waits for specified event flags to be set.
@@ -708,18 +719,15 @@ osa_status_t OSA_EventGet(osa_event_handle_t eventHandle,
  * @retval KOSA_StatusSuccess The wait condition met and function returns successfully.
  * @retval KOSA_StatusTimeout Has not met wait condition within timeout.
  * @retval KOSA_StatusError   An incorrect parameter was passed.
-
+ *
  *
  * @note    Please pay attention to the flags bit width, FreeRTOS uses the most
  *          significant 8 bis as control bits, so do not wait these bits while using
  *          FreeRTOS.
  *
  */
-osa_status_t OSA_EventWait(osa_event_handle_t eventHandle,
-                           osa_event_flags_t flagsToWait,
-                           uint8_t waitAll,
-                           uint32_t millisec,
-                           osa_event_flags_t *pSetFlags);
+osa_status_t OSA_EventWait(osa_event_handle_t eventHandle, osa_event_flags_t flagsToWait, uint8_t
+			   waitAll, uint32_t millisec, osa_event_flags_t *pSetFlags);
 
 /*!
  * @brief Destroys a previously created event object.
@@ -788,7 +796,8 @@ osa_status_t OSA_MsgQPut(osa_msgq_handle_t msgqHandle, osa_msg_handle_t pMessage
  * @retval KOSA_StatusTimeout   The queue remains empty after timeout.
  * @retval KOSA_StatusError     Invalid parameter.
  */
-osa_status_t OSA_MsgQGet(osa_msgq_handle_t msgqHandle, osa_msg_handle_t pMessage, uint32_t millisec);
+osa_status_t OSA_MsgQGet(osa_msgq_handle_t msgqHandle, osa_msg_handle_t pMessage, uint32_t
+			 millisec);
 
 /*!
  * @brief Destroys a previously created queue.

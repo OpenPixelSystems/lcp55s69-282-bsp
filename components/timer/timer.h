@@ -36,10 +36,10 @@
  */
 
 /************************************************************************************
-*************************************************************************************
-* Include
-*************************************************************************************
-***********************************************************************************/
+ *************************************************************************************
+ * Include
+ *************************************************************************************
+ ***********************************************************************************/
 
 #if defined(FSL_RTOS_FREE_RTOS)
 #include "FreeRTOS.h"
@@ -51,27 +51,25 @@
 *************************************************************************************
 ************************************************************************************/
 /*! @brief HAL timer callback function. */
-typedef void (*hal_timer_callback_t)(void* param);
+typedef void (*hal_timer_callback_t)(void *param);
 
 /*! @brief HAL timer status. */
-typedef enum _hal_timer_status
-{
-    kStatus_HAL_TimerSuccess = kStatus_Success,                           /*!< Success */
-    kStatus_HAL_TimerNotSupport = MAKE_STATUS(kStatusGroup_HAL_TIMER, 1), /*!< Not Support */
-    kStatus_HAL_TimerIsUsed = MAKE_STATUS(kStatusGroup_HAL_TIMER, 2),     /*!< timer is used  */
-    kStatus_HAL_TimerInvalid = MAKE_STATUS(kStatusGroup_HAL_TIMER, 3),    /*!< timer is invalid  */
-    kStatus_HAL_TimerOutOfRanger = MAKE_STATUS(kStatusGroup_HAL_TIMER, 4), /*!< timer is Out Of Ranger */
+typedef enum _hal_timer_status {
+	kStatus_HAL_TimerSuccess	= kStatus_Success,                              /*!< Success */
+	kStatus_HAL_TimerNotSupport	= MAKE_STATUS(kStatusGroup_HAL_TIMER, 1),       /*!< Not Support */
+	kStatus_HAL_TimerIsUsed		= MAKE_STATUS(kStatusGroup_HAL_TIMER, 2),       /*!< timer is used  */
+	kStatus_HAL_TimerInvalid	= MAKE_STATUS(kStatusGroup_HAL_TIMER, 3),       /*!< timer is invalid  */
+	kStatus_HAL_TimerOutOfRanger	= MAKE_STATUS(kStatusGroup_HAL_TIMER, 4),       /*!< timer is Out Of Ranger */
 } hal_timer_status_t;
 
 /*! @brief HAL timer configuration structure for HAL timer setting. */
-typedef struct _hal_timer_config
-{
-    uint32_t timeout;                     /*!< Timeout of the timer, should use microseconds, for example: if set timeout to 1000, mean 1000 microseconds
-                                               interval would generate timer timeout interrupt*/
-    uint32_t srcClock_Hz;                 /*!< Source clock of the timer */
-    uint8_t  instance;                    /*!< Hardware timer module instance, for example: if you want use FTM0,then the instance is configured to 0, if
-                                               you want use FTM2 hardware timer, then configure the instance to 2, detail information please refer to the
-                                               SOC corresponding RM.Invalid instance value will cause initialization failure. */
+typedef struct _hal_timer_config {
+	uint32_t	timeout;                /*!< Timeout of the timer, should use microseconds, for example: if set timeout to 1000, mean 1000 microseconds
+	                                         *   interval would generate timer timeout interrupt*/
+	uint32_t	srcClock_Hz;            /*!< Source clock of the timer */
+	uint8_t		instance;               /*!< Hardware timer module instance, for example: if you want use FTM0,then the instance is configured to 0, if
+	                                         *   you want use FTM2 hardware timer, then configure the instance to 2, detail information please refer to the
+	                                         *   SOC corresponding RM.Invalid instance value will cause initialization failure. */
 } hal_timer_config_t;
 
 /*! @brief Definition of timer adapter handle size. */
@@ -92,10 +90,11 @@ typedef struct _hal_timer_config
  *
  * @param name The name string of the timer handle.
  */
-#define TIMER_HANDLE_DEFINE(name) uint32_t name[((HAL_TIMER_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t))]
+#define TIMER_HANDLE_DEFINE(name) uint32_t name[((HAL_TIMER_HANDLE_SIZE + sizeof(uint32_t) - 1U) / \
+						 sizeof(uint32_t))]
 
 /*! @brief HAL timer handle. */
-typedef void* hal_timer_handle_t;
+typedef void *hal_timer_handle_t;
 
 #if defined(__GIC_PRIO_BITS)
 #ifndef HAL_TIMER_ISR_PRIORITY
@@ -123,7 +122,7 @@ typedef void* hal_timer_handle_t;
 *************************************************************************************
 ************************************************************************************/
 #if defined(__cplusplus)
-    extern "C" {
+extern "C" {
 #endif /* _cplusplus */
 
 /*!
@@ -151,7 +150,8 @@ typedef void* hal_timer_handle_t;
  * @retval kStatus_HAL_TimerSuccess The timer adapter module initialization succeed.
  * @retval kStatus_HAL_TimerOutOfRanger The timer adapter instance out of ranger.
  */
-hal_timer_status_t HAL_TimerInit(hal_timer_handle_t halTimerHandle, hal_timer_config_t* halTimerConfig);
+hal_timer_status_t HAL_TimerInit(hal_timer_handle_t	halTimerHandle,
+				 hal_timer_config_t *	halTimerConfig);
 
 /*!
  * @brief DeInitilizate the timer adapter module.
@@ -190,7 +190,8 @@ void HAL_TimerDisable(hal_timer_handle_t halTimerHandle);
  * @param callback            The installed callback function by upper layer
  * @param callbackParam         The callback function parameter
  */
-void HAL_TimerInstallCallback(hal_timer_handle_t halTimerHandle, hal_timer_callback_t callback, void* callbackParam);
+void HAL_TimerInstallCallback(hal_timer_handle_t halTimerHandle, hal_timer_callback_t callback,
+			      void *callbackParam);
 
 /*!
  * @brief Get the timer count of the timer adapter.

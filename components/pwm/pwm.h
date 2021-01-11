@@ -15,10 +15,10 @@
  */
 
 /************************************************************************************
-*************************************************************************************
-* Include
-*************************************************************************************
-***********************************************************************************/
+ *************************************************************************************
+ * Include
+ *************************************************************************************
+ ***********************************************************************************/
 
 /************************************************************************************
 *************************************************************************************
@@ -26,36 +26,32 @@
 *************************************************************************************
 ************************************************************************************/
 /*! @brief Hal pwm mode. */
-typedef enum _hal_pwm_mode
-{
-    kHAL_EdgeAlignedPwm = 0U, /*!< Edge aligned PWM */
-    kHAL_CenterAlignedPwm,    /*!< Center aligned PWM */
+typedef enum _hal_pwm_mode {
+	kHAL_EdgeAlignedPwm = 0U,       /*!< Edge aligned PWM */
+	kHAL_CenterAlignedPwm,          /*!< Center aligned PWM */
 } hal_pwm_mode_t;
 
 /*! @brief PWM output pulse level select: high-true, low-true or no output */
-typedef enum _hal_pwm_level_select
-{
-    kHAL_PwmNoPwmSignal = 0U, /*!< No PWM output on pin */
-    kHAL_PwmLowTrue,          /*!< Low true pulses */
-    kHAL_PwmHighTrue          /*!< High true pulses */
+typedef enum _hal_pwm_level_select {
+	kHAL_PwmNoPwmSignal = 0U,       /*!< No PWM output on pin */
+	kHAL_PwmLowTrue,                /*!< Low true pulses */
+	kHAL_PwmHighTrue                /*!< High true pulses */
 } hal_pwm_level_select_t;
 
 /*! @brief Hal pwm status. */
-typedef enum _hal_pwm_status
-{
-    kStatus_HAL_PwmSuccess     = kStatus_Success,                      /*!< Success */
-    kStatus_HAL_PwmFail        = MAKE_STATUS(kStatusGroup_HAL_PWM, 1), /*!< Failure*/
-    kStatus_HAL_PwmNotSupport  = MAKE_STATUS(kStatusGroup_HAL_PWM, 2), /*!< Not support*/
-    kStatus_HAL_PwmOutOfRanger = MAKE_STATUS(kStatusGroup_HAL_PWM, 3), /*!< Pwm is Out Of Ranger */
+typedef enum _hal_pwm_status {
+	kStatus_HAL_PwmSuccess		= kStatus_Success,                      /*!< Success */
+	kStatus_HAL_PwmFail		= MAKE_STATUS(kStatusGroup_HAL_PWM, 1), /*!< Failure*/
+	kStatus_HAL_PwmNotSupport	= MAKE_STATUS(kStatusGroup_HAL_PWM, 2), /*!< Not support*/
+	kStatus_HAL_PwmOutOfRanger	= MAKE_STATUS(kStatusGroup_HAL_PWM, 3), /*!< Pwm is Out Of Ranger */
 } hal_pwm_status_t;
 
 /*! @brief hal pwm configuration structure for hal pwm setting. */
-typedef struct _hal_pwm_setup_config
-{
-    hal_pwm_level_select_t level; /*!< PWM output pulse level select */
-    hal_pwm_mode_t mode;          /*!< PWM mode select */
-    uint32_t pwmFreq_Hz;          /*!< PWM frequency */
-    uint8_t dutyCyclePercent;     /*!< PWM duty cycle percent */
+typedef struct _hal_pwm_setup_config {
+	hal_pwm_level_select_t	level;                  /*!< PWM output pulse level select */
+	hal_pwm_mode_t		mode;                   /*!< PWM mode select */
+	uint32_t		pwmFreq_Hz;             /*!< PWM frequency */
+	uint8_t			dutyCyclePercent;       /*!< PWM duty cycle percent */
 } hal_pwm_setup_config_t;
 
 /*! @brief Hal pwm handle size. */
@@ -79,7 +75,8 @@ typedef void *hal_pwm_handle_t;
  *
  * @param name The name string of the PMW handle.
  */
-#define HAL_PWM_HANDLE_DEFINE(name) uint32_t name[(HAL_PWM_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
+#define HAL_PWM_HANDLE_DEFINE(name) uint32_t name[(HAL_PWM_HANDLE_SIZE + sizeof(uint32_t) - 1U) / \
+						  sizeof(uint32_t)]
 
 /************************************************************************************
 *************************************************************************************
@@ -137,7 +134,8 @@ void HAL_PwmDeinit(hal_pwm_handle_t halPwmHandle);
  * @param setupConfig         A pointer to the HAL pwm setup configuration structure
  * @retval kStatus_HAL_PwmSuccess pwm setup succeed
  */
-hal_pwm_status_t HAL_PwmSetupPwm(hal_pwm_handle_t halPwmHandle, uint8_t channel, hal_pwm_setup_config_t *setupConfig);
+hal_pwm_status_t HAL_PwmSetupPwm(hal_pwm_handle_t halPwmHandle, uint8_t channel,
+				 hal_pwm_setup_config_t *setupConfig);
 
 /*!
  * @brief Update duty cycle of pwm.
@@ -150,10 +148,8 @@ hal_pwm_status_t HAL_PwmSetupPwm(hal_pwm_handle_t halPwmHandle, uint8_t channel,
  * @param dutyCyclePercent     PWM duty cycle percent
  * @retval kStatus_HAL_PwmSuccess pwm Update duty cycle succeed
  */
-hal_pwm_status_t HAL_PwmUpdateDutycycle(hal_pwm_handle_t halPwmHandle,
-                                        uint8_t channel,
-                                        hal_pwm_mode_t mode,
-                                        uint8_t dutyCyclePercent);
+hal_pwm_status_t HAL_PwmUpdateDutycycle(hal_pwm_handle_t halPwmHandle, uint8_t channel,
+					hal_pwm_mode_t mode, uint8_t dutyCyclePercent);
 
 #if defined(__cplusplus)
 }

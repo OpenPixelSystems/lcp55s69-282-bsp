@@ -13,12 +13,12 @@
 /* clang-format off */
 /*
  * TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
-!!GlobalInfo
-product: Pins v7.0
-processor: LPC55S69
-package_id: LPC55S69JBD100
-mcu_data: ksdk2_0
-processor_version: 6.0.0
+ * !!GlobalInfo
+ * product: Pins v7.0
+ * processor: LPC55S69
+ * package_id: LPC55S69JBD100
+ * mcu_data: ksdk2_0
+ * processor_version: 6.0.0
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -34,15 +34,15 @@ processor_version: 6.0.0
  * END ****************************************************************************************************************/
 void BOARD_InitBootPins(void)
 {
-    BOARD_InitPins_Core1();
+	BOARD_InitPins_Core1();
 }
 
 /* clang-format off */
 /*
  * TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
-BOARD_InitPins_Core1:
-- options: {callFromInitBoot: 'true', coreID: cm33_core1, enableClock: 'true'}
-- pin_list: []
+ * BOARD_InitPins_Core1:
+ * - options: {callFromInitBoot: 'true', coreID: cm33_core1, enableClock: 'true'}
+ * - pin_list: []
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */

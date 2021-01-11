@@ -48,12 +48,11 @@ extern uint32_t m0_image_size;
 #define LOCAL_EPT_ADDR             (40U)
 #define APP_RPMSG_READY_EVENT_DATA (1U)
 
-typedef struct the_message
-{
-    uint32_t DATA;
+typedef struct the_message {
+	uint32_t DATA;
 } THE_MESSAGE, *THE_MESSAGE_PTR;
 
-static THE_MESSAGE msg = {0};
+static THE_MESSAGE msg = { 0 };
 
 #define SH_MEM_TOTAL_SIZE (6144U)
 #ifdef MCMGR_USED
@@ -83,34 +82,35 @@ uint32_t get_core1_image_size(void);
 #ifdef CORE1_IMAGE_COPY_TO_RAM
 uint32_t get_core1_image_size(void)
 {
-    uint32_t core1_image_size;
+	uint32_t core1_image_size;
 #if defined(__CC_ARM) || defined(__ARMCC_VERSION)
-    core1_image_size = (uint32_t)&Image$$CORE1_REGION$$Length;
+	core1_image_size = (uint32_t)&Image$$CORE1_REGION$$Length;
 #elif defined(__ICCARM__)
 #pragma section = "__sec_core"
-    core1_image_size = (uint32_t)__section_end("__sec_core") - (uint32_t)&core1_image_start;
+	core1_image_size = (uint32_t)__section_end("__sec_core") - (uint32_t)&core1_image_start;
 #elif defined(__GNUC__)
-    core1_image_size = (uint32_t)m0_image_size;
+	core1_image_size = (uint32_t)m0_image_size;
 #endif
-    return core1_image_size;
+	return core1_image_size;
 }
 #endif
 static TaskHandle_t app_task_handle = NULL;
 
-static void app_nameservice_isr_cb(uint32_t new_ept, const char *new_ept_name, uint32_t flags, void *user_data)
+static void app_nameservice_isr_cb(uint32_t new_ept, const char *new_ept_name, uint32_t flags,
+				   void *user_data)
 {
-    uint32_t *data = (uint32_t *)user_data;
+	uint32_t *data = (uint32_t *)user_data;
 
-    *data = new_ept;
+	*data = new_ept;
 }
 
 #ifdef MCMGR_USED
 static volatile uint16_t RPMsgRemoteReadyEventData = 0U;
 static void RPMsgRemoteReadyEventHandler(uint16_t eventData, void *context)
 {
-    uint16_t *data = (uint16_t *)context;
+	uint16_t *data = (uint16_t *)context;
 
-    *data = eventData;
+	*data = eventData;
 }
 
 /*!
@@ -118,93 +118,99 @@ static void RPMsgRemoteReadyEventHandler(uint16_t eventData, void *context)
  */
 void SystemInitHook(void)
 {
-    /* Initialize MCMGR - low level multicore management library. Call this
-       function as close to the reset entry as possible to allow CoreUp event
-       triggering. The SystemInitHook() weak function overloading is used in this
-       application. */
-    (void)MCMGR_EarlyInit();
+	/* Initialize MCMGR - low level multicore management library. Call this
+	 * function as close to the reset entry as possible to allow CoreUp event
+	 * triggering. The SystemInitHook() weak function overloading is used in this
+	 * application. */
+	(void)MCMGR_EarlyInit();
 }
 #endif /* MCMGR_USED */
 
 static void app_task(void *param)
 {
-    volatile uint32_t remote_addr = 0U;
-    struct rpmsg_lite_endpoint *my_ept;
-    rpmsg_queue_handle my_queue;
-    struct rpmsg_lite_instance *my_rpmsg;
-    rpmsg_ns_handle ns_handle;
-    uint32_t len;
+	volatile uint32_t remote_addr = 0U;
+	struct rpmsg_lite_endpoint *my_ept;
+	rpmsg_queue_handle my_queue;
+	struct rpmsg_lite_instance *my_rpmsg;
+	rpmsg_ns_handle ns_handle;
+	uint32_t len;
 
 #ifdef CORE1_IMAGE_COPY_TO_RAM
-    /* Calculate size of the image */
-    uint32_t core1_image_size;
-    core1_image_size = get_core1_image_size();
-    (void)PRINTF("Copy CORE1 image to address: 0x%x, size: %d\r\n", (void *)(char *)CORE1_BOOT_ADDRESS,
-                 core1_image_size);
+	/* Calculate size of the image */
+	uint32_t core1_image_size;
+	core1_image_size = get_core1_image_size();
+	(void)PRINTF("Copy CORE1 image to address: 0x%x, size: %d\r\n",
+		     (void *)(char *)CORE1_BOOT_ADDRESS,
+		     core1_image_size);
 
-    /* Copy application from FLASH to RAM */
-    (void)memcpy((void *)(char *)CORE1_BOOT_ADDRESS, (void *)CORE1_IMAGE_START, core1_image_size);
+	/* Copy application from FLASH to RAM */
+	(void)memcpy((void *)(char *)CORE1_BOOT_ADDRESS, (void *)CORE1_IMAGE_START,
+		     core1_image_size);
 #endif
 
 #ifdef MCMGR_USED
-    /* Initialize MCMGR before calling its API */
-    (void)MCMGR_Init();
+	/* Initialize MCMGR before calling its API */
+	(void)MCMGR_Init();
 
-    /* Register the application event before starting the secondary core */
-    (void)MCMGR_RegisterEvent(kMCMGR_RemoteApplicationEvent, RPMsgRemoteReadyEventHandler,
-                              (void *)&RPMsgRemoteReadyEventData);
+	/* Register the application event before starting the secondary core */
+	(void)MCMGR_RegisterEvent(kMCMGR_RemoteApplicationEvent, RPMsgRemoteReadyEventHandler,
+				  (void *)&RPMsgRemoteReadyEventData);
 
-    /* Boot Secondary core application */
-    (void)MCMGR_StartCore(kMCMGR_Core1, (void *)(char *)CORE1_BOOT_ADDRESS, (uint32_t)rpmsg_lite_base,
-                          kMCMGR_Start_Synchronous);
+	/* Boot Secondary core application */
+	(void)MCMGR_StartCore(kMCMGR_Core1, (void *)(char *)CORE1_BOOT_ADDRESS,
+			      (uint32_t)rpmsg_lite_base,
+			      kMCMGR_Start_Synchronous);
 
-    /* Wait until the secondary core application signals the rpmsg remote has been initialized and is ready to
-     * communicate. */
-    while (APP_RPMSG_READY_EVENT_DATA != RPMsgRemoteReadyEventData)
-    {
-    };
+	/* Wait until the secondary core application signals the rpmsg remote has been initialized and is ready to
+	 * communicate. */
+	while (APP_RPMSG_READY_EVENT_DATA != RPMsgRemoteReadyEventData) {
+	}
+	;
 
-    my_rpmsg = rpmsg_lite_master_init(rpmsg_lite_base, SH_MEM_TOTAL_SIZE, RPMSG_LITE_LINK_ID, RL_NO_FLAGS);
+	my_rpmsg = rpmsg_lite_master_init(rpmsg_lite_base, SH_MEM_TOTAL_SIZE, RPMSG_LITE_LINK_ID,
+					  RL_NO_FLAGS);
 #else
-    my_rpmsg =
-        rpmsg_lite_master_init((void *)RPMSG_LITE_SHMEM_BASE, SH_MEM_TOTAL_SIZE, RPMSG_LITE_LINK_ID, RL_NO_FLAGS);
+	my_rpmsg =
+		rpmsg_lite_master_init((void *)RPMSG_LITE_SHMEM_BASE, SH_MEM_TOTAL_SIZE,
+				       RPMSG_LITE_LINK_ID, RL_NO_FLAGS);
 #endif
-    my_queue  = rpmsg_queue_create(my_rpmsg);
-    my_ept    = rpmsg_lite_create_ept(my_rpmsg, LOCAL_EPT_ADDR, rpmsg_queue_rx_cb, my_queue);
-    ns_handle = rpmsg_ns_bind(my_rpmsg, app_nameservice_isr_cb, (void *)&remote_addr);
+	my_queue = rpmsg_queue_create(my_rpmsg);
+	my_ept = rpmsg_lite_create_ept(my_rpmsg, LOCAL_EPT_ADDR, rpmsg_queue_rx_cb, my_queue);
+	ns_handle = rpmsg_ns_bind(my_rpmsg, app_nameservice_isr_cb, (void *)&remote_addr);
 
-    /* Wait until the secondary core application issues the nameservice isr and the remote endpoint address is known. */
-    while (0U == remote_addr)
-    {
-    };
+	/* Wait until the secondary core application issues the nameservice isr and the remote endpoint address is known. */
+	while (0U == remote_addr) {
+	}
+	;
 
-    /* Send the first message to the remoteproc */
-    msg.DATA = 0U;
-    (void)rpmsg_lite_send(my_rpmsg, my_ept, remote_addr, (char *)&msg, sizeof(THE_MESSAGE), RL_DONT_BLOCK);
+	/* Send the first message to the remoteproc */
+	msg.DATA = 0U;
+	(void)rpmsg_lite_send(my_rpmsg, my_ept, remote_addr, (char *)&msg, sizeof(THE_MESSAGE),
+			      RL_DONT_BLOCK);
 
-    while (msg.DATA <= 100U)
-    {
-        (void)rpmsg_queue_recv(my_rpmsg, my_queue, (uint32_t *)&remote_addr, (char *)&msg, sizeof(THE_MESSAGE), &len,
-                               RL_BLOCK);
-        (void)PRINTF("Primary core received a msg\r\n");
-        (void)PRINTF("Message: Size=%x, DATA = %i\r\n", len, msg.DATA);
-        msg.DATA++;
+	while (msg.DATA <= 100U) {
+		(void)rpmsg_queue_recv(my_rpmsg, my_queue, (uint32_t *)&remote_addr, (char *)&msg,
+				       sizeof(THE_MESSAGE), &len,
+				       RL_BLOCK);
+		(void)PRINTF("Primary core received a msg\r\n");
+		(void)PRINTF("Message: Size=%x, DATA = %i\r\n", len, msg.DATA);
+		msg.DATA++;
 
-        (void)rpmsg_lite_send(my_rpmsg, my_ept, remote_addr, (char *)&msg, sizeof(THE_MESSAGE), RL_BLOCK);
-    }
+		(void)rpmsg_lite_send(my_rpmsg, my_ept, remote_addr, (char *)&msg,
+				      sizeof(THE_MESSAGE), RL_BLOCK);
+	}
 
-    (void)rpmsg_lite_destroy_ept(my_rpmsg, my_ept);
-    my_ept = ((void *)0);
-    (void)rpmsg_queue_destroy(my_rpmsg, my_queue);
-    my_queue = ((void *)0);
-    (void)rpmsg_ns_unbind(my_rpmsg, ns_handle);
-    (void)rpmsg_lite_deinit(my_rpmsg);
+	(void)rpmsg_lite_destroy_ept(my_rpmsg, my_ept);
+	my_ept = ((void *)0);
+	(void)rpmsg_queue_destroy(my_rpmsg, my_queue);
+	my_queue = ((void *)0);
+	(void)rpmsg_ns_unbind(my_rpmsg, ns_handle);
+	(void)rpmsg_lite_deinit(my_rpmsg);
 
-    /* Print the ending banner */
-    (void)PRINTF("\r\nRPMsg demo ends\r\n");
-    for (;;)
-    {
-    }
+	/* Print the ending banner */
+	(void)PRINTF("\r\nRPMsg demo ends\r\n");
+	for (;;) {
+	}
 }
 
 /*!
@@ -212,31 +218,29 @@ static void app_task(void *param)
  */
 int main(void)
 {
-    /* Initialize standard SDK demo application pins */
-    /* set BOD VBAT level to 1.65V */
-    POWER_SetBodVbatLevel(kPOWER_BodVbatLevel1650mv, kPOWER_BodHystLevel50mv, false);
-    /* attach main clock divide to FLEXCOMM0 (debug console) */
-    CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
+	/* Initialize standard SDK demo application pins */
+	/* set BOD VBAT level to 1.65V */
+	POWER_SetBodVbatLevel(kPOWER_BodVbatLevel1650mv, kPOWER_BodHystLevel50mv, false);
+	/* attach main clock divide to FLEXCOMM0 (debug console) */
+	CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
 
-    BOARD_InitBootPins();
-    BOARD_InitBootClocks();
-    BOARD_InitDebugConsole();
+	BOARD_InitBootPins();
+	BOARD_InitBootClocks();
+	BOARD_InitDebugConsole();
 
-    /* Print the initial banner */
-    (void)PRINTF("\r\nRPMsg demo starts\r\n");
+	/* Print the initial banner */
+	(void)PRINTF("\r\nRPMsg demo starts\r\n");
 
-    if (xTaskCreate(app_task, "APP_TASK", APP_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY + 1U, &app_task_handle) != pdPASS)
-    {
-        (void)PRINTF("\r\nFailed to create application task\r\n");
-        for (;;)
-        {
-        }
-    }
+	if (xTaskCreate(app_task, "APP_TASK", APP_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY + 1U,
+			&app_task_handle) != pdPASS) {
+		(void)PRINTF("\r\nFailed to create application task\r\n");
+		for (;;) {
+		}
+	}
 
-    vTaskStartScheduler();
+	vTaskStartScheduler();
 
-    (void)PRINTF("Failed to start FreeRTOS on core0.\r\n");
-    for (;;)
-    {
-    }
+	(void)PRINTF("Failed to start FreeRTOS on core0.\r\n");
+	for (;;) {
+	}
 }

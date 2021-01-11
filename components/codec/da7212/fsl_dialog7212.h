@@ -416,21 +416,33 @@
 #define DIALOG7212_ADC_FILTERS1_ADC_HPF_EN_MASK            (1 << 7)
 #define DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_MASK  (0x30)
 #define DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_SHIFT (5)
-#define DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_2HZ   (0 << DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_SHIFT)
-#define DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_4HZ   (1 << DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_SHIFT)
-#define DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_8HZ   (2 << DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_SHIFT)
-#define DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_16HZ  (3 << DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_SHIFT)
+#define DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_2HZ   (0 << \
+							    DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_SHIFT)
+#define DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_4HZ   (1 << \
+							    DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_SHIFT)
+#define DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_8HZ   (2 << \
+							    DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_SHIFT)
+#define DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_16HZ  (3 << \
+							    DIALOG7212_ADC_FILTERS1_ADC_AUDIO_HPF_CORNER_SHIFT)
 #define DIALOG7212_ADC_FILTERS1_ADC_VOICE_EN_MASK          (1 << 3)
 #define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_MASK  (0x07)
 #define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT (0)
-#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_2_5HZ (0 << DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_25HZ  (1 << DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_50HZ  (2 << DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_100HZ (3 << DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_150HZ (4 << DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_200HZ (5 << DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_300HZ (6 << DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_400HZ (7 << DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_2_5HZ (0 << \
+							    DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_25HZ  (1 << \
+							    DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_50HZ  (2 << \
+							    DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_100HZ (3 << \
+							    DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_150HZ (4 << \
+							    DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_200HZ (5 << \
+							    DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_300HZ (6 << \
+							    DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_400HZ (7 << \
+							    DIALOG7212_ADC_FILTERS1_ADC_VOICE_HPF_CORNER_SHIFT)
 
 /* DIALOG7212_MIC_1_GAIN                         0x39 */
 #define DIALOG7212_MIC_1_AMP_GAIN_MASK  (0x07)
@@ -461,13 +473,20 @@
 #define DIALOG7212_DAC_FILTERS5_SOFTMUTE_EN_MASK    (1 << 7)
 #define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_MASK  (0x07)
 #define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT (4)
-#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_1     (0 << DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
-#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_2     (1 << DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
-#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_4     (2 << DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
-#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_8     (3 << DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
-#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_16    (4 << DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
-#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_32    (5 << DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
-#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_64    (6 << DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
+#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_1     (0 << \
+						     DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
+#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_2     (1 << \
+						     DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
+#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_4     (2 << \
+						     DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
+#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_8     (3 << \
+						     DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
+#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_16    (4 << \
+						     DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
+#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_32    (5 << \
+						     DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
+#define DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_64    (6 << \
+						     DIALOG7212_DAC_FILTERS5_SOFTMUTE_RATE_SHIFT)
 
 /* DIALOG7212_DAC_FILTERS2                       0x41 */
 #define DIALOG7212_DAC_FILTERS2_EQ_BAND2_MASK  (0xF0)
@@ -495,21 +514,33 @@
 #define DIALOG7212_DAC_FILTERS1_HPF_EN_MASK                (1 << 7)
 #define DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_MASK  (0x30)
 #define DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_SHIFT (5)
-#define DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_2HZ   (0 << DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_SHIFT)
-#define DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_4HZ   (1 << DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_SHIFT)
-#define DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_8HZ   (2 << DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_SHIFT)
-#define DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_16HZ  (3 << DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_SHIFT)
+#define DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_2HZ   (0 << \
+							    DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_SHIFT)
+#define DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_4HZ   (1 << \
+							    DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_SHIFT)
+#define DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_8HZ   (2 << \
+							    DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_SHIFT)
+#define DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_16HZ  (3 << \
+							    DIALOG7212_DAC_FILTERS1_DAC_AUDIO_HPF_CORNER_SHIFT)
 #define DIALOG7212_DAC_FILTERS1_DAC_VOICE_EN_MASK          (1 << 3)
 #define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_MASK  (0x07)
 #define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT (0)
-#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_2_5HZ (0 << DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_25HZ  (1 << DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_50HZ  (2 << DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_100HZ (3 << DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_150HZ (4 << DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_200HZ (5 << DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_300HZ (6 << DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
-#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_400HZ (7 << DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_2_5HZ (0 << \
+							    DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_25HZ  (1 << \
+							    DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_50HZ  (2 << \
+							    DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_100HZ (3 << \
+							    DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_150HZ (4 << \
+							    DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_200HZ (5 << \
+							    DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_300HZ (6 << \
+							    DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
+#define DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_400HZ (7 << \
+							    DIALOG7212_DAC_FILTERS1_DAC_VOICE_HPF_CORNER_SHIFT)
 
 /* DIALOG7212_DAC_L_GAIN                         0x45 */
 #define DIALOG7212_DAC_L_DIGITAL_GAIN_MASK  (0x7F)
@@ -603,10 +634,14 @@
 #define DIALOG7212_AUX_L_CTRL_AMP_ZC_EN_MASK            (1 << 4)
 #define DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_MASK           (0x0C)
 #define DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_SHIFT          (2)
-#define DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_INPUT_AUX_L    (0 << DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_SHIFT)
-#define DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_INPUT_AUX_L_IF (1 << DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_SHIFT)
-#define DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_NO_ZC_POSSBLE  (2 << DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_SHIFT)
-#define DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_OUTPUT_AUX_L   (3 << DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_SHIFT)
+#define DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_INPUT_AUX_L    (0 << \
+							 DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_SHIFT)
+#define DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_INPUT_AUX_L_IF (1 << \
+							 DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_SHIFT)
+#define DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_NO_ZC_POSSBLE  (2 << \
+							 DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_SHIFT)
+#define DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_OUTPUT_AUX_L   (3 << \
+							 DIALOG7212_AUX_L_CTRL_AMP_ZC_SEL_SHIFT)
 
 /* DIALOG7212_AUX_R_CTRL                         0x61 */
 #define DIALOG7212_AUX_R_CTRL_AMP_EN_MASK               (1 << 7)
@@ -615,10 +650,14 @@
 #define DIALOG7212_AUX_R_CTRL_AMP_ZC_EN_MASK            (1 << 4)
 #define DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_MASK           (0x0C)
 #define DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_SHIFT          (2)
-#define DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_INPUT_AUX_R    (0 << DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_SHIFT)
-#define DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_INPUT_AUX_R_IF (1 << DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_SHIFT)
-#define DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_NO_ZC_POSSBLE  (2 << DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_SHIFT)
-#define DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_OUTPUT_AUX_R   (3 << DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_SHIFT)
+#define DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_INPUT_AUX_R    (0 << \
+							 DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_SHIFT)
+#define DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_INPUT_AUX_R_IF (1 << \
+							 DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_SHIFT)
+#define DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_NO_ZC_POSSBLE  (2 << \
+							 DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_SHIFT)
+#define DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_OUTPUT_AUX_R   (3 << \
+							 DIALOG7212_AUX_R_CTRL_AMP_ZC_SEL_SHIFT)
 
 /* DIALOG7212_MICBIAS_CTRL                       0x62 */
 #define DIALOG7212_MICBIAS_CTRL_MICBIAS2_EN_MASK    (1 << 7)
@@ -826,12 +865,14 @@
 /* DIALOG7212_ALC_TARGET_MIN                     0x9D */
 #define DIALOG7212_ALC_TARGET_MIN_THRESHOLD_MIN_MASK  (0x3F)
 #define DIALOG7212_ALC_TARGET_MIN_THRESHOLD_MIN_SHIFT (0)
-#define DIALOG7212_ALC_TARGET_MIN_THRESHOLD_MIN(x)    (x << DIALOG7212_ALC_TARGET_MIN_THRESHOLD_MIN_SHIFT)
+#define DIALOG7212_ALC_TARGET_MIN_THRESHOLD_MIN(x)    (x << \
+						       DIALOG7212_ALC_TARGET_MIN_THRESHOLD_MIN_SHIFT)
 
 /* DIALOG7212_ALC_TARGET_MAX                     0x9E */
 #define DIALOG7212_ALC_TARGET_MAX_THRESHOLD_MAX_MASK  (0x3F)
 #define DIALOG7212_ALC_TARGET_MAX_THRESHOLD_MAX_SHIFT (0)
-#define DIALOG7212_ALC_TARGET_MAX_THRESHOLD_MAX(x)    (x << DIALOG7212_ALC_TARGET_MAX_THRESHOLD_MIN_SHIFT)
+#define DIALOG7212_ALC_TARGET_MAX_THRESHOLD_MAX(x)    (x << \
+						       DIALOG7212_ALC_TARGET_MAX_THRESHOLD_MIN_SHIFT)
 
 /* DIALOG7212_ALC_GAIN_LIMITS                    0x9F */
 #define DIALOG7212_ALC_GAIN_LIMITS_GAIN_MAX_MASK   (0xF0)
@@ -928,13 +969,20 @@
 /* DIALOG7212_TONE_GEN_CYCLES                    0xB6 */
 #define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_MASK     (0x07)
 #define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT    (0)
-#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_1        (0 << DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
-#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_2        (1 << DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
-#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_4        (2 << DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
-#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_8        (3 << DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
-#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_16       (4 << DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
-#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_32       (5 << DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
-#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_INFINITE (6 << DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
+#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_1        (0 << \
+							 DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
+#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_2        (1 << \
+							 DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
+#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_4        (2 << \
+							 DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
+#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_8        (3 << \
+							 DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
+#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_16       (4 << \
+							 DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
+#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_32       (5 << \
+							 DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
+#define DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_INFINITE (6 << \
+							 DIALOG7212_TONE_GEN_CYCLES_BEEP_CYCLES_SHIFT)
 
 /* DIALOG7212_TONE_GEN_FREQ1_L                   0xB7 */
 #define DIALOG7212_TONE_GEN_FREQ1_L_MASK   (0xFF)
@@ -959,12 +1007,14 @@
 /* DIALOG7212_TONE_GEN_ON_PER                    0xBB */
 #define DIALOG7212_TONE_GEN_ON_PER_BEEP_ON_PER_MASK  (0x3F)
 #define DIALOG7212_TONE_GEN_ON_PER_BEEP_ON_PER_SHIFT (0)
-#define DIALOG7212_TONE_GEN_ON_PER_BEEP_ON_PER(x)    (x << DIALOG7212_TONE_GEN_ON_PER_BEEP_ON_PER_SHIFT)
+#define DIALOG7212_TONE_GEN_ON_PER_BEEP_ON_PER(x)    (x << \
+						      DIALOG7212_TONE_GEN_ON_PER_BEEP_ON_PER_SHIFT)
 
 /* DIALOG7212_TONE_GEN_OFF_PER                   0xBC */
 #define DIALOG7212_TONE_GEN_OFF_PER_BEEP_OFF_PER_MASK  (0x3F)
 #define DIALOG7212_TONE_GEN_OFF_PER_BEEP_OFF_PER_SHIFT (0)
-#define DIALOG7212_TONE_GEN_OFF_PER_BEEP_OFF_PER(x)    (x << DIALOG7212_TONE_GEN_OFF_PER_BEEP_OFF_PER_SHIFT)
+#define DIALOG7212_TONE_GEN_OFF_PER_BEEP_OFF_PER(x)    (x << \
+							DIALOG7212_TONE_GEN_OFF_PER_BEEP_OFF_PER_SHIFT)
 
 /*************System Controller Registers(2)*************/
 /* DIALOG7212_SYSTEM_STATUS                      0xE0 */
@@ -975,144 +1025,129 @@
 #define DIALOG7212_SYSTEM_ACTIVE_MASK (1 << 0)
 
 /*! @brief DA7212 input source select */
-typedef enum _da7212_Input
-{
-    kDA7212_Input_AUX = 0x0, /*!< Input from AUX */
-    kDA7212_Input_MIC1_Dig,  /*!< Input from MIC1 Digital */
-    kDA7212_Input_MIC1_An,   /*!< Input from Mic1 Analog */
-    kDA7212_Input_MIC2,      /*!< Input from MIC2 */
-    kDA7212_Input_MAX
+typedef enum _da7212_Input {
+	kDA7212_Input_AUX = 0x0,        /*!< Input from AUX */
+	kDA7212_Input_MIC1_Dig,         /*!< Input from MIC1 Digital */
+	kDA7212_Input_MIC1_An,          /*!< Input from Mic1 Analog */
+	kDA7212_Input_MIC2,             /*!< Input from MIC2 */
+	kDA7212_Input_MAX
 } da7212_Input_t;
 
 /*! @brief da7212 play channel  */
-enum _da7212_play_channel
-{
-    kDA7212_HeadphoneLeft  = 1U, /*!< headphone left */
-    kDA7212_HeadphoneRight = 2U, /*!< headphone right */
-    kDA7212_Speaker        = 4U, /*!< speaker channel */
+enum _da7212_play_channel {
+	kDA7212_HeadphoneLeft	= 1U,   /*!< headphone left */
+	kDA7212_HeadphoneRight	= 2U,   /*!< headphone right */
+	kDA7212_Speaker		= 4U,   /*!< speaker channel */
 };
 
 /*! @brief DA7212 output device select */
-typedef enum _da7212_Output
-{
-    kDA7212_Output_HP = 0x0, /*!< Output to headphone */
-    kDA7212_Output_SP,       /*!< Output to speaker */
-    kDA7212_Output_MAX
+typedef enum _da7212_Output {
+	kDA7212_Output_HP = 0x0,        /*!< Output to headphone */
+	kDA7212_Output_SP,              /*!< Output to speaker */
+	kDA7212_Output_MAX
 } da7212_Output_t;
 
 /*! @brief DA7212 module */
-enum _da7212_module
-{
-    kDA7212_ModuleADC,       /*!< module ADC*/
-    kDA7212_ModuleDAC,       /*!< module DAC */
-    kDA7212_ModuleHeadphone, /*!< module headphone */
-    kDA7212_ModuleSpeaker,   /*!< module speaker */
+enum _da7212_module {
+	kDA7212_ModuleADC,              /*!< module ADC*/
+	kDA7212_ModuleDAC,              /*!< module DAC */
+	kDA7212_ModuleHeadphone,        /*!< module headphone */
+	kDA7212_ModuleSpeaker,          /*!< module speaker */
 };
 
 /*! @brief DA7212 functionality */
-typedef enum _da7212_dac_source
-{
-    kDA7212_DACSourceADC         = 0x0U, /*!< DAC source from ADC */
-    kDA7212_DACSourceInputStream = 0x3U  /*!< DAC source from  */
+typedef enum _da7212_dac_source {
+	kDA7212_DACSourceADC		= 0x0U, /*!< DAC source from ADC */
+	kDA7212_DACSourceInputStream	= 0x3U  /*!< DAC source from  */
 } da7212_dac_source_t;
 
 /*! @brief DA7212 volume */
-typedef enum _da7212_volume
-{
-    kDA7212_DACGainMute  = 0x7,  /*!< Mute DAC */
-    kDA7212_DACGainM72DB = 0x17, /*!< DAC volume -72db */
-    kDA7212_DACGainM60DB = 0x1F, /*!< DAC volume -60db */
-    kDA7212_DACGainM54DB = 0x27, /*!< DAC volume -54db */
-    kDA7212_DACGainM48DB = 0x2F, /*!< DAC volume -48db */
-    kDA7212_DACGainM42DB = 0x37, /*!< DAC volume -42db */
-    kDA7212_DACGainM36DB = 0x3F, /*!< DAC volume -36db */
-    kDA7212_DACGainM30DB = 0x47, /*!< DAC volume -30db */
-    kDA7212_DACGainM24DB = 0x4F, /*!< DAC volume -24db */
-    kDA7212_DACGainM18DB = 0x57, /*!< DAC volume -18db */
-    kDA7212_DACGainM12DB = 0x5F, /*!< DAC volume -12db */
-    kDA7212_DACGainM6DB  = 0x67, /*!< DAC volume -6bb */
-    kDA7212_DACGain0DB   = 0x6F, /*!< DAC volume +0db */
-    kDA7212_DACGain6DB   = 0x77, /*!< DAC volume +6db */
-    kDA7212_DACGain12DB  = 0x7F  /*!< DAC volume +12db */
+typedef enum _da7212_volume {
+	kDA7212_DACGainMute	= 0x7,  /*!< Mute DAC */
+	kDA7212_DACGainM72DB	= 0x17, /*!< DAC volume -72db */
+	kDA7212_DACGainM60DB	= 0x1F, /*!< DAC volume -60db */
+	kDA7212_DACGainM54DB	= 0x27, /*!< DAC volume -54db */
+	kDA7212_DACGainM48DB	= 0x2F, /*!< DAC volume -48db */
+	kDA7212_DACGainM42DB	= 0x37, /*!< DAC volume -42db */
+	kDA7212_DACGainM36DB	= 0x3F, /*!< DAC volume -36db */
+	kDA7212_DACGainM30DB	= 0x47, /*!< DAC volume -30db */
+	kDA7212_DACGainM24DB	= 0x4F, /*!< DAC volume -24db */
+	kDA7212_DACGainM18DB	= 0x57, /*!< DAC volume -18db */
+	kDA7212_DACGainM12DB	= 0x5F, /*!< DAC volume -12db */
+	kDA7212_DACGainM6DB	= 0x67, /*!< DAC volume -6bb */
+	kDA7212_DACGain0DB	= 0x6F, /*!< DAC volume +0db */
+	kDA7212_DACGain6DB	= 0x77, /*!< DAC volume +6db */
+	kDA7212_DACGain12DB	= 0x7F  /*!< DAC volume +12db */
 } da7212_volume_t;
 
 /*!
  * @brief The audio data transfer protocol choice.
  */
-typedef enum _da7212_protocol
-{
-    kDA7212_BusI2S = 0x0,      /*!< I2S Type */
-    kDA7212_BusLeftJustified,  /*!< Left justified */
-    kDA7212_BusRightJustified, /*!< Right Justified */
-    kDA7212_BusDSPMode,        /*!< DSP mode */
+typedef enum _da7212_protocol {
+	kDA7212_BusI2S = 0x0,           /*!< I2S Type */
+	kDA7212_BusLeftJustified,       /*!< Left justified */
+	kDA7212_BusRightJustified,      /*!< Right Justified */
+	kDA7212_BusDSPMode,             /*!< DSP mode */
 } da7212_protocol_t;
 
 /*! @brief da7212 system clock source */
-typedef enum _da7212_sys_clk_source
-{
-    kDA7212_SysClkSourceMCLK = 0U,       /*!< da7212 system clock soure from MCLK */
-    kDA7212_SysClkSourcePLL  = 1U << 14, /*!< da7212 system clock soure from pLL */
+typedef enum _da7212_sys_clk_source {
+	kDA7212_SysClkSourceMCLK	= 0U,           /*!< da7212 system clock soure from MCLK */
+	kDA7212_SysClkSourcePLL		= 1U << 14,     /*!< da7212 system clock soure from pLL */
 } da7212_sys_clk_source_t;
 
 /*! @brief DA7212 pll clock source */
-typedef enum _da7212_pll_clk_source
-{
-    kDA7212_PLLClkSourceMCLK = 0U, /*!< DA7212 PLL clock source from MCLK */
+typedef enum _da7212_pll_clk_source {
+	kDA7212_PLLClkSourceMCLK = 0U, /*!< DA7212 PLL clock source from MCLK */
 } da7212_pll_clk_source_t;
 
 /*! @brief DA7212 output clock frequency */
-typedef enum _da7212_pll_out_clk
-{
-    kDA7212_PLLOutputClk11289600 = 11289600U, /*!< output 112896000U */
-    kDA7212_PLLOutputClk12288000 = 12288000U, /*!< output 12288000U */
+typedef enum _da7212_pll_out_clk {
+	kDA7212_PLLOutputClk11289600	= 11289600U,    /*!< output 112896000U */
+	kDA7212_PLLOutputClk12288000	= 12288000U,    /*!< output 12288000U */
 } da7212_pll_out_clk_t;
 
 /*!@brief master mode bits per frame */
-typedef enum _da7212_master_bits
-{
-    kDA7212_MasterBits32PerFrame  = 0U, /*!< master mode bits32 per frame */
-    kDA7212_MasterBits64PerFrame  = 1U, /*!< master mode bits64 per frame */
-    kDA7212_MasterBits128PerFrame = 2U, /*!< master mode bits128 per frame */
-    kDA7212_MasterBits256PerFrame = 3U, /*!< master mode bits256 per frame */
+typedef enum _da7212_master_bits {
+	kDA7212_MasterBits32PerFrame	= 0U,   /*!< master mode bits32 per frame */
+	kDA7212_MasterBits64PerFrame	= 1U,   /*!< master mode bits64 per frame */
+	kDA7212_MasterBits128PerFrame	= 2U,   /*!< master mode bits128 per frame */
+	kDA7212_MasterBits256PerFrame	= 3U,   /*!< master mode bits256 per frame */
 } da7212_master_bits_t;
 
 /*! @brief da7212 pll configuration */
-typedef struct _da7212_pll_config
-{
-    da7212_pll_clk_source_t source;      /*!< pll reference clock source */
-    uint32_t refClock_HZ;                /*!< pll reference clock frequency */
-    da7212_pll_out_clk_t outputClock_HZ; /*!< pll output clock frequency  */
+typedef struct _da7212_pll_config {
+	da7212_pll_clk_source_t source;         /*!< pll reference clock source */
+	uint32_t		refClock_HZ;    /*!< pll reference clock frequency */
+	da7212_pll_out_clk_t	outputClock_HZ; /*!< pll output clock frequency  */
 } da7212_pll_config_t;
 
 /*! @brief da7212 audio format */
-typedef struct _da7212_audio_format
-{
-    uint32_t mclk_HZ;    /*!< master clock frequency */
-    uint32_t sampleRate; /*!< sample rate */
-    uint32_t bitWidth;   /*!< bit width */
-    bool isBclkInvert;   /*!< bit clock intervet */
+typedef struct _da7212_audio_format {
+	uint32_t	mclk_HZ;        /*!< master clock frequency */
+	uint32_t	sampleRate;     /*!< sample rate */
+	uint32_t	bitWidth;       /*!< bit width */
+	bool		isBclkInvert;   /*!< bit clock intervet */
 } da7212_audio_format_t;
 
 /*! @brief DA7212 configure structure */
-typedef struct da7212_config
-{
-    bool isMaster;                 /*!< If DA7212 is master, true means master, false means slave. */
-    da7212_protocol_t protocol;    /*!< Audio bus format, can be I2S, LJ, RJ or DSP mode. */
-    da7212_dac_source_t dacSource; /*!< DA7212 data source. */
-    da7212_audio_format_t format;  /*!< audio format */
-    uint8_t slaveAddress;          /*!< device address */
-    codec_i2c_config_t i2cConfig;  /*!< i2c configuration */
+typedef struct da7212_config {
+	bool			isMaster;       /*!< If DA7212 is master, true means master, false means slave. */
+	da7212_protocol_t	protocol;       /*!< Audio bus format, can be I2S, LJ, RJ or DSP mode. */
+	da7212_dac_source_t	dacSource;      /*!< DA7212 data source. */
+	da7212_audio_format_t	format;         /*!< audio format */
+	uint8_t			slaveAddress;   /*!< device address */
+	codec_i2c_config_t	i2cConfig;      /*!< i2c configuration */
 
-    da7212_sys_clk_source_t sysClkSource; /*!< system clock source */
-    da7212_pll_config_t *pll;             /*!< pll configuration */
+	da7212_sys_clk_source_t sysClkSource;   /*!< system clock source */
+	da7212_pll_config_t *	pll;            /*!< pll configuration */
 } da7212_config_t;
 
 /*! @brief da7212 codec handler
  */
-typedef struct _da7212_handle
-{
-    da7212_config_t *config;                    /*!< da7212 config pointer */
-    uint8_t i2cHandle[DA7212_I2C_HANDLER_SIZE]; /*!< i2c handle */
+typedef struct _da7212_handle {
+	da7212_config_t *	config;                                 /*!< da7212 config pointer */
+	uint8_t			i2cHandle[DA7212_I2C_HANDLER_SIZE];     /*!< i2c handle */
 } da7212_handle_t;
 
 /*******************************************************************************
@@ -1148,10 +1183,8 @@ status_t DA7212_Init(da7212_handle_t *handle, da7212_config_t *config);
  * @param sampleRate_Hz Sample rate frequency in Hz.
  * @param dataBits How many bits in a word of a audio frame, DA7212 only supports 16/20/24/32 bits.
  */
-status_t DA7212_ConfigAudioFormat(da7212_handle_t *handle,
-                                  uint32_t masterClock_Hz,
-                                  uint32_t sampleRate_Hz,
-                                  uint32_t dataBits);
+status_t DA7212_ConfigAudioFormat(da7212_handle_t *handle, uint32_t masterClock_Hz, uint32_t
+				  sampleRate_Hz, uint32_t dataBits);
 
 /*!
  * @brief DA7212 set PLL configuration

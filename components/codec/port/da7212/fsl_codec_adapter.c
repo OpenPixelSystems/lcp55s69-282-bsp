@@ -13,22 +13,24 @@
  ******************************************************************************/
 /*! @brief module capability definition */
 #define HAL_DA7212_MODULE_CAPABILITY \
-    kCODEC_SupportModuleADC | kCODEC_SupportModuleDAC | kCODEC_SupportModuleHeadphone | kCODEC_SupportModuleSpeaker
+	kCODEC_SupportModuleADC | kCODEC_SupportModuleDAC | kCODEC_SupportModuleHeadphone | \
+	kCODEC_SupportModuleSpeaker
 #define HAL_DA7212_PLAY_CAPABILITY                                                                      \
-    kCODEC_SupportPlayChannelLeft0 | kCODEC_SupportPlayChannelRight0 | kCODEC_SupportPlayChannelLeft1 | \
-        kCODEC_SupportPlayChannelRight1
+	kCODEC_SupportPlayChannelLeft0 | kCODEC_SupportPlayChannelRight0 | \
+	kCODEC_SupportPlayChannelLeft1 | \
+	kCODEC_SupportPlayChannelRight1
 #define HAL_DA7212_RECORD_CAPABILITY                                                   \
-    kCODEC_SupportRecordSourceDifferentialMic | kCODEC_SupportRecordSourceDigitalMic | \
-        kCODEC_SupportRecordSourceSingleEndMic | kCODEC_SupportRecordSourceLineInput
+	kCODEC_SupportRecordSourceDifferentialMic | kCODEC_SupportRecordSourceDigitalMic | \
+	kCODEC_SupportRecordSourceSingleEndMic | kCODEC_SupportRecordSourceLineInput
 
 /*! @brief DA7212 map module */
 #define HAL_DA7212_MAP_PROTOCOL(protocol)                                   \
-    (protocol == kCODEC_BusI2S ?                                            \
-         kDA7212_BusI2S :                                                   \
-         protocol == kCODEC_BusLeftJustified ?                              \
-         kDA7212_BusLeftJustified :                                         \
-         protocol == kCODEC_BusRightJustified ? kDA7212_BusRightJustified : \
-                                                protocol == kCODEC_BusPCMA ? kDA7212_BusDSPMode : kDA7212_BusI2S)
+	(protocol == kCODEC_BusI2S ?                                            \
+	 kDA7212_BusI2S :                                                   \
+	 protocol == kCODEC_BusLeftJustified ?                              \
+	 kDA7212_BusLeftJustified :                                         \
+	 protocol == kCODEC_BusRightJustified ? kDA7212_BusRightJustified : \
+	 protocol == kCODEC_BusPCMA ? kDA7212_BusDSPMode : kDA7212_BusI2S)
 
 /*******************************************************************************
  * Prototypes
@@ -38,9 +40,9 @@
  * Variables
  ******************************************************************************/
 static const codec_capability_t s_da7212_capability = {
-    .codecPlayCapability   = HAL_DA7212_PLAY_CAPABILITY,
-    .codecModuleCapability = HAL_DA7212_MODULE_CAPABILITY,
-    .codecRecordCapability = HAL_DA7212_RECORD_CAPABILITY,
+	.codecPlayCapability	= HAL_DA7212_PLAY_CAPABILITY,
+	.codecModuleCapability	= HAL_DA7212_MODULE_CAPABILITY,
+	.codecRecordCapability	= HAL_DA7212_RECORD_CAPABILITY,
 };
 /*******************************************************************************
  * Code
@@ -54,17 +56,18 @@ static const codec_capability_t s_da7212_capability = {
  */
 status_t HAL_CODEC_Init(void *handle, void *config)
 {
-    assert((config != NULL) && (handle != NULL));
+	assert((config != NULL) && (handle != NULL));
 
-    codec_config_t *codecConfig = (codec_config_t *)config;
+	codec_config_t *codecConfig = (codec_config_t *)config;
 
-    da7212_config_t *da7212Config = (da7212_config_t *)(codecConfig->codecDevConfig);
-    da7212_handle_t *da7212Handle = (da7212_handle_t *)((uint32_t)(((codec_handle_t *)handle)->codecDevHandle));
+	da7212_config_t *da7212Config = (da7212_config_t *)(codecConfig->codecDevConfig);
+	da7212_handle_t *da7212Handle =
+		(da7212_handle_t *)((uint32_t)(((codec_handle_t *)handle)->codecDevHandle));
 
-    ((codec_handle_t *)handle)->codecCapability = &s_da7212_capability;
+	((codec_handle_t *)handle)->codecCapability = &s_da7212_capability;
 
-    /* codec device initialization */
-    return DA7212_Init(da7212Handle, da7212Config);
+	/* codec device initialization */
+	return DA7212_Init(da7212Handle, da7212Config);
 }
 
 /*!
@@ -75,9 +78,10 @@ status_t HAL_CODEC_Init(void *handle, void *config)
  */
 status_t HAL_CODEC_Deinit(void *handle)
 {
-    assert(handle != NULL);
+	assert(handle != NULL);
 
-    return DA7212_Deinit((da7212_handle_t *)((uint32_t)(((codec_handle_t *)handle)->codecDevHandle)));
+	return DA7212_Deinit(
+		(da7212_handle_t *)((uint32_t)(((codec_handle_t *)handle)->codecDevHandle)));
 }
 
 /*!
@@ -91,10 +95,11 @@ status_t HAL_CODEC_Deinit(void *handle)
  */
 status_t HAL_CODEC_SetFormat(void *handle, uint32_t mclk, uint32_t sampleRate, uint32_t bitWidth)
 {
-    assert(handle != NULL);
+	assert(handle != NULL);
 
-    return DA7212_ConfigAudioFormat((da7212_handle_t *)((uint32_t)(((codec_handle_t *)handle)->codecDevHandle)), mclk,
-                                    sampleRate, bitWidth);
+	return DA7212_ConfigAudioFormat(
+		(da7212_handle_t *)((uint32_t)(((codec_handle_t *)handle)->codecDevHandle)), mclk,
+		sampleRate, bitWidth);
 }
 
 /*!
@@ -107,10 +112,11 @@ status_t HAL_CODEC_SetFormat(void *handle, uint32_t mclk, uint32_t sampleRate, u
  */
 status_t HAL_CODEC_SetVolume(void *handle, uint32_t playChannel, uint32_t volume)
 {
-    assert(handle != NULL);
+	assert(handle != NULL);
 
-    return DA7212_SetChannelVolume((da7212_handle_t *)((uint32_t)(((codec_handle_t *)handle)->codecDevHandle)),
-                                   playChannel, volume);
+	return DA7212_SetChannelVolume(
+		(da7212_handle_t *)((uint32_t)(((codec_handle_t *)handle)->codecDevHandle)),
+		playChannel, volume);
 }
 
 /*!
@@ -123,10 +129,11 @@ status_t HAL_CODEC_SetVolume(void *handle, uint32_t playChannel, uint32_t volume
  */
 status_t HAL_CODEC_SetMute(void *handle, uint32_t playChannel, bool isMute)
 {
-    assert(handle != NULL);
+	assert(handle != NULL);
 
-    return DA7212_SetChannelMute((da7212_handle_t *)((uint32_t)(((codec_handle_t *)handle)->codecDevHandle)),
-                                 playChannel, isMute);
+	return DA7212_SetChannelMute(
+		(da7212_handle_t *)((uint32_t)(((codec_handle_t *)handle)->codecDevHandle)),
+		playChannel, isMute);
 }
 
 /*!
@@ -139,7 +146,7 @@ status_t HAL_CODEC_SetMute(void *handle, uint32_t playChannel, bool isMute)
  */
 status_t HAL_CODEC_SetPower(void *handle, uint32_t module, bool powerOn)
 {
-    return kStatus_CODEC_NotSupport;
+	return kStatus_CODEC_NotSupport;
 }
 
 /*!
@@ -152,7 +159,7 @@ status_t HAL_CODEC_SetPower(void *handle, uint32_t module, bool powerOn)
  */
 status_t HAL_CODEC_SetRecord(void *handle, uint32_t recordSource)
 {
-    return kStatus_CODEC_NotSupport;
+	return kStatus_CODEC_NotSupport;
 }
 
 /*!
@@ -160,15 +167,16 @@ status_t HAL_CODEC_SetRecord(void *handle, uint32_t recordSource)
  *
  * param handle codec handle.
  * param leftRecordChannel audio codec record channel, reference _codec_record_channel, can be a value or combine value
- of member in _codec_record_channel.
+ * of member in _codec_record_channel.
  * param rightRecordChannel audio codec record channel, reference _codec_record_channel, can be a value combine of
- member in _codec_record_channel.
-
+ * member in _codec_record_channel.
+ *
  * return kStatus_Success is success, else configure failed.
  */
-status_t HAL_CODEC_SetRecordChannel(void *handle, uint32_t leftRecordChannel, uint32_t rightRecordChannel)
+status_t HAL_CODEC_SetRecordChannel(void *handle, uint32_t leftRecordChannel, uint32_t
+				    rightRecordChannel)
 {
-    return kStatus_CODEC_NotSupport;
+	return kStatus_CODEC_NotSupport;
 }
 
 /*!
@@ -181,7 +189,7 @@ status_t HAL_CODEC_SetRecordChannel(void *handle, uint32_t leftRecordChannel, ui
  */
 status_t HAL_CODEC_SetPlay(void *handle, uint32_t playSource)
 {
-    return kStatus_CODEC_NotSupport;
+	return kStatus_CODEC_NotSupport;
 }
 
 /*!
@@ -196,5 +204,5 @@ status_t HAL_CODEC_SetPlay(void *handle, uint32_t playSource)
  */
 status_t HAL_CODEC_ModuleControl(void *handle, uint32_t cmd, uint32_t data)
 {
-    return kStatus_CODEC_NotSupport;
+	return kStatus_CODEC_NotSupport;
 }

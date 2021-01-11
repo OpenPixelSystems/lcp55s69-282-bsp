@@ -32,15 +32,14 @@
 typedef uint32_t panic_id_t;
 
 /**@brief panic data structure. */
-typedef struct _panic_data
-{
-    panic_id_t id;          /* Panic ID */
-    uint32_t location;      /* location address where the Panic occurred */
-    uint32_t extra1;        /* extra1 */
-    uint32_t extra2;        /* extra2 */
-    uint32_t linkRegister;  /* Link register */
-    uint32_t cpsr_contents; /* cpsr_contents*/
-    uint8_t stack_dump[4];  /* initially just contain the contents of the LR */
+typedef struct _panic_data {
+	panic_id_t	id;             /* Panic ID */
+	uint32_t	location;       /* location address where the Panic occurred */
+	uint32_t	extra1;         /* extra1 */
+	uint32_t	extra2;         /* extra2 */
+	uint32_t	linkRegister;   /* Link register */
+	uint32_t	cpsr_contents;  /* cpsr_contents*/
+	uint8_t		stack_dump[4];  /* initially just contain the contents of the LR */
 } panic_data_t;
 
 /*! *********************************************************************************

@@ -49,12 +49,11 @@ extern uint32_t m0_image_size;
 #define APP_SH_MEM_PRIMARY_TO_SECONDARY_BUF_STORAGE_OFFSET (0x100u)
 #define APP_SH_MEM_SECONDARY_TO_PRIMARY_BUF_STORAGE_OFFSET (0x200u)
 
-typedef struct the_message
-{
-    uint32_t DATA;
+typedef struct the_message {
+	uint32_t DATA;
 } THE_MESSAGE, *THE_MESSAGE_PTR;
 
-volatile THE_MESSAGE msg = {0};
+volatile THE_MESSAGE msg = { 0 };
 
 #define SH_MEM_TOTAL_SIZE (6144U)
 #if defined(__ICCARM__) /* IAR Workbench */
@@ -67,23 +66,25 @@ extern unsigned char Image$$RPMSG_SH_MEM$$Length;
 #define APP_SH_MEM_BASE &Image$$RPMSG_SH_MEM$$Base
 #elif defined(__GNUC__) /* GCC */
 unsigned char rpmsg_sh_mem[SH_MEM_TOTAL_SIZE] __attribute__((section(".noinit.$rpmsg_sh_mem")));
-#define APP_SH_MEM_BASE (uint32_t) & rpmsg_sh_mem
+#define APP_SH_MEM_BASE (uint32_t)&rpmsg_sh_mem
 #else
 #error "Message Buffers are not placed in shared memory!"
 #endif
 
 #define xPrimaryToSecondaryMessageBuffer \
-    (*(MessageBufferHandle_t *)(APP_SH_MEM_BASE + APP_SH_MEM_PRIMARY_TO_SECONDARY_MB_OFFSET))
+	(*(MessageBufferHandle_t *)(APP_SH_MEM_BASE + APP_SH_MEM_PRIMARY_TO_SECONDARY_MB_OFFSET))
 #define xSecondaryToPrimaryMessageBuffer \
-    (*(MessageBufferHandle_t *)(APP_SH_MEM_BASE + APP_SH_MEM_SECONDARY_TO_PRIMARY_MB_OFFSET))
+	(*(MessageBufferHandle_t *)(APP_SH_MEM_BASE + APP_SH_MEM_SECONDARY_TO_PRIMARY_MB_OFFSET))
 #define xPrimaryToSecondaryMessageBufferStruct \
-    (*(StaticStreamBuffer_t *)(APP_SH_MEM_BASE + APP_SH_MEM_PRIMARY_TO_SECONDARY_MB_STRUCT_OFFSET))
+	(*(StaticStreamBuffer_t *)(APP_SH_MEM_BASE + \
+				   APP_SH_MEM_PRIMARY_TO_SECONDARY_MB_STRUCT_OFFSET))
 #define xSecondaryToPrimaryMessageBufferStruct \
-    (*(StaticStreamBuffer_t *)(APP_SH_MEM_BASE + APP_SH_MEM_SECONDARY_TO_PRIMARY_MB_STRUCT_OFFSET))
+	(*(StaticStreamBuffer_t *)(APP_SH_MEM_BASE + \
+				   APP_SH_MEM_SECONDARY_TO_PRIMARY_MB_STRUCT_OFFSET))
 #define ucPrimaryToSecondaryBufferStorage \
-    (*(uint8_t *)(APP_SH_MEM_BASE + APP_SH_MEM_PRIMARY_TO_SECONDARY_BUF_STORAGE_OFFSET))
+	(*(uint8_t *)(APP_SH_MEM_BASE + APP_SH_MEM_PRIMARY_TO_SECONDARY_BUF_STORAGE_OFFSET))
 #define ucSecondaryToPrimaryBufferStorage \
-    (*(uint8_t *)(APP_SH_MEM_BASE + APP_SH_MEM_SECONDARY_TO_PRIMARY_BUF_STORAGE_OFFSET))
+	(*(uint8_t *)(APP_SH_MEM_BASE + APP_SH_MEM_SECONDARY_TO_PRIMARY_BUF_STORAGE_OFFSET))
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
@@ -96,9 +97,9 @@ uint32_t get_core1_image_size(void);
  * provide statically allocated data for use by the idle task, which is a task
  * created by the scheduler when it starts.
  */
-void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
-                                   StackType_t **ppxIdleTaskStackBuffer,
-                                   uint32_t *pulIdleTaskStackSize);
+void vApplicationGetIdleTaskMemory(StaticTask_t **	ppxIdleTaskTCBBuffer,
+				   StackType_t **	ppxIdleTaskStackBuffer,
+				   uint32_t *		pulIdleTaskStackSize);
 
 /*******************************************************************************
  * Code
@@ -107,108 +108,109 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
 #ifdef CORE1_IMAGE_COPY_TO_RAM
 uint32_t get_core1_image_size(void)
 {
-    uint32_t core1_image_size;
+	uint32_t core1_image_size;
 #if defined(__CC_ARM) || defined(__ARMCC_VERSION)
-    core1_image_size = (uint32_t)&Image$$CORE1_REGION$$Length;
+	core1_image_size = (uint32_t)&Image$$CORE1_REGION$$Length;
 #elif defined(__ICCARM__)
 #pragma section = "__sec_core"
-    core1_image_size = (uint32_t)__section_end("__sec_core") - (uint32_t)&core1_image_start;
+	core1_image_size = (uint32_t)__section_end("__sec_core") - (uint32_t)&core1_image_start;
 #elif defined(__GNUC__)
-    core1_image_size = (uint32_t)m0_image_size;
+	core1_image_size = (uint32_t)m0_image_size;
 #endif
-    return core1_image_size;
+	return core1_image_size;
 }
 #endif
 static volatile uint16_t RemoteAppReadyEventData = 0U;
 static StaticTask_t xTaskBuffer;
 static StackType_t xStack[APP_TASK_STACK_SIZE];
 
-void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
-                                   StackType_t **ppxIdleTaskStackBuffer,
-                                   uint32_t *pulIdleTaskStackSize)
+void vApplicationGetIdleTaskMemory(StaticTask_t **	ppxIdleTaskTCBBuffer,
+				   StackType_t **	ppxIdleTaskStackBuffer,
+				   uint32_t *		pulIdleTaskStackSize)
 {
-    /* If the buffers to be provided to the Idle task are declared inside this
-    function then they must be declared static - otherwise they will be allocated on
-    the stack and so not exists after this function exits. */
-    static StaticTask_t xIdleTaskTCB;
-    static StackType_t uxIdleTaskStack[configMINIMAL_STACK_SIZE];
+	/* If the buffers to be provided to the Idle task are declared inside this
+	 * function then they must be declared static - otherwise they will be allocated on
+	 * the stack and so not exists after this function exits. */
+	static StaticTask_t xIdleTaskTCB;
+	static StackType_t uxIdleTaskStack[configMINIMAL_STACK_SIZE];
 
-    /* configUSE_STATIC_ALLOCATION is set to 1, so the application must provide
-    an implementation of vApplicationGetIdleTaskMemory() to provide the memory
-    that is used by the Idle task.
-    www.freertos.org/a00110.html#configSUPPORT_STATIC_ALLOCATION */
+	/* configUSE_STATIC_ALLOCATION is set to 1, so the application must provide
+	 * an implementation of vApplicationGetIdleTaskMemory() to provide the memory
+	 * that is used by the Idle task.
+	 * www.freertos.org/a00110.html#configSUPPORT_STATIC_ALLOCATION */
 
-    /* Pass out a pointer to the StaticTask_t structure in which the Idle task's
-    state will be stored. */
-    *ppxIdleTaskTCBBuffer = &xIdleTaskTCB;
+	/* Pass out a pointer to the StaticTask_t structure in which the Idle task's
+	 * state will be stored. */
+	*ppxIdleTaskTCBBuffer = &xIdleTaskTCB;
 
-    /* Pass out the array that will be used as the Idle task's stack. */
-    *ppxIdleTaskStackBuffer = uxIdleTaskStack;
+	/* Pass out the array that will be used as the Idle task's stack. */
+	*ppxIdleTaskStackBuffer = uxIdleTaskStack;
 
-    /* Pass out the size of the array pointed to by *ppxIdleTaskStackBuffer.
-    Note that, as the array is necessarily of type StackType_t,
-    configMINIMAL_STACK_SIZE is specified in words, not bytes. */
-    *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+	/* Pass out the size of the array pointed to by *ppxIdleTaskStackBuffer.
+	 * Note that, as the array is necessarily of type StackType_t,
+	 * configMINIMAL_STACK_SIZE is specified in words, not bytes. */
+	*pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
 }
-void vApplicationGetTimerTaskMemory(StaticTask_t **ppxTimerTaskTCBBuffer,
-                                    StackType_t **ppxTimerTaskStackBuffer,
-                                    uint32_t *pulTimerTaskStackSize)
+void vApplicationGetTimerTaskMemory(StaticTask_t **	ppxTimerTaskTCBBuffer,
+				    StackType_t **	ppxTimerTaskStackBuffer,
+				    uint32_t *		pulTimerTaskStackSize)
 {
-    /* If the buffers to be provided to the Timer task are declared inside this
-    function then they must be declared static - otherwise they will be allocated on
-    the stack and so not exists after this function exits. */
-    static StaticTask_t xTimerTaskTCB;
-    static StackType_t uxTimerTaskStack[configTIMER_TASK_STACK_DEPTH];
+	/* If the buffers to be provided to the Timer task are declared inside this
+	 * function then they must be declared static - otherwise they will be allocated on
+	 * the stack and so not exists after this function exits. */
+	static StaticTask_t xTimerTaskTCB;
+	static StackType_t uxTimerTaskStack[configTIMER_TASK_STACK_DEPTH];
 
-    /* Pass out a pointer to the StaticTask_t structure in which the Timer
-    task's state will be stored. */
-    *ppxTimerTaskTCBBuffer = &xTimerTaskTCB;
+	/* Pass out a pointer to the StaticTask_t structure in which the Timer
+	 * task's state will be stored. */
+	*ppxTimerTaskTCBBuffer = &xTimerTaskTCB;
 
-    /* Pass out the array that will be used as the Timer task's stack. */
-    *ppxTimerTaskStackBuffer = uxTimerTaskStack;
+	/* Pass out the array that will be used as the Timer task's stack. */
+	*ppxTimerTaskStackBuffer = uxTimerTaskStack;
 
-    /* Pass out the size of the array pointed to by *ppxTimerTaskStackBuffer.
-    Note that, as the array is necessarily of type StackType_t,
-    configTIMER_TASK_STACK_DEPTH is specified in words, not bytes. */
-    *pulTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
+	/* Pass out the size of the array pointed to by *ppxTimerTaskStackBuffer.
+	 * Note that, as the array is necessarily of type StackType_t,
+	 * configTIMER_TASK_STACK_DEPTH is specified in words, not bytes. */
+	*pulTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
 }
 void vGeneratePrimaryToSecondaryInterrupt(void *xUpdatedMessageBuffer)
 {
-    /* Trigger the inter-core interrupt using the MCMGR component.
-       Pass the APP_MESSAGE_BUFFER_EVENT_DATA as data that accompany
-       the kMCMGR_FreeRtosMessageBuffersEvent event. */
-    (void)MCMGR_TriggerEventForce(kMCMGR_FreeRtosMessageBuffersEvent, APP_MESSAGE_BUFFER_EVENT_DATA);
+	/* Trigger the inter-core interrupt using the MCMGR component.
+	 * Pass the APP_MESSAGE_BUFFER_EVENT_DATA as data that accompany
+	 * the kMCMGR_FreeRtosMessageBuffersEvent event. */
+	(void)MCMGR_TriggerEventForce(kMCMGR_FreeRtosMessageBuffersEvent,
+				      APP_MESSAGE_BUFFER_EVENT_DATA);
 }
 
 static void FreeRtosMessageBuffersEventHandler(uint16_t eventData, void *context)
 {
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 
-    /* Make sure the message has been addressed to us. Using eventData that accompany
-       the event of the kMCMGR_FreeRtosMessageBuffersEvent type, we can distinguish
-       different consumers. */
-    if (APP_MESSAGE_BUFFER_EVENT_DATA == eventData)
-    {
-        /* Call the API function that sends a notification to any task that is
-    blocked on the xUpdatedMessageBuffer message buffer waiting for data to
-    arrive. */
-        (void)xMessageBufferSendCompletedFromISR(xSecondaryToPrimaryMessageBuffer, &xHigherPriorityTaskWoken);
-    }
+	/* Make sure the message has been addressed to us. Using eventData that accompany
+	 * the event of the kMCMGR_FreeRtosMessageBuffersEvent type, we can distinguish
+	 * different consumers. */
+	if (APP_MESSAGE_BUFFER_EVENT_DATA == eventData) {
+		/* Call the API function that sends a notification to any task that is
+		 * blocked on the xUpdatedMessageBuffer message buffer waiting for data to
+		 * arrive. */
+		(void)xMessageBufferSendCompletedFromISR(xSecondaryToPrimaryMessageBuffer,
+							 &xHigherPriorityTaskWoken);
+	}
 
-    /* Normal FreeRTOS "yield from interrupt" semantics, where
-    HigherPriorityTaskWoken is initialzed to pdFALSE and will then get set to
-    pdTRUE if the interrupt unblocks a task that has a priority above that of
-    the currently executing task. */
-    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	/* Normal FreeRTOS "yield from interrupt" semantics, where
+	 * HigherPriorityTaskWoken is initialzed to pdFALSE and will then get set to
+	 * pdTRUE if the interrupt unblocks a task that has a priority above that of
+	 * the currently executing task. */
+	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 
-    /* No need to clear the interrupt flag here, it is handled by the mcmgr. */
+	/* No need to clear the interrupt flag here, it is handled by the mcmgr. */
 }
 
 static void RemoteAppReadyEventHandler(uint16_t eventData, void *context)
 {
-    uint16_t *data = (uint16_t *)context;
+	uint16_t *data = (uint16_t *)context;
 
-    *data = eventData;
+	*data = eventData;
 }
 
 /*!
@@ -216,79 +218,84 @@ static void RemoteAppReadyEventHandler(uint16_t eventData, void *context)
  */
 void SystemInitHook(void)
 {
-    /* Initialize MCMGR - low level multicore management library. Call this
-       function as close to the reset entry as possible to allow CoreUp event
-       triggering. The SystemInitHook() weak function overloading is used in this
-       application. */
-    (void)MCMGR_EarlyInit();
+	/* Initialize MCMGR - low level multicore management library. Call this
+	 * function as close to the reset entry as possible to allow CoreUp event
+	 * triggering. The SystemInitHook() weak function overloading is used in this
+	 * application. */
+	(void)MCMGR_EarlyInit();
 }
 
 static void app_task(void *param)
 {
-    size_t xReceivedBytes;
+	size_t xReceivedBytes;
 
-    (void)memset((void *)(char *)APP_SH_MEM_BASE, 0, SH_MEM_TOTAL_SIZE);
-    /* Create the Primary-To-Secondary message buffer, statically allocated at a known location
-       as both cores need to know where they are. */
-    xPrimaryToSecondaryMessageBuffer = xMessageBufferCreateStatic(
-        /* The buffer size in bytes. */
-        APP_MESSAGE_BUFFER_SIZE,
-        /* Statically allocated buffer storage area. */
-        &ucPrimaryToSecondaryBufferStorage,
-        /* Message buffer handle. */
-        &xPrimaryToSecondaryMessageBufferStruct);
+	(void)memset((void *)(char *)APP_SH_MEM_BASE, 0, SH_MEM_TOTAL_SIZE);
+	/* Create the Primary-To-Secondary message buffer, statically allocated at a known location
+	 * as both cores need to know where they are. */
+	xPrimaryToSecondaryMessageBuffer = xMessageBufferCreateStatic(
+		/* The buffer size in bytes. */
+		APP_MESSAGE_BUFFER_SIZE,
+		/* Statically allocated buffer storage area. */
+		&ucPrimaryToSecondaryBufferStorage,
+		/* Message buffer handle. */
+		&xPrimaryToSecondaryMessageBufferStruct);
 
 #ifdef CORE1_IMAGE_COPY_TO_RAM
-    /* Calculate size of the image */
-    uint32_t core1_image_size;
-    core1_image_size = get_core1_image_size();
-    (void)PRINTF("Copy CORE1 image to address: 0x%x, size: %d\r\n", (void *)(char *)CORE1_BOOT_ADDRESS,
-                 core1_image_size);
+	/* Calculate size of the image */
+	uint32_t core1_image_size;
+	core1_image_size = get_core1_image_size();
+	(void)PRINTF("Copy CORE1 image to address: 0x%x, size: %d\r\n",
+		     (void *)(char *)CORE1_BOOT_ADDRESS,
+		     core1_image_size);
 
-    /* Copy application from FLASH to RAM */
-    (void)memcpy((void *)(char *)CORE1_BOOT_ADDRESS, (void *)CORE1_IMAGE_START, core1_image_size);
+	/* Copy application from FLASH to RAM */
+	(void)memcpy((void *)(char *)CORE1_BOOT_ADDRESS, (void *)CORE1_IMAGE_START,
+		     core1_image_size);
 #endif
 
-    /* Initialize MCMGR before calling its API */
-    (void)MCMGR_Init();
+	/* Initialize MCMGR before calling its API */
+	(void)MCMGR_Init();
 
-    /* Register the application event before starting the secondary core */
-    (void)MCMGR_RegisterEvent(kMCMGR_RemoteApplicationEvent, RemoteAppReadyEventHandler,
-                              (void *)&RemoteAppReadyEventData);
+	/* Register the application event before starting the secondary core */
+	(void)MCMGR_RegisterEvent(kMCMGR_RemoteApplicationEvent, RemoteAppReadyEventHandler,
+				  (void *)&RemoteAppReadyEventData);
 
-    /* Boot Secondary core application */
-    (void)MCMGR_StartCore(kMCMGR_Core1, (void *)(char *)CORE1_BOOT_ADDRESS, 0, kMCMGR_Start_Synchronous);
+	/* Boot Secondary core application */
+	(void)MCMGR_StartCore(kMCMGR_Core1, (void *)(char *)CORE1_BOOT_ADDRESS, 0,
+			      kMCMGR_Start_Synchronous);
 
-    /* Wait until the secondary core application signals it is ready to communicate. */
-    while (APP_READY_EVENT_DATA != RemoteAppReadyEventData)
-    {
-    };
+	/* Wait until the secondary core application signals it is ready to communicate. */
+	while (APP_READY_EVENT_DATA != RemoteAppReadyEventData) {
+	}
+	;
 
-    (void)MCMGR_RegisterEvent(kMCMGR_FreeRtosMessageBuffersEvent, FreeRtosMessageBuffersEventHandler, ((void *)0));
+	(void)MCMGR_RegisterEvent(kMCMGR_FreeRtosMessageBuffersEvent,
+				  FreeRtosMessageBuffersEventHandler, ((void *)0));
 
-    /* Send the first message to the secondary core app. */
-    msg.DATA = 0U;
-    (void)xMessageBufferSend(xPrimaryToSecondaryMessageBuffer, (void *)&msg, sizeof(THE_MESSAGE), 0);
+	/* Send the first message to the secondary core app. */
+	msg.DATA = 0U;
+	(void)xMessageBufferSend(xPrimaryToSecondaryMessageBuffer, (void *)&msg,
+				 sizeof(THE_MESSAGE), 0);
 
-    while (msg.DATA <= 100U)
-    {
-        xReceivedBytes =
-            xMessageBufferReceive(xSecondaryToPrimaryMessageBuffer, (void *)&msg, sizeof(THE_MESSAGE), portMAX_DELAY);
+	while (msg.DATA <= 100U) {
+		xReceivedBytes =
+			xMessageBufferReceive(xSecondaryToPrimaryMessageBuffer, (void *)&msg,
+					      sizeof(THE_MESSAGE), portMAX_DELAY);
 
-        (void)PRINTF("Primary core received a msg\r\n");
-        (void)PRINTF("Message: Size=%x, DATA = %i\r\n", xReceivedBytes, msg.DATA);
-        msg.DATA++;
+		(void)PRINTF("Primary core received a msg\r\n");
+		(void)PRINTF("Message: Size=%x, DATA = %i\r\n", xReceivedBytes, msg.DATA);
+		msg.DATA++;
 
-        (void)xMessageBufferSend(xPrimaryToSecondaryMessageBuffer, (void *)&msg, sizeof(THE_MESSAGE), 0);
-    }
+		(void)xMessageBufferSend(xPrimaryToSecondaryMessageBuffer, (void *)&msg,
+					 sizeof(THE_MESSAGE), 0);
+	}
 
-    vMessageBufferDelete(xPrimaryToSecondaryMessageBuffer);
+	vMessageBufferDelete(xPrimaryToSecondaryMessageBuffer);
 
-    /* Print the ending banner */
-    (void)PRINTF("\r\nFreeRTOS Message Buffers demo ends\r\n");
-    for (;;)
-    {
-    }
+	/* Print the ending banner */
+	(void)PRINTF("\r\nFreeRTOS Message Buffers demo ends\r\n");
+	for (;;) {
+	}
 }
 
 /*!
@@ -296,25 +303,25 @@ static void app_task(void *param)
  */
 int main(void)
 {
-    /* Initialize standard SDK demo application pins */
-    /* set BOD VBAT level to 1.65V */
-    POWER_SetBodVbatLevel(kPOWER_BodVbatLevel1650mv, kPOWER_BodHystLevel50mv, false);
-    /* attach main clock divide to FLEXCOMM0 (debug console) */
-    CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
+	/* Initialize standard SDK demo application pins */
+	/* set BOD VBAT level to 1.65V */
+	POWER_SetBodVbatLevel(kPOWER_BodVbatLevel1650mv, kPOWER_BodHystLevel50mv, false);
+	/* attach main clock divide to FLEXCOMM0 (debug console) */
+	CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
 
-    BOARD_InitBootPins();
-    BOARD_BootClockFROHF96M();
-    BOARD_InitDebugConsole();
+	BOARD_InitBootPins();
+	BOARD_BootClockFROHF96M();
+	BOARD_InitDebugConsole();
 
-    /* Print the initial banner */
-    (void)PRINTF("\r\nFreeRTOS Message Buffers demo starts\r\n");
+	/* Print the initial banner */
+	(void)PRINTF("\r\nFreeRTOS Message Buffers demo starts\r\n");
 
-    xTaskCreateStatic(app_task, "APP_TASK", APP_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY + 1U, xStack, &xTaskBuffer);
+	xTaskCreateStatic(app_task, "APP_TASK", APP_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY + 1U,
+			  xStack, &xTaskBuffer);
 
-    vTaskStartScheduler();
+	vTaskStartScheduler();
 
-    (void)PRINTF("Failed to start FreeRTOS on core0.\r\n");
-    for (;;)
-    {
-    }
+	(void)PRINTF("Failed to start FreeRTOS on core0.\r\n");
+	for (;;) {
+	}
 }

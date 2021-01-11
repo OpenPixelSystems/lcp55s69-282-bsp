@@ -30,23 +30,22 @@
  */
 int main(void)
 {
-    char ch;
+	char ch;
 
-    /* Init board hardware. */
-    /* set BOD VBAT level to 1.65V */
-    POWER_SetBodVbatLevel(kPOWER_BodVbatLevel1650mv, kPOWER_BodHystLevel50mv, false);
-    /* attach main clock divide to FLEXCOMM0 (debug console) */
-    CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
+	/* Init board hardware. */
+	/* set BOD VBAT level to 1.65V */
+	POWER_SetBodVbatLevel(kPOWER_BodVbatLevel1650mv, kPOWER_BodHystLevel50mv, false);
+	/* attach main clock divide to FLEXCOMM0 (debug console) */
+	CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
 
-    BOARD_InitPins();
-    BOARD_InitBootClocks();
-    BOARD_InitDebugConsole();
+	BOARD_InitPins();
+	BOARD_InitBootClocks();
+	BOARD_InitDebugConsole();
 
-    PRINTF("hello world.\r\n");
+	PRINTF("hello world.\r\n");
 
-    while (1)
-    {
-        ch = GETCHAR();
-        PUTCHAR(ch);
-    }
+	while (1) {
+		ch = GETCHAR();
+		PUTCHAR(ch);
+	}
 }

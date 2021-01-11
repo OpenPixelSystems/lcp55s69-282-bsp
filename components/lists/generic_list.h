@@ -16,10 +16,10 @@
  */
 
 /*!*********************************************************************************
-*************************************************************************************
-* Include
-*************************************************************************************
-********************************************************************************** */
+ *************************************************************************************
+ * Include
+ *************************************************************************************
+ ********************************************************************************** */
 
 /*! *********************************************************************************
 *************************************************************************************
@@ -35,38 +35,34 @@
 *************************************************************************************
 ********************************************************************************** */
 /*! @brief The list status */
-typedef enum _list_status
-{
-    kLIST_Ok             = kStatus_Success,                   /*!< Success */
-    kLIST_DuplicateError = MAKE_STATUS(kStatusGroup_LIST, 1), /*!< Duplicate Error */
-    kLIST_Full           = MAKE_STATUS(kStatusGroup_LIST, 2), /*!< FULL */
-    kLIST_Empty          = MAKE_STATUS(kStatusGroup_LIST, 3), /*!< Empty */
-    kLIST_OrphanElement  = MAKE_STATUS(kStatusGroup_LIST, 4), /*!< Orphan Element */
-    kLIST_NotSupport     = MAKE_STATUS(kStatusGroup_LIST, 5), /*!< Not Support  */
+typedef enum _list_status {
+	kLIST_Ok		= kStatus_Success,                      /*!< Success */
+	kLIST_DuplicateError	= MAKE_STATUS(kStatusGroup_LIST, 1),    /*!< Duplicate Error */
+	kLIST_Full		= MAKE_STATUS(kStatusGroup_LIST, 2),    /*!< FULL */
+	kLIST_Empty		= MAKE_STATUS(kStatusGroup_LIST, 3),    /*!< Empty */
+	kLIST_OrphanElement	= MAKE_STATUS(kStatusGroup_LIST, 4),    /*!< Orphan Element */
+	kLIST_NotSupport	= MAKE_STATUS(kStatusGroup_LIST, 5),    /*!< Not Support  */
 } list_status_t;
 
 /*! @brief The list structure*/
-typedef struct list_label
-{
-    struct list_element_tag *head; /*!< list head */
-    struct list_element_tag *tail; /*!< list tail */
-    uint16_t size;                 /*!< list size */
-    uint16_t max;                  /*!< list max number of elements */
+typedef struct list_label {
+	struct list_element_tag *	head;   /*!< list head */
+	struct list_element_tag *	tail;   /*!< list tail */
+	uint16_t			size;   /*!< list size */
+	uint16_t			max;    /*!< list max number of elements */
 } list_label_t, *list_handle_t;
 #if (defined(GENERIC_LIST_LIGHT) && (GENERIC_LIST_LIGHT > 0U))
 /*! @brief The list element*/
-typedef struct list_element_tag
-{
-    struct list_element_tag *next; /*!< next list element   */
-    struct list_label *list;       /*!< pointer to the list */
+typedef struct list_element_tag {
+	struct list_element_tag *	next;   /*!< next list element   */
+	struct list_label *		list;   /*!< pointer to the list */
 } list_element_t, *list_element_handle_t;
 #else
 /*! @brief The list element*/
-typedef struct list_element_tag
-{
-    struct list_element_tag *next; /*!< next list element   */
-    struct list_element_tag *prev; /*!< previous list element */
-    struct list_label *list;       /*!< pointer to the list */
+typedef struct list_element_tag {
+	struct list_element_tag *	next;   /*!< next list element   */
+	struct list_element_tag *	prev;   /*!< previous list element */
+	struct list_label *		list;   /*!< pointer to the list */
 } list_element_t, *list_element_handle_t;
 #endif
 /*! *********************************************************************************

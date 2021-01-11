@@ -93,177 +93,159 @@
 #define WM8904_I2C_BITRATE (400000U)
 
 /*! @brief WM8904 status return codes. */
-enum _wm8904_status
-{
-    kStatus_WM8904_Success = 0x0, /*!< Success */
-    kStatus_WM8904_Fail    = 0x1  /*!< Failure */
+enum _wm8904_status {
+	kStatus_WM8904_Success	= 0x0,  /*!< Success */
+	kStatus_WM8904_Fail	= 0x1   /*!< Failure */
 };
 
 /*! @brief WM8904  lrc polarity. */
-enum _wm8904_lrc_polarity
-{
-    kWM8904_LRCPolarityNormal   = 0U,       /*!< LRC polarity  normal */
-    kWM8904_LRCPolarityInverted = 1U << 4U, /*!< LRC polarity inverted */
+enum _wm8904_lrc_polarity {
+	kWM8904_LRCPolarityNormal	= 0U,           /*!< LRC polarity  normal */
+	kWM8904_LRCPolarityInverted	= 1U << 4U,     /*!< LRC polarity inverted */
 };
 
 /*! @brief wm8904 module value*/
-typedef enum _wm8904_module
-{
-    kWM8904_ModuleADC       = 0, /*!< moduel ADC */
-    kWM8904_ModuleDAC       = 1, /*!< module DAC */
-    kWM8904_ModulePGA       = 2, /*!< module PGA */
-    kWM8904_ModuleHeadphone = 3, /*!< module headphone */
-    kWM8904_ModuleLineout   = 4, /*!< module line out */
+typedef enum _wm8904_module {
+	kWM8904_ModuleADC	= 0,    /*!< moduel ADC */
+	kWM8904_ModuleDAC	= 1,    /*!< module DAC */
+	kWM8904_ModulePGA	= 2,    /*!< module PGA */
+	kWM8904_ModuleHeadphone = 3,    /*!< module headphone */
+	kWM8904_ModuleLineout	= 4,    /*!< module line out */
 } wm8904_module_t;
 
 /*! @brief wm8904 play channel  */
-enum _wm8904_play_channel
-{
-    kWM8904_HeadphoneLeft  = 1U,
-    kWM8904_HeadphoneRight = 2U,
-    kWM8904_LineoutLeft    = 4U,
-    kWM8904_LineoutRight   = 8U,
+enum _wm8904_play_channel {
+	kWM8904_HeadphoneLeft	= 1U,
+	kWM8904_HeadphoneRight	= 2U,
+	kWM8904_LineoutLeft	= 4U,
+	kWM8904_LineoutRight	= 8U,
 };
 
 /*! @brief WM8904 time slot. */
-typedef enum _wm8904_timeslot
-{
-    kWM8904_TimeSlot0 = 0U, /*!< time slot0 */
-    kWM8904_TimeSlot1 = 1U, /*!< time slot1 */
+typedef enum _wm8904_timeslot {
+	kWM8904_TimeSlot0	= 0U,   /*!< time slot0 */
+	kWM8904_TimeSlot1	= 1U,   /*!< time slot1 */
 } wm8904_timeslot_t;
 
 /*! @brief The audio data transfer protocol. */
-typedef enum _wm8904_protocol
-{
-    kWM8904_ProtocolI2S            = 0x2,            /*!< I2S type */
-    kWM8904_ProtocolLeftJustified  = 0x1,            /*!< Left justified mode */
-    kWM8904_ProtocolRightJustified = 0x0,            /*!< Right justified mode */
-    kWM8904_ProtocolPCMA           = 0x3,            /*!< PCM A mode */
-    kWM8904_ProtocolPCMB           = 0x3 | (1 << 4), /*!< PCM B mode */
+typedef enum _wm8904_protocol {
+	kWM8904_ProtocolI2S		= 0x2,                  /*!< I2S type */
+	kWM8904_ProtocolLeftJustified	= 0x1,                  /*!< Left justified mode */
+	kWM8904_ProtocolRightJustified	= 0x0,                  /*!< Right justified mode */
+	kWM8904_ProtocolPCMA		= 0x3,                  /*!< PCM A mode */
+	kWM8904_ProtocolPCMB		= 0x3 | (1 << 4),       /*!< PCM B mode */
 } wm8904_protocol_t;
 
 /*! @brief The SYSCLK / fs ratio. */
-typedef enum _wm8904_fs_ratio
-{
-    kWM8904_FsRatio64X   = 0x0, /*!< SYSCLK is   64 * sample rate * frame width */
-    kWM8904_FsRatio128X  = 0x1, /*!< SYSCLK is  128 * sample rate * frame width */
-    kWM8904_FsRatio192X  = 0x2, /*!< SYSCLK is  192 * sample rate * frame width */
-    kWM8904_FsRatio256X  = 0x3, /*!< SYSCLK is  256 * sample rate * frame width */
-    kWM8904_FsRatio384X  = 0x4, /*!< SYSCLK is  384 * sample rate * frame width */
-    kWM8904_FsRatio512X  = 0x5, /*!< SYSCLK is  512 * sample rate * frame width */
-    kWM8904_FsRatio768X  = 0x6, /*!< SYSCLK is  768 * sample rate * frame width */
-    kWM8904_FsRatio1024X = 0x7, /*!< SYSCLK is 1024 * sample rate * frame width */
-    kWM8904_FsRatio1408X = 0x8, /*!< SYSCLK is 1408 * sample rate * frame width */
-    kWM8904_FsRatio1536X = 0x9  /*!< SYSCLK is 1536 * sample rate * frame width */
+typedef enum _wm8904_fs_ratio {
+	kWM8904_FsRatio64X	= 0x0,  /*!< SYSCLK is   64 * sample rate * frame width */
+	kWM8904_FsRatio128X	= 0x1,  /*!< SYSCLK is  128 * sample rate * frame width */
+	kWM8904_FsRatio192X	= 0x2,  /*!< SYSCLK is  192 * sample rate * frame width */
+	kWM8904_FsRatio256X	= 0x3,  /*!< SYSCLK is  256 * sample rate * frame width */
+	kWM8904_FsRatio384X	= 0x4,  /*!< SYSCLK is  384 * sample rate * frame width */
+	kWM8904_FsRatio512X	= 0x5,  /*!< SYSCLK is  512 * sample rate * frame width */
+	kWM8904_FsRatio768X	= 0x6,  /*!< SYSCLK is  768 * sample rate * frame width */
+	kWM8904_FsRatio1024X	= 0x7,  /*!< SYSCLK is 1024 * sample rate * frame width */
+	kWM8904_FsRatio1408X	= 0x8,  /*!< SYSCLK is 1408 * sample rate * frame width */
+	kWM8904_FsRatio1536X	= 0x9   /*!< SYSCLK is 1536 * sample rate * frame width */
 } wm8904_fs_ratio_t;
 
 /*! @brief Sample rate. */
-typedef enum _wm8904_sample_rate
-{
-    kWM8904_SampleRate8kHz  = 0x0, /*!< 8 kHz */
-    kWM8904_SampleRate12kHz = 0x1, /*!< 11.025kHz, 12kHz */
-    kWM8904_SampleRate16kHz = 0x2, /*!< 16kHz */
-    kWM8904_SampleRate24kHz = 0x3, /*!< 22.05kHz, 24kHz */
-    kWM8904_SampleRate32kHz = 0x4, /*!< 32kHz */
-    kWM8904_SampleRate48kHz = 0x5  /*!< 44.1kHz, 48kHz */
+typedef enum _wm8904_sample_rate {
+	kWM8904_SampleRate8kHz	= 0x0,  /*!< 8 kHz */
+	kWM8904_SampleRate12kHz = 0x1,  /*!< 11.025kHz, 12kHz */
+	kWM8904_SampleRate16kHz = 0x2,  /*!< 16kHz */
+	kWM8904_SampleRate24kHz = 0x3,  /*!< 22.05kHz, 24kHz */
+	kWM8904_SampleRate32kHz = 0x4,  /*!< 32kHz */
+	kWM8904_SampleRate48kHz = 0x5   /*!< 44.1kHz, 48kHz */
 } wm8904_sample_rate_t;
 
 /*! @brief Bit width. */
-typedef enum _wm8904_bit_width
-{
-    kWM8904_BitWidth16 = 0x0, /*!< 16 bits */
-    kWM8904_BitWidth20 = 0x1, /*!< 20 bits */
-    kWM8904_BitWidth24 = 0x2, /*!< 24 bits */
-    kWM8904_BitWidth32 = 0x3  /*!< 32 bits */
+typedef enum _wm8904_bit_width {
+	kWM8904_BitWidth16	= 0x0,  /*!< 16 bits */
+	kWM8904_BitWidth20	= 0x1,  /*!< 20 bits */
+	kWM8904_BitWidth24	= 0x2,  /*!< 24 bits */
+	kWM8904_BitWidth32	= 0x3   /*!< 32 bits */
 } wm8904_bit_width_t;
 
 /*! @brief wm8904 record source */
-enum _wm8904_record_source
-{
-    kWM8904_RecordSourceDifferentialLine = 1U, /*!< record source from differential line */
-    kWM8904_RecordSourceLineInput        = 2U, /*!< record source from line input */
-    kWM8904_RecordSourceDifferentialMic  = 4U, /*!< record source from differential mic */
-    kWM8904_RecordSourceDigitalMic       = 8U, /*!< record source from digital microphone */
+enum _wm8904_record_source {
+	kWM8904_RecordSourceDifferentialLine	= 1U,   /*!< record source from differential line */
+	kWM8904_RecordSourceLineInput		= 2U,   /*!< record source from line input */
+	kWM8904_RecordSourceDifferentialMic	= 4U,   /*!< record source from differential mic */
+	kWM8904_RecordSourceDigitalMic		= 8U,   /*!< record source from digital microphone */
 };
 
 /*! @brief wm8904 record channel*/
-enum _wm8904_record_channel
-{
-    kWM8904_RecordChannelLeft1                 = 1U,  /*!< left record channel 1 */
-    kWM8904_RecordChannelLeft2                 = 2U,  /*!< left record channel 2 */
-    kWM8904_RecordChannelLeft3                 = 4U,  /*!< left record channel 3 */
-    kWM8904_RecordChannelRight1                = 1U,  /*!< right record channel 1 */
-    kWM8904_RecordChannelRight2                = 2U,  /*!< right record channel 2 */
-    kWM8904_RecordChannelRight3                = 4U,  /*!< right record channel 3 */
-    kWM8904_RecordChannelDifferentialPositive1 = 1U,  /*!< differential positive record channel 1 */
-    kWM8904_RecordChannelDifferentialPositive2 = 2U,  /*!< differential positive record channel 2 */
-    kWM8904_RecordChannelDifferentialPositive3 = 4U,  /*!< differential positive record channel 3 */
-    kWM8904_RecordChannelDifferentialNegative1 = 8U,  /*!< differential negative record channel 1 */
-    kWM8904_RecordChannelDifferentialNegative2 = 16U, /*!< differential negative record channel 2 */
-    kWM8904_RecordChannelDifferentialNegative3 = 32U, /*!< differential negative record channel 3 */
+enum _wm8904_record_channel {
+	kWM8904_RecordChannelLeft1			= 1U,   /*!< left record channel 1 */
+	kWM8904_RecordChannelLeft2			= 2U,   /*!< left record channel 2 */
+	kWM8904_RecordChannelLeft3			= 4U,   /*!< left record channel 3 */
+	kWM8904_RecordChannelRight1			= 1U,   /*!< right record channel 1 */
+	kWM8904_RecordChannelRight2			= 2U,   /*!< right record channel 2 */
+	kWM8904_RecordChannelRight3			= 4U,   /*!< right record channel 3 */
+	kWM8904_RecordChannelDifferentialPositive1	= 1U,   /*!< differential positive record channel 1 */
+	kWM8904_RecordChannelDifferentialPositive2	= 2U,   /*!< differential positive record channel 2 */
+	kWM8904_RecordChannelDifferentialPositive3	= 4U,   /*!< differential positive record channel 3 */
+	kWM8904_RecordChannelDifferentialNegative1	= 8U,   /*!< differential negative record channel 1 */
+	kWM8904_RecordChannelDifferentialNegative2	= 16U,  /*!< differential negative record channel 2 */
+	kWM8904_RecordChannelDifferentialNegative3	= 32U,  /*!< differential negative record channel 3 */
 };
 
 /*! @brief wm8904 play source*/
-enum _wm8904_play_source
-{
-    kWM8904_PlaySourcePGA = 1U, /*!< play source PGA, bypass ADC */
-    kWM8904_PlaySourceDAC = 4U, /*!< play source Input3 */
+enum _wm8904_play_source {
+	kWM8904_PlaySourcePGA	= 1U,   /*!< play source PGA, bypass ADC */
+	kWM8904_PlaySourceDAC	= 4U,   /*!< play source Input3 */
 };
 
 /*! @brief wm8904 system clock source */
-typedef enum _wm8904_sys_clk_source
-{
-    kWM8904_SysClkSourceMCLK = 0U,       /*!< wm8904 system clock soure from MCLK */
-    kWM8904_SysClkSourceFLL  = 1U << 14, /*!< wm8904 system clock soure from FLL */
+typedef enum _wm8904_sys_clk_source {
+	kWM8904_SysClkSourceMCLK	= 0U,           /*!< wm8904 system clock soure from MCLK */
+	kWM8904_SysClkSourceFLL		= 1U << 14,     /*!< wm8904 system clock soure from FLL */
 } wm8904_sys_clk_source_t;
 
 /*! @brief wm8904 fll clock source */
-typedef enum _wm8904_fll_clk_source
-{
-    kWM8904_FLLClkSourceMCLK = 0U, /*!< wm8904 FLL clock source from MCLK */
+typedef enum _wm8904_fll_clk_source {
+	kWM8904_FLLClkSourceMCLK = 0U, /*!< wm8904 FLL clock source from MCLK */
 } wm8904_fll_clk_source_t;
 
 /*! @brief wm8904 fll configuration */
-typedef struct _wm8904_fll_config
-{
-    wm8904_fll_clk_source_t source; /*!< fll reference clock source */
-    uint32_t refClock_HZ;           /*!< fll reference clock frequency */
-    uint32_t outputClock_HZ;        /*!< fll output clock frequency  */
+typedef struct _wm8904_fll_config {
+	wm8904_fll_clk_source_t source;         /*!< fll reference clock source */
+	uint32_t		refClock_HZ;    /*!< fll reference clock frequency */
+	uint32_t		outputClock_HZ; /*!< fll output clock frequency  */
 } wm8904_fll_config_t;
 
 /*! @brief Audio format configuration. */
-typedef struct _wm8904_audio_format
-{
-    wm8904_fs_ratio_t fsRatio;       /*!< SYSCLK / fs ratio */
-    wm8904_sample_rate_t sampleRate; /*!< Sample rate */
-    wm8904_bit_width_t bitWidth;     /*!< Bit width */
+typedef struct _wm8904_audio_format {
+	wm8904_fs_ratio_t	fsRatio;        /*!< SYSCLK / fs ratio */
+	wm8904_sample_rate_t	sampleRate;     /*!< Sample rate */
+	wm8904_bit_width_t	bitWidth;       /*!< Bit width */
 } wm8904_audio_format_t;
 
 /*! @brief Configuration structure of WM8904.*/
-typedef struct _wm8904_config
-{
-    bool master;                          /*!< Master or slave */
-    wm8904_sys_clk_source_t sysClkSource; /*!< system clock source */
-    wm8904_fll_config_t *fll;             /*!< fll configuration */
-    wm8904_protocol_t protocol;           /*!< Audio transfer protocol */
-    wm8904_audio_format_t format;         /*!< Audio format */
-    uint32_t mclk_HZ;                     /*!< MCLK frequency value */
+typedef struct _wm8904_config {
+	bool			master;                 /*!< Master or slave */
+	wm8904_sys_clk_source_t sysClkSource;           /*!< system clock source */
+	wm8904_fll_config_t *	fll;                    /*!< fll configuration */
+	wm8904_protocol_t	protocol;               /*!< Audio transfer protocol */
+	wm8904_audio_format_t	format;                 /*!< Audio format */
+	uint32_t		mclk_HZ;                /*!< MCLK frequency value */
 
-    uint16_t recordSource;       /*!< record source */
-    uint16_t recordChannelLeft;  /*!< record channel */
-    uint16_t recordChannelRight; /*!< record channel */
-    uint16_t playSource;         /*!< play source */
+	uint16_t		recordSource;           /*!< record source */
+	uint16_t		recordChannelLeft;      /*!< record channel */
+	uint16_t		recordChannelRight;     /*!< record channel */
+	uint16_t		playSource;             /*!< play source */
 
-    uint8_t slaveAddress;         /*!< code device slave address */
-    codec_i2c_config_t i2cConfig; /*!< i2c bus configuration */
+	uint8_t			slaveAddress;           /*!< code device slave address */
+	codec_i2c_config_t	i2cConfig;              /*!< i2c bus configuration */
 } wm8904_config_t;
 
 /*! @brief wm8904 codec handler
  */
-typedef struct _wm8904_handle
-{
-    wm8904_config_t *config;                    /*!< wm8904 config pointer */
-    uint8_t i2cHandle[WM8904_I2C_HANDLER_SIZE]; /*!< i2c handle */
+typedef struct _wm8904_handle {
+	wm8904_config_t *	config;                                 /*!< wm8904 config pointer */
+	uint8_t			i2cHandle[WM8904_I2C_HANDLER_SIZE];     /*!< i2c handle */
 } wm8904_handle_t;
 
 /*******************************************************************************
@@ -358,7 +340,8 @@ status_t WM8904_SetMasterSlave(wm8904_handle_t *handle, bool master);
  *
  * @return kStatus_WM8904_Success if successful, different code otherwise.
  */
-status_t WM8904_SeMasterClock(wm8904_handle_t *handle, uint32_t sysclk, uint32_t sampleRate, uint32_t bitWidth);
+status_t WM8904_SeMasterClock(wm8904_handle_t *handle, uint32_t sysclk, uint32_t sampleRate,
+			      uint32_t bitWidth);
 
 /*!
  * @brief WM8904 set PLL configuration
@@ -392,7 +375,8 @@ status_t WM8904_SetProtocol(wm8904_handle_t *handle, wm8904_protocol_t protocol)
  *
  * @return kStatus_WM8904_Success if successful, different code otherwise.
  */
-status_t WM8904_SetAudioFormat(wm8904_handle_t *handle, uint32_t sysclk, uint32_t sampleRate, uint32_t bitWidth);
+status_t WM8904_SetAudioFormat(wm8904_handle_t *handle, uint32_t sysclk, uint32_t sampleRate,
+			       uint32_t bitWidth);
 
 /*!
  * @brief check and update the audio data format.
@@ -404,7 +388,8 @@ status_t WM8904_SetAudioFormat(wm8904_handle_t *handle, uint32_t sysclk, uint32_
  *
  * @return kStatus_WM8904_Success if successful, different code otherwise.
  */
-status_t WM8904_CheckAudioFormat(wm8904_handle_t *handle, wm8904_audio_format_t *format, uint32_t mclkFreq);
+status_t WM8904_CheckAudioFormat(wm8904_handle_t *handle, wm8904_audio_format_t *format, uint32_t
+				 mclkFreq);
 
 /*!
  * @brief Sets the module output volume.
@@ -521,7 +506,8 @@ status_t WM8904_SetRecord(wm8904_handle_t *handle, uint32_t recordSource);
  *
  * @return kStatus_WM8904_Success if successful, different code otherwise..
  */
-status_t WM8904_SetRecordChannel(wm8904_handle_t *handle, uint32_t leftRecordChannel, uint32_t rightRecordChannel);
+status_t WM8904_SetRecordChannel(wm8904_handle_t *handle, uint32_t leftRecordChannel, uint32_t
+				 rightRecordChannel);
 
 /*!
  * @brief SET the WM8904 play source.

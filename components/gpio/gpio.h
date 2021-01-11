@@ -39,7 +39,8 @@
  *
  * @param name The name string of the gpio handle.
  */
-#define GPIO_HANDLE_DEFINE(name) uint32_t name[((HAL_GPIO_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t))]
+#define GPIO_HANDLE_DEFINE(name) uint32_t name[((HAL_GPIO_HANDLE_SIZE + sizeof(uint32_t) - 1U) / \
+						sizeof(uint32_t))]
 
 /*! @brief Definition of GPIO adapter isr priority. */
 #ifndef HAL_GPIO_ISR_PRIORITY
@@ -54,9 +55,9 @@
  * priority is 3 (2^2 - 1). So, the default value is 3.
  */
 #define HAL_GPIO_ISR_PRIORITY (3U)
-#endif /* defined(configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY) */
-#endif /* defined(__GIC_PRIO_BITS) */
-#endif /* HAL_GPIO_ISR_PRIORITY */
+#endif  /* defined(configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY) */
+#endif  /* defined(__GIC_PRIO_BITS) */
+#endif  /* HAL_GPIO_ISR_PRIORITY */
 
 /*******************************************************************************
  * Definitions
@@ -68,39 +69,35 @@ typedef void *hal_gpio_handle_t;
 typedef void (*hal_gpio_callback_t)(void *param);
 
 /*! @brief The interrupt trigger of GPIO adapter. */
-typedef enum _hal_gpio_interrupt_trigger
-{
-    kHAL_GpioInterruptDisable     = 0x0U, /*!< Interrupt disable. */
-    kHAL_GpioInterruptLogicZero   = 0x1U, /*!< Interrupt when logic zero. */
-    kHAL_GpioInterruptRisingEdge  = 0x2U, /*!< Interrupt on rising edge. */
-    kHAL_GpioInterruptFallingEdge = 0x3U, /*!< Interrupt on falling edge. */
-    kHAL_GpioInterruptEitherEdge  = 0x4U, /*!< Interrupt on either edge. */
-    kHAL_GpioInterruptLogicOne    = 0x5U, /*!< Interrupt when logic one. */
+typedef enum _hal_gpio_interrupt_trigger {
+	kHAL_GpioInterruptDisable	= 0x0U, /*!< Interrupt disable. */
+	kHAL_GpioInterruptLogicZero	= 0x1U, /*!< Interrupt when logic zero. */
+	kHAL_GpioInterruptRisingEdge	= 0x2U, /*!< Interrupt on rising edge. */
+	kHAL_GpioInterruptFallingEdge	= 0x3U, /*!< Interrupt on falling edge. */
+	kHAL_GpioInterruptEitherEdge	= 0x4U, /*!< Interrupt on either edge. */
+	kHAL_GpioInterruptLogicOne	= 0x5U, /*!< Interrupt when logic one. */
 } hal_gpio_interrupt_trigger_t;
 
 /*! @brief The status of GPIO adapter. */
-typedef enum _hal_gpio_status
-{
-    kStatus_HAL_GpioSuccess     = kStatus_Success,                       /*!< Success */
-    kStatus_HAL_GpioError       = MAKE_STATUS(kStatusGroup_HAL_GPIO, 1), /*!< Failed */
-    kStatus_HAL_GpioLackSource  = MAKE_STATUS(kStatusGroup_HAL_GPIO, 2), /*!< Lack of sources */
-    kStatus_HAL_GpioPinConflict = MAKE_STATUS(kStatusGroup_HAL_GPIO, 3), /*!< PIN conflict */
+typedef enum _hal_gpio_status {
+	kStatus_HAL_GpioSuccess		= kStatus_Success,                              /*!< Success */
+	kStatus_HAL_GpioError		= MAKE_STATUS(kStatusGroup_HAL_GPIO, 1),        /*!< Failed */
+	kStatus_HAL_GpioLackSource	= MAKE_STATUS(kStatusGroup_HAL_GPIO, 2),        /*!< Lack of sources */
+	kStatus_HAL_GpioPinConflict	= MAKE_STATUS(kStatusGroup_HAL_GPIO, 3),        /*!< PIN conflict */
 } hal_gpio_status_t;
 
 /*! @brief The direction of GPIO adapter. */
-typedef enum _hal_gpio_direction
-{
-    kHAL_GpioDirectionOut = 0x00U, /*!< Out */
-    kHAL_GpioDirectionIn,          /*!< In */
+typedef enum _hal_gpio_direction {
+	kHAL_GpioDirectionOut = 0x00U,  /*!< Out */
+	kHAL_GpioDirectionIn,           /*!< In */
 } hal_gpio_direction_t;
 
 /*! @brief The pin config struct of GPIO adapter. */
-typedef struct _hal_gpio_pin_config
-{
-    hal_gpio_direction_t direction;
-    uint8_t port;
-    uint8_t pin;
-    uint8_t level;
+typedef struct _hal_gpio_pin_config {
+	hal_gpio_direction_t	direction;
+	uint8_t			port;
+	uint8_t			pin;
+	uint8_t			level;
 } hal_gpio_pin_config_t;
 
 /*******************************************************************************
@@ -187,7 +184,8 @@ hal_gpio_status_t HAL_GpioSetOutput(hal_gpio_handle_t gpioHandle, uint8_t pinSta
  * @retval kStatus_HAL_GpioSuccess Get successfully.
  * @retval kStatus_HAL_GpioError The pin is the ouput setting.
  */
-hal_gpio_status_t HAL_GpioGetTriggerMode(hal_gpio_handle_t gpioHandle, hal_gpio_interrupt_trigger_t *gpioTrigger);
+hal_gpio_status_t HAL_GpioGetTriggerMode(hal_gpio_handle_t		gpioHandle,
+					 hal_gpio_interrupt_trigger_t * gpioTrigger);
 
 /*!
  * @brief Sets the pin interrupt trigger mode.
@@ -201,7 +199,8 @@ hal_gpio_status_t HAL_GpioGetTriggerMode(hal_gpio_handle_t gpioHandle, hal_gpio_
  * @retval kStatus_HAL_GpioSuccess Set successfully.
  * @retval kStatus_HAL_GpioError The pin is the ouput setting.
  */
-hal_gpio_status_t HAL_GpioSetTriggerMode(hal_gpio_handle_t gpioHandle, hal_gpio_interrupt_trigger_t gpioTrigger);
+hal_gpio_status_t HAL_GpioSetTriggerMode(hal_gpio_handle_t gpioHandle, hal_gpio_interrupt_trigger_t
+					 gpioTrigger);
 
 /*!
  * @brief Installs a callback and callback parameter.
@@ -216,9 +215,8 @@ hal_gpio_status_t HAL_GpioSetTriggerMode(hal_gpio_handle_t gpioHandle, hal_gpio_
  * @param callbackParam The parameter of the callback function.
  * @retval kStatus_HAL_GpioSuccess Successfully install the callback.
  */
-hal_gpio_status_t HAL_GpioInstallCallback(hal_gpio_handle_t gpioHandle,
-                                          hal_gpio_callback_t callback,
-                                          void *callbackParam);
+hal_gpio_status_t HAL_GpioInstallCallback(hal_gpio_handle_t gpioHandle, hal_gpio_callback_t
+					  callback, void *callbackParam);
 
 /*!
  * @brief Enables or disables the GPIO wake-up feature.
@@ -257,6 +255,6 @@ hal_gpio_status_t HAL_GpioExitLowpower(hal_gpio_handle_t gpioHandle);
 
 #if defined(__cplusplus)
 }
-#endif /* __cplusplus */
+#endif  /* __cplusplus */
 /*! @}*/
-#endif /* __HAL_GPIO_H__ */
+#endif  /* __HAL_GPIO_H__ */

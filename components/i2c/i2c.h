@@ -24,51 +24,46 @@
 #define HAL_I2C_SLAVE_HANDLE_SIZE (88U)
 
 /*! @brief HAL I2C status. */
-typedef enum _hal_i2c_status
-{
-    kStatus_HAL_I2cSuccess         = kStatus_Success,                      /*!< Successfully */
-    kStatus_HAL_I2cError           = MAKE_STATUS(kStatusGroup_HAL_I2C, 1), /*!< Error occurs on HAL I2C */
-    kStatus_HAL_I2cBusy            = MAKE_STATUS(kStatusGroup_HAL_I2C, 2), /*!< HAL I2C is busy with current transfer */
-    kStatus_HAL_I2cIdle            = MAKE_STATUS(kStatusGroup_HAL_I2C, 3), /*!< HAL I2C transmitter is idle */
-    kStatus_HAL_I2cNak             = MAKE_STATUS(kStatusGroup_HAL_I2C, 4), /*!< NAK received during transfer */
-    kStatus_HAL_I2cArbitrationLost = MAKE_STATUS(kStatusGroup_HAL_I2C, 5), /*!< Arbitration lost during transfer */
-    kStatus_HAL_I2cTimeout         = MAKE_STATUS(kStatusGroup_HAL_I2C, 6), /*!< Timeout */
-    kStatus_HAL_I2cAddrressNak     = MAKE_STATUS(kStatusGroup_HAL_I2C, 7), /*!< NAK received during the address probe */
+typedef enum _hal_i2c_status {
+	kStatus_HAL_I2cSuccess		= kStatus_Success,                      /*!< Successfully */
+	kStatus_HAL_I2cError		= MAKE_STATUS(kStatusGroup_HAL_I2C, 1), /*!< Error occurs on HAL I2C */
+	kStatus_HAL_I2cBusy		= MAKE_STATUS(kStatusGroup_HAL_I2C, 2), /*!< HAL I2C is busy with current transfer */
+	kStatus_HAL_I2cIdle		= MAKE_STATUS(kStatusGroup_HAL_I2C, 3), /*!< HAL I2C transmitter is idle */
+	kStatus_HAL_I2cNak		= MAKE_STATUS(kStatusGroup_HAL_I2C, 4), /*!< NAK received during transfer */
+	kStatus_HAL_I2cArbitrationLost	= MAKE_STATUS(kStatusGroup_HAL_I2C, 5), /*!< Arbitration lost during transfer */
+	kStatus_HAL_I2cTimeout		= MAKE_STATUS(kStatusGroup_HAL_I2C, 6), /*!< Timeout */
+	kStatus_HAL_I2cAddrressNak	= MAKE_STATUS(kStatusGroup_HAL_I2C, 7), /*!< NAK received during the address probe */
 } hal_i2c_status_t;
 
 /*! @brief HAL I2C master user configuration. */
-typedef struct _hal_i2c_master_config
-{
-    uint32_t srcClock_Hz;  /*!< Clock source for I2C in Hz */
-    uint32_t baudRate_Bps; /*!< Baud rate configuration of HAL I2C peripheral. */
-    bool enableMaster;     /*!< Enables the HAL I2C peripheral at initialization time. */
-    uint8_t instance;      /*!< Instance of the i2c */
+typedef struct _hal_i2c_master_config {
+	uint32_t	srcClock_Hz;    /*!< Clock source for I2C in Hz */
+	uint32_t	baudRate_Bps;   /*!< Baud rate configuration of HAL I2C peripheral. */
+	bool		enableMaster;   /*!< Enables the HAL I2C peripheral at initialization time. */
+	uint8_t		instance;       /*!< Instance of the i2c */
 } hal_i2c_master_config_t;
 
 /*! @brief HAL I2C slave user configuration. */
-typedef struct _hal_i2c_slave_config
-{
-    uint32_t srcClock_Hz;  /*!< Clock source for I2C in Hz */
-    uint16_t slaveAddress; /*!< A slave address configuration. */
-    bool enableSlave;      /*!< Enables the HAL I2C peripheral at initialization time. */
-    uint8_t instance;      /*!< Instance of the i2c */
+typedef struct _hal_i2c_slave_config {
+	uint32_t	srcClock_Hz;    /*!< Clock source for I2C in Hz */
+	uint16_t	slaveAddress;   /*!< A slave address configuration. */
+	bool		enableSlave;    /*!< Enables the HAL I2C peripheral at initialization time. */
+	uint8_t		instance;       /*!< Instance of the i2c */
 } hal_i2c_slave_config_t;
 
 /*! @brief Direction of master and slave transfers. */
-typedef enum _hal_i2c_direction
-{
-    kHAL_I2cWrite = 0U, /*!< Master transmit. */
-    kHAL_I2cRead  = 1U  /*!< Master receive. */
+typedef enum _hal_i2c_direction {
+	kHAL_I2cWrite	= 0U,   /*!< Master transmit. */
+	kHAL_I2cRead	= 1U    /*!< Master receive. */
 } hal_i2c_direction_t;
 
 /*! @brief I2C transfer control flag. */
-typedef enum _hal_i2c_master_transfer_flag
-{
-    kHAL_I2cTransferDefaultFlag = 0x0U,       /*!< A transfer starts with a start signal, stops with a stop signal. */
-    kHAL_I2cTransferNoStartFlag = 0x1U,       /*!< A transfer starts without a start signal, only support write only or
-                                        write+read with no start flag, do not support read only with no start flag. */
-    kHAL_I2cTransferRepeatedStartFlag = 0x2U, /*!< A transfer starts with a repeated start signal. */
-    kHAL_I2cTransferNoStopFlag        = 0x4U, /*!< A transfer ends without a stop signal. */
+typedef enum _hal_i2c_master_transfer_flag {
+	kHAL_I2cTransferDefaultFlag		= 0x0U, /*!< A transfer starts with a start signal, stops with a stop signal. */
+	kHAL_I2cTransferNoStartFlag		= 0x1U, /*!< A transfer starts without a start signal, only support write only or
+	                                                 * write+read with no start flag, do not support read only with no start flag. */
+	kHAL_I2cTransferRepeatedStartFlag	= 0x2U, /*!< A transfer starts with a repeated start signal. */
+	kHAL_I2cTransferNoStopFlag		= 0x4U, /*!< A transfer ends without a stop signal. */
 } hal_i2c_master_transfer_flag_t;
 
 /*!
@@ -81,45 +76,44 @@ typedef enum _hal_i2c_master_transfer_flag
  *
  * @note These enumerations are meant to be OR'd together to form a bit mask of events.
  */
-typedef enum _hal_i2c_slave_transfer_event
-{
-    kHAL_I2cSlaveAddressMatchEvent = 0x01U, /*!< Received the slave address after a start or repeated start. */
-    kHAL_I2cSlaveTransmitEvent     = 0x02U, /*!< A callback is requested to provide data to transmit
-                                                (slave-transmitter role). */
-    kHAL_I2cSlaveReceiveEvent = 0x04U,      /*!< A callback is requested to provide a buffer in which to place received
-                                                 data (slave-receiver role). */
-    kHAL_I2cSlaveTransmitAckEvent = 0x08U,  /*!< A callback needs to either transmit an ACK or NACK. */
-    kHAL_I2cSlaveCompletionEvent  = 0x20U,  /*!< A stop was detected or finished transfer, completing the transfer. */
-    kHAL_I2cSlaveStartEvent       = 0x10U,  /*!< A start/repeated start was detected. */
-    kHAL_I2cSlaveGenaralcallEvent = 0x40U,  /*!< Received the general call address after a start or repeated start. */
-    /*! A bit mask of all available events. */
-    kHAL_I2cSlaveAllEvents = kHAL_I2cSlaveAddressMatchEvent | kHAL_I2cSlaveTransmitEvent | kHAL_I2cSlaveReceiveEvent |
-                             kHAL_I2cSlaveTransmitAckEvent | kHAL_I2cSlaveCompletionEvent | kHAL_I2cSlaveStartEvent |
-                             kHAL_I2cSlaveGenaralcallEvent,
+typedef enum _hal_i2c_slave_transfer_event {
+	kHAL_I2cSlaveAddressMatchEvent	= 0x01U,        /*!< Received the slave address after a start or repeated start. */
+	kHAL_I2cSlaveTransmitEvent	= 0x02U,        /*!< A callback is requested to provide data to transmit
+	                                                 *  (slave-transmitter role). */
+	kHAL_I2cSlaveReceiveEvent	= 0x04U,        /*!< A callback is requested to provide a buffer in which to place received
+	                                                 *   data (slave-receiver role). */
+	kHAL_I2cSlaveTransmitAckEvent	= 0x08U,        /*!< A callback needs to either transmit an ACK or NACK. */
+	kHAL_I2cSlaveCompletionEvent	= 0x20U,        /*!< A stop was detected or finished transfer, completing the transfer. */
+	kHAL_I2cSlaveStartEvent		= 0x10U,        /*!< A start/repeated start was detected. */
+	kHAL_I2cSlaveGenaralcallEvent	= 0x40U,        /*!< Received the general call address after a start or repeated start. */
+	/*! A bit mask of all available events. */
+	kHAL_I2cSlaveAllEvents		= kHAL_I2cSlaveAddressMatchEvent |
+					  kHAL_I2cSlaveTransmitEvent | kHAL_I2cSlaveReceiveEvent |
+					  kHAL_I2cSlaveTransmitAckEvent |
+					  kHAL_I2cSlaveCompletionEvent | kHAL_I2cSlaveStartEvent |
+					  kHAL_I2cSlaveGenaralcallEvent,
 } hal_i2c_slave_transfer_event_t;
 
 /*! @brief HAL I2C master transfer structure. */
-typedef struct _hal_i2c_master_transfer
-{
-    uint8_t *volatile data;        /*!< A transfer buffer. */
-    volatile size_t dataSize;      /*!< A transfer size. */
-    uint32_t flags;                /*!< A transfer flag which controls the transfer. */
-    uint32_t subaddress;           /*!< A sub address. Transferred MSB first. */
-    uint8_t subaddressSize;        /*!< A size of the command buffer. */
-    uint8_t slaveAddress;          /*!< 7-bit slave address. */
-    hal_i2c_direction_t direction; /*!< A transfer direction, read or write. */
+typedef struct _hal_i2c_master_transfer {
+	uint8_t *volatile	data;           /*!< A transfer buffer. */
+	volatile size_t		dataSize;       /*!< A transfer size. */
+	uint32_t		flags;          /*!< A transfer flag which controls the transfer. */
+	uint32_t		subaddress;     /*!< A sub address. Transferred MSB first. */
+	uint8_t			subaddressSize; /*!< A size of the command buffer. */
+	uint8_t			slaveAddress;   /*!< 7-bit slave address. */
+	hal_i2c_direction_t	direction;      /*!< A transfer direction, read or write. */
 } hal_i2c_master_transfer_t;
 
 /*! @brief HAL I2C slave transfer structure. */
-typedef struct _hal_i2c_slave_transfer
-{
-    hal_i2c_slave_transfer_event_t event; /*!< A reason that the callback is invoked. */
-    uint8_t *volatile data;               /*!< A transfer buffer. */
-    volatile size_t dataSize;             /*!< A transfer size. */
-    hal_i2c_status_t completionStatus;    /*!< Success or error code describing how the transfer completed. Only applies
-                                     for    #kHAL_I2cSlaveCompletionEvent. */
-    size_t transferredCount; /*!< A number of bytes actually transferred since the start or since the last repeated
-                                start. */
+typedef struct _hal_i2c_slave_transfer {
+	hal_i2c_slave_transfer_event_t	event;                  /*!< A reason that the callback is invoked. */
+	uint8_t *volatile		data;                   /*!< A transfer buffer. */
+	volatile size_t			dataSize;               /*!< A transfer size. */
+	hal_i2c_status_t		completionStatus;       /*!< Success or error code describing how the transfer completed. Only applies
+	                                                         * for    #kHAL_I2cSlaveCompletionEvent. */
+	size_t				transferredCount;       /*!< A number of bytes actually transferred since the start or since the last repeated
+	                                                         * start. */
 } hal_i2c_slave_transfer_t;
 
 /*! @brief HAL I2C master handle. */
@@ -144,7 +138,7 @@ typedef void *hal_i2c_slave_handle_t;
  * @param name The name string of the I2C master handle.
  */
 #define HAL_I2C_MASTER_HANDLE_DEFINE(name) \
-    uint32_t name[(HAL_I2C_MASTER_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
+	uint32_t name[(HAL_I2C_MASTER_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
 
 /*!
  * @brief Defines the I2C slave handle
@@ -162,7 +156,7 @@ typedef void *hal_i2c_slave_handle_t;
  * @param name The name string of the I2C slave handle.
  */
 #define HAL_I2C_SLAVE_HANDLE_DEFINE(name) \
-    uint32_t name[(HAL_I2C_SLAVE_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
+	uint32_t name[(HAL_I2C_SLAVE_HANDLE_SIZE + sizeof(uint32_t) - 1U) / sizeof(uint32_t)]
 
 /*!
  * @brief Master completion callback function pointer type.
@@ -174,9 +168,8 @@ typedef void *hal_i2c_slave_handle_t;
  * @param completionStatus Either #kStatus_HAL_I2cSuccess or an error code describing how the transfer completed.
  * @param callbackParam Arbitrary pointer-sized value passed from the application.
  */
-typedef void (*hal_i2c_master_transfer_callback_t)(hal_i2c_master_handle_t handle,
-                                                   hal_i2c_status_t completionStatus,
-                                                   void *callbackParam);
+typedef void (*hal_i2c_master_transfer_callback_t)(hal_i2c_master_handle_t handle, hal_i2c_status_t
+						   completionStatus, void *callbackParam);
 
 /*!
  * @brief Slave event callback function pointer type.
@@ -188,9 +181,9 @@ typedef void (*hal_i2c_master_transfer_callback_t)(hal_i2c_master_handle_t handl
  * @param transfer Pointer to transfer descriptor containing values passed to and/or from the callback.
  * @param callbackParam Arbitrary pointer-sized value passed from the application.
  */
-typedef void (*hal_i2c_slave_transfer_callback_t)(hal_i2c_slave_handle_t handle,
-                                                  hal_i2c_slave_transfer_t *transfer,
-                                                  void *callbackParam);
+typedef void (*hal_i2c_slave_transfer_callback_t)(hal_i2c_slave_handle_t	handle,
+						  hal_i2c_slave_transfer_t *	transfer,
+						  void *			callbackParam);
 
 /*******************************************************************************
  * API
@@ -236,7 +229,8 @@ extern "C" {
  * @retval kStatus_HAL_I2cError An error occurred.
  * @retval kStatus_HAL_I2cSuccess i2c master initialization succeed
  */
-hal_i2c_status_t HAL_I2cMasterInit(hal_i2c_master_handle_t handle, const hal_i2c_master_config_t *config);
+hal_i2c_status_t HAL_I2cMasterInit(hal_i2c_master_handle_t handle, const
+				   hal_i2c_master_config_t *config);
 
 /*!
  * @brief Initializes the HAL I2C peripheral.
@@ -269,7 +263,8 @@ hal_i2c_status_t HAL_I2cMasterInit(hal_i2c_master_handle_t handle, const hal_i2c
  * @retval kStatus_HAL_I2cError An error occurred.
  * @retval kStatus_HAL_I2cSuccess i2c slave initialization succeed
  */
-hal_i2c_status_t HAL_I2cSlaveInit(hal_i2c_slave_handle_t handle, const hal_i2c_slave_config_t *config);
+hal_i2c_status_t HAL_I2cSlaveInit(hal_i2c_slave_handle_t handle, const
+				  hal_i2c_slave_config_t *config);
 
 /*!
  * @brief De-initializes the HAL I2C master peripheral. Call this API to gate the HAL I2C clock.
@@ -307,10 +302,8 @@ hal_i2c_status_t HAL_I2cSlaveDeinit(hal_i2c_slave_handle_t handle);
  * @retval kStatus_HAL_I2cArbitrationLost Transfer error, arbitration lost.
  * @retval kStatus_HAL_I2cNak Transfer error, receive NAK during transfer.
  */
-hal_i2c_status_t HAL_I2cMasterWriteBlocking(hal_i2c_master_handle_t handle,
-                                            const uint8_t *txBuff,
-                                            size_t txSize,
-                                            uint32_t flags);
+hal_i2c_status_t HAL_I2cMasterWriteBlocking(hal_i2c_master_handle_t handle, const uint8_t *txBuff,
+					    size_t txSize, uint32_t flags);
 
 /*!
  * @brief Performs a polling receive transaction on the HAL I2C bus.
@@ -327,10 +320,8 @@ hal_i2c_status_t HAL_I2cMasterWriteBlocking(hal_i2c_master_handle_t handle,
  * @retval kStatus_HAL_I2cSuccess Successfully complete the data transmission.
  * @retval kStatus_HAL_I2cTimeout Send stop signal failed, timeout.
  */
-hal_i2c_status_t HAL_I2cMasterReadBlocking(hal_i2c_master_handle_t handle,
-                                           uint8_t *rxBuff,
-                                           size_t rxSize,
-                                           uint32_t flags);
+hal_i2c_status_t HAL_I2cMasterReadBlocking(hal_i2c_master_handle_t handle, uint8_t *rxBuff, size_t
+					   rxSize, uint32_t flags);
 
 /*!
  * @brief Performs a polling send transaction on the HAL I2C bus.
@@ -342,7 +333,8 @@ hal_i2c_status_t HAL_I2cMasterReadBlocking(hal_i2c_master_handle_t handle,
  * @retval kStatus_HAL_I2cArbitrationLost Transfer error, arbitration lost.
  * @retval kStatus_HAL_I2cNak Transfer error, receive NAK during transfer.
  */
-hal_i2c_status_t HAL_I2cSlaveWriteBlocking(hal_i2c_slave_handle_t handle, const uint8_t *txBuff, size_t txSize);
+hal_i2c_status_t HAL_I2cSlaveWriteBlocking(hal_i2c_slave_handle_t handle, const uint8_t *txBuff,
+					   size_t txSize);
 
 /*!
  * @brief Performs a polling receive transaction on the HAL I2C bus.
@@ -353,7 +345,8 @@ hal_i2c_status_t HAL_I2cSlaveWriteBlocking(hal_i2c_slave_handle_t handle, const 
  * @retval kStatus_HAL_I2cSuccess Successfully complete data receive.
  * @retval kStatus_HAL_I2cTimeout Wait status flag timeout.
  */
-hal_i2c_status_t HAL_I2cSlaveReadBlocking(hal_i2c_slave_handle_t handle, uint8_t *rxBuff, size_t rxSize);
+hal_i2c_status_t HAL_I2cSlaveReadBlocking(hal_i2c_slave_handle_t handle, uint8_t *rxBuff, size_t
+					  rxSize);
 
 /*!
  * @brief Performs a master polling transfer on the HAL I2C bus.
@@ -369,7 +362,8 @@ hal_i2c_status_t HAL_I2cSlaveReadBlocking(hal_i2c_slave_handle_t handle, uint8_t
  * @retval kStatus_HAL_I2cArbitrationLost Transfer error, arbitration lost.
  * @retval kStatus_HAL_I2cNak Transfer error, receive NAK during transfer.
  */
-hal_i2c_status_t HAL_I2cMasterTransferBlocking(hal_i2c_master_handle_t handle, hal_i2c_master_transfer_t *xfer);
+hal_i2c_status_t HAL_I2cMasterTransferBlocking(hal_i2c_master_handle_t		handle,
+					       hal_i2c_master_transfer_t *	xfer);
 
 /*! @} */
 
@@ -390,9 +384,10 @@ hal_i2c_status_t HAL_I2cMasterTransferBlocking(hal_i2c_master_handle_t handle, h
  * @param callbackParam user parameter passed to the callback function.
  * @retval kStatus_HAL_I2cSuccess i2c master handle created
  */
-hal_i2c_status_t HAL_I2cMasterTransferInstallCallback(hal_i2c_master_handle_t handle,
-                                                      hal_i2c_master_transfer_callback_t callback,
-                                                      void *callbackParam);
+hal_i2c_status_t HAL_I2cMasterTransferInstallCallback(hal_i2c_master_handle_t
+						      handle, hal_i2c_master_transfer_callback_t
+						      callback, void *
+						      callbackParam);
 
 /*!
  * @brief Performs a master interrupt non-blocking transfer on the HAL I2C bus.
@@ -408,7 +403,8 @@ hal_i2c_status_t HAL_I2cMasterTransferInstallCallback(hal_i2c_master_handle_t ha
  * @retval kStatus_HAL_I2cBusy Previous transmission still not finished.
  * @retval kStatus_HAL_I2cTimeout Transfer error, wait signal timeout.
  */
-hal_i2c_status_t HAL_I2cMasterTransferNonBlocking(hal_i2c_master_handle_t handle, hal_i2c_master_transfer_t *xfer);
+hal_i2c_status_t HAL_I2cMasterTransferNonBlocking(hal_i2c_master_handle_t	handle,
+						  hal_i2c_master_transfer_t *	xfer);
 
 /*!
  * @brief Gets the master transfer status during a interrupt non-blocking transfer.
@@ -444,9 +440,10 @@ hal_i2c_status_t HAL_I2cMasterTransferAbort(hal_i2c_master_handle_t handle);
  * @param callbackParam user parameter passed to the callback function.
  * @retval kStatus_HAL_I2cSuccess i2c slave handle created
  */
-hal_i2c_status_t HAL_I2cSlaveTransferInstallCallback(hal_i2c_slave_handle_t handle,
-                                                     hal_i2c_slave_transfer_callback_t callback,
-                                                     void *callbackParam);
+hal_i2c_status_t HAL_I2cSlaveTransferInstallCallback(hal_i2c_slave_handle_t		handle,
+						     hal_i2c_slave_transfer_callback_t	callback,
+						     void *
+						     callbackParam);
 
 /*!
  * @brief Starts accepting slave transfers.

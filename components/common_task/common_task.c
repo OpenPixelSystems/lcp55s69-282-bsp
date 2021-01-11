@@ -24,11 +24,10 @@
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
-typedef struct _common_task_state
-{
-    OSA_TASK_HANDLE_DEFINE(commonTaskHandle);
-    OSA_MSGQ_HANDLE_DEFINE(msgqhandle, COMMON_TASK_MAX_MSGQ_COUNT, sizeof(void *));
-    uint8_t isInitialized;
+typedef struct _common_task_state {
+	OSA_TASK_HANDLE_DEFINE(commonTaskHandle);
+	OSA_MSGQ_HANDLE_DEFINE(msgqhandle, COMMON_TASK_MAX_MSGQ_COUNT, sizeof(void *));
+	uint8_t isInitialized;
 } common_task_state_t;
 
 /*******************************************************************************
@@ -48,70 +47,67 @@ OSA_TASK_DEFINE(COMMON_TASK_task, COMMON_TASK_PRIORITY, 1, COMMON_TASK_STACK_SIZ
 /*******************************************************************************
  * Code
  ******************************************************************************/
-
 void COMMON_TASK_task(osa_task_param_t param)
 {
-    common_task_state_t *commonTaskStateHandle = (common_task_state_t *)param;
-    common_task_message_t *msg;
-    do
-    {
-        if (KOSA_StatusSuccess ==
-            OSA_MsgQGet((osa_msgq_handle_t)commonTaskStateHandle->msgqhandle, &msg, osaWaitForever_c))
-        {
-            if (msg->callback)
-            {
-                msg->callback(msg->callbackParam);
-            }
-        }
-    } while (gUseRtos_c);
+	common_task_state_t *commonTaskStateHandle = (common_task_state_t *)param;
+	common_task_message_t *msg;
+	do{
+		if (KOSA_StatusSuccess ==
+		    OSA_MsgQGet((osa_msgq_handle_t)commonTaskStateHandle->msgqhandle, &msg,
+				osaWaitForever_c)) {
+			if (msg->callback) {
+				msg->callback(msg->callbackParam);
+			}
+		}
+	} while (gUseRtos_c);
 }
 
 common_task_status_t COMMON_TASK_init(void)
 {
-    osa_status_t status;
+	osa_status_t status;
 
-    if (s_commonTaskState->isInitialized)
-    {
-        return kStatus_COMMON_TASK_Error;
-    }
-    s_commonTaskState->isInitialized = 1U;
+	if (s_commonTaskState->isInitialized) {
+		return kStatus_COMMON_TASK_Error;
+	}
+	s_commonTaskState->isInitialized = 1U;
 
-    status =
-        OSA_MsgQCreate((osa_msgq_handle_t)s_commonTaskState->msgqhandle, COMMON_TASK_MAX_MSGQ_COUNT, sizeof(void *));
-    assert(KOSA_StatusSuccess == status);
+	status =
+		OSA_MsgQCreate((osa_msgq_handle_t)s_commonTaskState->msgqhandle,
+			       COMMON_TASK_MAX_MSGQ_COUNT, sizeof(void *));
+	assert(KOSA_StatusSuccess == status);
 
-    status = OSA_TaskCreate((osa_task_handle_t)s_commonTaskState->commonTaskHandle, OSA_TASK(COMMON_TASK_task),
-                            s_commonTaskState);
-    assert(KOSA_StatusSuccess == status);
-    (void)status;
+	status = OSA_TaskCreate((osa_task_handle_t)s_commonTaskState->commonTaskHandle, OSA_TASK(
+					COMMON_TASK_task),
+				s_commonTaskState);
+	assert(KOSA_StatusSuccess == status);
+	(void)status;
 
-    return kStatus_COMMON_TASK_Success;
+	return kStatus_COMMON_TASK_Success;
 }
 
 common_task_status_t COMMON_TASK_deinit(void)
 {
-    if (!s_commonTaskState->isInitialized)
-    {
-        return kStatus_COMMON_TASK_Error;
-    }
+	if (!s_commonTaskState->isInitialized) {
+		return kStatus_COMMON_TASK_Error;
+	}
 
-    OSA_MsgQDestroy((osa_msgq_handle_t)s_commonTaskState->msgqhandle);
-    OSA_TaskDestroy((osa_task_handle_t)s_commonTaskState->commonTaskHandle);
-    s_commonTaskState->isInitialized = 0U;
+	OSA_MsgQDestroy((osa_msgq_handle_t)s_commonTaskState->msgqhandle);
+	OSA_TaskDestroy((osa_task_handle_t)s_commonTaskState->commonTaskHandle);
+	s_commonTaskState->isInitialized = 0U;
 
-    return kStatus_COMMON_TASK_Success;
+	return kStatus_COMMON_TASK_Success;
 }
 
 common_task_status_t COMMON_TASK_post_message(common_task_message_t *msg)
 {
-    assert(msg);
-    assert(msg->callback);
-    assert(s_commonTaskState->isInitialized);
+	assert(msg);
+	assert(msg->callback);
+	assert(s_commonTaskState->isInitialized);
 
-    if (KOSA_StatusSuccess != OSA_MsgQPut((osa_msgq_handle_t)s_commonTaskState->msgqhandle, &msg))
-    {
-        return kStatus_COMMON_TASK_Error;
-    }
-    return kStatus_COMMON_TASK_Success;
+	if (KOSA_StatusSuccess != OSA_MsgQPut((osa_msgq_handle_t)s_commonTaskState->msgqhandle,
+					      &msg)) {
+		return kStatus_COMMON_TASK_Error;
+	}
+	return kStatus_COMMON_TASK_Success;
 }
 #endif

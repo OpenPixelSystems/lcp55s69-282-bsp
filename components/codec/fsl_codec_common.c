@@ -31,12 +31,12 @@
  */
 status_t CODEC_Init(codec_handle_t *handle, codec_config_t *config)
 {
-    assert((config != NULL) && (handle != NULL));
+	assert((config != NULL) && (handle != NULL));
 
-    /* Set the handle information */
-    handle->codecConfig = config;
+	/* Set the handle information */
+	handle->codecConfig = config;
 
-    return HAL_CODEC_Init(handle, config);
+	return HAL_CODEC_Init(handle, config);
 }
 
 /*!
@@ -47,9 +47,9 @@ status_t CODEC_Init(codec_handle_t *handle, codec_config_t *config)
  */
 status_t CODEC_Deinit(codec_handle_t *handle)
 {
-    assert((handle != NULL) && (handle->codecConfig != NULL));
+	assert((handle != NULL) && (handle->codecConfig != NULL));
 
-    return HAL_CODEC_Deinit(handle);
+	return HAL_CODEC_Deinit(handle);
 }
 
 /*!
@@ -61,11 +61,12 @@ status_t CODEC_Deinit(codec_handle_t *handle)
  * param bitWidth bit width.
  * return kStatus_Success is success, else configure failed.
  */
-status_t CODEC_SetFormat(codec_handle_t *handle, uint32_t mclk, uint32_t sampleRate, uint32_t bitWidth)
+status_t CODEC_SetFormat(codec_handle_t *handle, uint32_t mclk, uint32_t sampleRate, uint32_t
+			 bitWidth)
 {
-    assert((handle != NULL) && (handle->codecConfig != NULL));
+	assert((handle != NULL) && (handle->codecConfig != NULL));
 
-    return HAL_CODEC_SetFormat(handle, mclk, sampleRate, bitWidth);
+	return HAL_CODEC_SetFormat(handle, mclk, sampleRate, bitWidth);
 }
 
 /*!
@@ -83,23 +84,22 @@ status_t CODEC_SetFormat(codec_handle_t *handle, uint32_t mclk, uint32_t sampleR
  */
 status_t CODEC_ModuleControl(codec_handle_t *handle, codec_module_ctrl_cmd_t cmd, uint32_t data)
 {
-    assert((handle != NULL) && (handle->codecConfig != NULL));
-    assert(handle->codecCapability != NULL);
+	assert((handle != NULL) && (handle->codecConfig != NULL));
+	assert(handle->codecCapability != NULL);
 
-    switch (cmd)
-    {
-        case kCODEC_ModuleSwitchI2SInInterface:
-            if ((handle->codecCapability->codecModuleCapability & kCODEC_SupportModuleI2SInSwitchInterface) == 0U)
-            {
-                return kStatus_CODEC_NotSupport;
-            }
-            break;
+	switch (cmd) {
+	case kCODEC_ModuleSwitchI2SInInterface:
+		if ((handle->codecCapability->codecModuleCapability &
+		     kCODEC_SupportModuleI2SInSwitchInterface) == 0U) {
+			return kStatus_CODEC_NotSupport;
+		}
+		break;
 
-        default:
-            return kStatus_CODEC_NotSupport;
-    }
+	default:
+		return kStatus_CODEC_NotSupport;
+	}
 
-    return HAL_CODEC_ModuleControl(handle, (uint32_t)cmd, data);
+	return HAL_CODEC_ModuleControl(handle, (uint32_t)cmd, data);
 }
 
 /*!
@@ -112,17 +112,17 @@ status_t CODEC_ModuleControl(codec_handle_t *handle, codec_module_ctrl_cmd_t cmd
  */
 status_t CODEC_SetVolume(codec_handle_t *handle, uint32_t playChannel, uint32_t volume)
 {
-    assert((handle != NULL) && (handle->codecConfig != NULL));
-    assert(volume <= CODEC_VOLUME_MAX_VALUE);
-    assert(handle->codecCapability != NULL);
+	assert((handle != NULL) && (handle->codecConfig != NULL));
+	assert(volume <= CODEC_VOLUME_MAX_VALUE);
+	assert(handle->codecCapability != NULL);
 
-    /* check capability of set volume */
-    if ((GET_PLAY_CHANNEL_CAPABILITY(handle->codecCapability->codecPlayCapability) & playChannel) == 0U)
-    {
-        return kStatus_CODEC_NotSupport;
-    }
+	/* check capability of set volume */
+	if ((GET_PLAY_CHANNEL_CAPABILITY(handle->codecCapability->codecPlayCapability) &
+	     playChannel) == 0U) {
+		return kStatus_CODEC_NotSupport;
+	}
 
-    return HAL_CODEC_SetVolume(handle, playChannel, volume);
+	return HAL_CODEC_SetVolume(handle, playChannel, volume);
 }
 
 /*!
@@ -135,16 +135,16 @@ status_t CODEC_SetVolume(codec_handle_t *handle, uint32_t playChannel, uint32_t 
  */
 status_t CODEC_SetMute(codec_handle_t *handle, uint32_t playChannel, bool mute)
 {
-    assert((handle != NULL) && (handle->codecConfig != NULL));
-    assert(handle->codecCapability != NULL);
+	assert((handle != NULL) && (handle->codecConfig != NULL));
+	assert(handle->codecCapability != NULL);
 
-    /* check capability of mute */
-    if ((GET_PLAY_CHANNEL_CAPABILITY(handle->codecCapability->codecPlayCapability) & playChannel) == 0U)
-    {
-        return kStatus_CODEC_NotSupport;
-    }
+	/* check capability of mute */
+	if ((GET_PLAY_CHANNEL_CAPABILITY(handle->codecCapability->codecPlayCapability) &
+	     playChannel) == 0U) {
+		return kStatus_CODEC_NotSupport;
+	}
 
-    return HAL_CODEC_SetMute(handle, playChannel, mute);
+	return HAL_CODEC_SetMute(handle, playChannel, mute);
 }
 
 /*!
@@ -157,16 +157,15 @@ status_t CODEC_SetMute(codec_handle_t *handle, uint32_t playChannel, bool mute)
  */
 status_t CODEC_SetPower(codec_handle_t *handle, codec_module_t module, bool powerOn)
 {
-    assert((handle != NULL) && (handle->codecConfig != NULL));
-    assert(handle->codecCapability != NULL);
+	assert((handle != NULL) && (handle->codecConfig != NULL));
+	assert(handle->codecCapability != NULL);
 
-    /* check capability of power switch */
-    if ((handle->codecCapability->codecModuleCapability & (1U << module)) == 0U)
-    {
-        return kStatus_CODEC_NotSupport;
-    }
+	/* check capability of power switch */
+	if ((handle->codecCapability->codecModuleCapability & (1U << module)) == 0U) {
+		return kStatus_CODEC_NotSupport;
+	}
 
-    return HAL_CODEC_SetPower(handle, (uint32_t)module, powerOn);
+	return HAL_CODEC_SetPower(handle, (uint32_t)module, powerOn);
 }
 
 /*!
@@ -179,16 +178,16 @@ status_t CODEC_SetPower(codec_handle_t *handle, codec_module_t module, bool powe
  */
 status_t CODEC_SetRecord(codec_handle_t *handle, uint32_t recordSource)
 {
-    assert((handle != NULL) && (handle->codecConfig != NULL));
-    assert(handle->codecCapability != NULL);
+	assert((handle != NULL) && (handle->codecConfig != NULL));
+	assert(handle->codecCapability != NULL);
 
-    /* check capability of record capability */
-    if ((GET_RECORD_SOURCE_CAPABILITY(handle->codecCapability->codecRecordCapability) & recordSource) == 0U)
-    {
-        return kStatus_CODEC_NotSupport;
-    }
+	/* check capability of record capability */
+	if ((GET_RECORD_SOURCE_CAPABILITY(handle->codecCapability->codecRecordCapability) &
+	     recordSource) == 0U) {
+		return kStatus_CODEC_NotSupport;
+	}
 
-    return HAL_CODEC_SetRecord(handle, recordSource);
+	return HAL_CODEC_SetRecord(handle, recordSource);
 }
 
 /*!
@@ -196,29 +195,30 @@ status_t CODEC_SetRecord(codec_handle_t *handle, uint32_t recordSource)
  *
  * param handle codec handle.
  * param leftRecordChannel audio codec record channel, reference _codec_record_channel, can be a value or combine value
- of member in _codec_record_channel.
+ * of member in _codec_record_channel.
  * param rightRecordChannel audio codec record channel, reference _codec_record_channel, can be a value combine of
- member in _codec_record_channel.
-
+ * member in _codec_record_channel.
+ *
  * return kStatus_Success is success, else configure failed.
  */
-status_t CODEC_SetRecordChannel(codec_handle_t *handle, uint32_t leftRecordChannel, uint32_t rightRecordChannel)
+status_t CODEC_SetRecordChannel(codec_handle_t *handle, uint32_t leftRecordChannel, uint32_t
+				rightRecordChannel)
 {
-    assert((handle != NULL) && (handle->codecConfig != NULL));
-    assert(handle->codecCapability != NULL);
+	assert((handle != NULL) && (handle->codecConfig != NULL));
+	assert(handle->codecCapability != NULL);
 
-    /* check capability of record capability */
-    if ((GET_RECORD_CHANNEL_CAPABILITY(handle->codecCapability->codecRecordCapability) & leftRecordChannel) == 0U)
-    {
-        return kStatus_CODEC_NotSupport;
-    }
+	/* check capability of record capability */
+	if ((GET_RECORD_CHANNEL_CAPABILITY(handle->codecCapability->codecRecordCapability) &
+	     leftRecordChannel) == 0U) {
+		return kStatus_CODEC_NotSupport;
+	}
 
-    if ((GET_RECORD_CHANNEL_CAPABILITY(handle->codecCapability->codecRecordCapability) & rightRecordChannel) == 0U)
-    {
-        return kStatus_CODEC_NotSupport;
-    }
+	if ((GET_RECORD_CHANNEL_CAPABILITY(handle->codecCapability->codecRecordCapability) &
+	     rightRecordChannel) == 0U) {
+		return kStatus_CODEC_NotSupport;
+	}
 
-    return HAL_CODEC_SetRecordChannel(handle, leftRecordChannel, rightRecordChannel);
+	return HAL_CODEC_SetRecordChannel(handle, leftRecordChannel, rightRecordChannel);
 }
 
 /*!
@@ -231,14 +231,14 @@ status_t CODEC_SetRecordChannel(codec_handle_t *handle, uint32_t leftRecordChann
  */
 status_t CODEC_SetPlay(codec_handle_t *handle, uint32_t playSource)
 {
-    assert((handle != NULL) && (handle->codecConfig != NULL));
-    assert(handle->codecCapability != NULL);
+	assert((handle != NULL) && (handle->codecConfig != NULL));
+	assert(handle->codecCapability != NULL);
 
-    /* check capability of record capability */
-    if ((GET_PLAY_SOURCE_CAPABILITY(handle->codecCapability->codecPlayCapability) & playSource) == 0U)
-    {
-        return kStatus_CODEC_NotSupport;
-    }
+	/* check capability of record capability */
+	if ((GET_PLAY_SOURCE_CAPABILITY(handle->codecCapability->codecPlayCapability) &
+	     playSource) == 0U) {
+		return kStatus_CODEC_NotSupport;
+	}
 
-    return HAL_CODEC_SetPlay(handle, playSource);
+	return HAL_CODEC_SetPlay(handle, playSource);
 }

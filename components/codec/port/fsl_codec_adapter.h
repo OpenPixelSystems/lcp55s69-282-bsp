@@ -156,18 +156,17 @@
  * Definitions
  ******************************************************************************/
 /*! @brief codec type */
-enum _codec_type
-{
-    kCODEC_WM8904,   /*!< wm8904 */
-    kCODEC_WM8960,   /*!< wm8960 */
-    kCODEC_WM8524,   /*!< wm8524 */
-    kCODEC_SGTL5000, /*!< sgtl5000 */
-    kCODEC_DA7212,   /*!< da7212 */
-    kCODEC_CS42888,  /*!< CS42888 */
-    kCODEC_AK4497,   /*!< AK4497 */
-    kCODEC_AK4458,   /*!< ak4458 */
-    kCODEC_TFA9XXX,  /*!< tfa9xxx */
-    kCODEC_TFA9896,  /*!< tfa9896 */
+enum _codec_type {
+	kCODEC_WM8904,          /*!< wm8904 */
+	kCODEC_WM8960,          /*!< wm8960 */
+	kCODEC_WM8524,          /*!< wm8524 */
+	kCODEC_SGTL5000,        /*!< sgtl5000 */
+	kCODEC_DA7212,          /*!< da7212 */
+	kCODEC_CS42888,         /*!< CS42888 */
+	kCODEC_AK4497,          /*!< AK4497 */
+	kCODEC_AK4458,          /*!< ak4458 */
+	kCODEC_TFA9XXX,         /*!< tfa9xxx */
+	kCODEC_TFA9896,         /*!< tfa9896 */
 };
 /*******************************************************************************
  * API
@@ -249,13 +248,14 @@ status_t HAL_CODEC_SetRecord(void *handle, uint32_t recordSource);
  *
  * @param handle codec handle.
  * @param leftRecordChannel audio codec record channel, reference _codec_record_channel, can be a value or combine value
- of member in _codec_record_channel.
+ * of member in _codec_record_channel.
  * @param rightRecordChannel audio codec record channel, reference _codec_record_channel, can be a value combine of
- member in _codec_record_channel.
-
+ * member in _codec_record_channel.
+ *
  * @return kStatus_Success is success, else configure failed.
  */
-status_t HAL_CODEC_SetRecordChannel(void *handle, uint32_t leftRecordChannel, uint32_t rightRecordChannel);
+status_t HAL_CODEC_SetRecordChannel(void *handle, uint32_t leftRecordChannel, uint32_t
+				    rightRecordChannel);
 
 /*!
  * @brief codec set play source.

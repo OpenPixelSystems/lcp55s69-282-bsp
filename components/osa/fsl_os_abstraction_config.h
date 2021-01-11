@@ -31,6 +31,6 @@
 #undef FSL_OSA_TASK_ENABLE
 #endif
 #define FSL_OSA_TASK_ENABLE 1U
-#endif /* OSA_USED */
+#endif  /* OSA_USED */
 
-#endif /* _FSL_OS_ABSTRACTION_CONFIG_H_ */
+#endif  /* _FSL_OS_ABSTRACTION_CONFIG_H_ */

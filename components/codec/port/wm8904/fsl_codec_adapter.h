@@ -21,9 +21,8 @@
 /*!@brief codec handler size */
 #define HAL_CODEC_HANDLER_SIZE (WM8904_I2C_HANDLER_SIZE + 4)
 /*! @brief codec type */
-enum _codec_type
-{
-    kCODEC_WM8904, /*!< wm8904 */
+enum _codec_type {
+	kCODEC_WM8904, /*!< wm8904 */
 };
 /*******************************************************************************
  * API
@@ -105,13 +104,14 @@ status_t HAL_CODEC_SetRecord(void *handle, uint32_t recordSource);
  *
  * @param handle codec handle.
  * @param leftRecordChannel audio codec record channel, reference _codec_record_channel, can be a value or combine value
- of member in _codec_record_channel.
+ * of member in _codec_record_channel.
  * @param rightRecordChannel audio codec record channel, reference _codec_record_channel, can be a value combine of
- member in _codec_record_channel.
-
+ * member in _codec_record_channel.
+ *
  * @return kStatus_Success is success, else configure failed.
  */
-status_t HAL_CODEC_SetRecordChannel(void *handle, uint32_t leftRecordChannel, uint32_t rightRecordChannel);
+status_t HAL_CODEC_SetRecordChannel(void *handle, uint32_t leftRecordChannel, uint32_t
+				    rightRecordChannel);
 
 /*!
  * @brief codec set play source.

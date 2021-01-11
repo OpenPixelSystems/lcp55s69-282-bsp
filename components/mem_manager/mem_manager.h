@@ -68,19 +68,25 @@
  * Defines block as  (blockSize ,numberOfBlocks,  id)
  */
 #ifndef PoolsDetails_c
-#define PoolsDetails_c _block_set_(64, 8, 0) _eol_ _block_set_(128, 2, 0) _eol_ _block_set_(256, 6, 0) _eol_
+#define PoolsDetails_c _block_set_(64, 8, 0) _eol_ _block_set_(128, 2, 0) _eol_ _block_set_(256, 6, \
+											    0) _eol_
 #endif
 #define MEM_BLOCK_DATA_BUFFER_NONAME_DEFINE(blockSize, numberOfBlocks, id)                                        \
-    uint32_t g_poolBuffer##blockSize##_##numberOfBlocks##_##id[(MEM_POOL_SIZE + numberOfBlocks * MEM_BLOCK_SIZE + \
-                                                                numberOfBlocks * blockSize + 3U) >>               \
-                                                               2U];
+	uint32_t g_poolBuffer ## blockSize ## _ ## numberOfBlocks ## _ ## id[(MEM_POOL_SIZE + \
+									      numberOfBlocks * \
+									      MEM_BLOCK_SIZE + \
+									      numberOfBlocks * \
+									      blockSize + 3U) >>               \
+									     2U];
 
 #define MEM_BLOCK_BUFFER_NONAME_DEFINE(blockSize, numberOfBlocks, id)                   \
-    MEM_BLOCK_DATA_BUFFER_NONAME_DEFINE(blockSize, numberOfBlocks, id)                  \
-    const static mem_config_t g_poolHeadBuffer##blockSize##_##numberOfBlocks##_##id = { \
-        (blockSize), (numberOfBlocks), (id), (0), (uint8_t *)&g_poolBuffer####blockSize##_##numberOfBlocks##_##id[0]}
+	MEM_BLOCK_DATA_BUFFER_NONAME_DEFINE(blockSize, numberOfBlocks, id)                  \
+	const static mem_config_t g_poolHeadBuffer ## blockSize ## _ ## numberOfBlocks ## _ ## id = \
+	{ \
+		(blockSize), (numberOfBlocks), (id), (0), \
+		(uint8_t *)&g_poolBuffer ## ## blockSize ## _ ## numberOfBlocks ## _ ## id[0] }
 #define MEM_BLOCK_NONAME_BUFFER(blockSize, numberOfBlocks, id) \
-    (uint8_t *)&g_poolHeadBuffer##blockSize##_##numberOfBlocks##_##id
+	(uint8_t *)&g_poolHeadBuffer ## blockSize ## _ ## numberOfBlocks ## _ ## id
 #endif /*MEM_MANAGER_PRE_CONFIGURE*/
 
 /*!
@@ -103,12 +109,14 @@
  * @param id The id Of memory buffer.
  */
 #define MEM_BLOCK_DATA_BUFFER_DEFINE(name, numberOfBlocks, blockSize, id) \
-    uint32_t                                                              \
-        g_poolBuffer##name[(MEM_POOL_SIZE + numberOfBlocks * MEM_BLOCK_SIZE + numberOfBlocks * blockSize + 3U) >> 2U];
+	uint32_t                                                              \
+	g_poolBuffer ## name[(MEM_POOL_SIZE + numberOfBlocks * MEM_BLOCK_SIZE + numberOfBlocks * \
+			      blockSize + 3U) >> 2U];
 
 #define MEM_BLOCK_BUFFER_DEFINE(name, numberOfBlocks, blockSize, id)  \
-    MEM_BLOCK_DATA_BUFFER_DEFINE(name, numberOfBlocks, blockSize, id) \
-    mem_config_t g_poolHeadBuffer##name = {(blockSize), (numberOfBlocks), (id), (0), (uint8_t *)&g_poolBuffer##name[0]}
+	MEM_BLOCK_DATA_BUFFER_DEFINE(name, numberOfBlocks, blockSize, id) \
+	mem_config_t g_poolHeadBuffer ## name = { (blockSize), (numberOfBlocks), (id), (0), \
+						  (uint8_t *)&g_poolBuffer ## name[0] }
 
 /*!                                                                     \
  * @brief Gets the memory buffer pointer                                 \
@@ -118,7 +126,7 @@
  *                                                                       \
  * @param name The memory name string of the buffer.                     \
  */
-#define MEM_BLOCK_BUFFER(name) (uint8_t *)&g_poolHeadBuffer##name
+#define MEM_BLOCK_BUFFER(name) (uint8_t *)&g_poolHeadBuffer ## name
 
 /*****************************************************************************
 ******************************************************************************
@@ -127,23 +135,21 @@
 *****************************************************************************/
 
 /**@brief Memory status. */
-typedef enum _mem_status
-{
-    kStatus_MemSuccess      = kStatus_Success,                          /* No error occurred */
-    kStatus_MemInitError    = MAKE_STATUS(kStatusGroup_MEM_MANAGER, 1), /* Memory initialization error */
-    kStatus_MemAllocError   = MAKE_STATUS(kStatusGroup_MEM_MANAGER, 2), /* Memory allocation error */
-    kStatus_MemFreeError    = MAKE_STATUS(kStatusGroup_MEM_MANAGER, 3), /* Memory free error */
-    kStatus_MemUnknownError = MAKE_STATUS(kStatusGroup_MEM_MANAGER, 4), /* something bad has happened... */
+typedef enum _mem_status {
+	kStatus_MemSuccess	= kStatus_Success,                              /* No error occurred */
+	kStatus_MemInitError	= MAKE_STATUS(kStatusGroup_MEM_MANAGER, 1),     /* Memory initialization error */
+	kStatus_MemAllocError	= MAKE_STATUS(kStatusGroup_MEM_MANAGER, 2),     /* Memory allocation error */
+	kStatus_MemFreeError	= MAKE_STATUS(kStatusGroup_MEM_MANAGER, 3),     /* Memory free error */
+	kStatus_MemUnknownError = MAKE_STATUS(kStatusGroup_MEM_MANAGER, 4),     /* something bad has happened... */
 } mem_status_t;
 
 /**@brief Memory user config. */
-typedef struct _mem_config
-{
-    uint16_t blockSize;      /*< The memory block size. */
-    uint16_t numberOfBlocks; /*< The number Of Blocks. */
-    uint16_t poolId;         /*< The pool id Of Blocks. */
-    uint16_t reserved;       /*< reserved. */
-    uint8_t *pbuffer;        /*< buffer. */
+typedef struct _mem_config {
+	uint16_t	blockSize;      /*< The memory block size. */
+	uint16_t	numberOfBlocks; /*< The number Of Blocks. */
+	uint16_t	poolId;         /*< The pool id Of Blocks. */
+	uint16_t	reserved;       /*< reserved. */
+	uint8_t *	pbuffer;        /*< buffer. */
 } mem_config_t;
 
 /*****************************************************************************

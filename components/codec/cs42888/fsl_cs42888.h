@@ -60,45 +60,55 @@
 #define CS42888_POWER_CONTROL_PDN_MASK  0x1
 #define CS42888_POWER_CONTROL_PDN_SHIFT 0
 #define CS42888_POWER_CONTROL_PDN(x) \
-    (((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_SHIFT)) & CS42888_POWER_CONTROL_PDN_MASK)
+	(((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_SHIFT)) & \
+	 CS42888_POWER_CONTROL_PDN_MASK)
 #define CS42888_POWER_CONTROL_PDN_DAC1_MASK  0x2
 #define CS42888_POWER_CONTROL_PDN_DAC1_SHIFT 2
 #define CS42888_POWER_CONTROL_PDN_DAC1(x) \
-    (((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_DAC1_SHIFT)) & CS42888_POWER_CONTROL_PDN_DAC1_MASK)
+	(((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_DAC1_SHIFT)) & \
+	 CS42888_POWER_CONTROL_PDN_DAC1_MASK)
 #define CS42888_POWER_CONTROL_PDN_DAC2_MASK  0x4
 #define CS42888_POWER_CONTROL_PDN_DAC2_SHIFT 3
 #define CS42888_POWER_CONTROL_PDN_DAC2(x) \
-    (((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_DAC2_SHIFT)) & CS42888_POWER_CONTROL_PDN_DAC2_MASK)
+	(((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_DAC2_SHIFT)) & \
+	 CS42888_POWER_CONTROL_PDN_DAC2_MASK)
 #define CS42888_POWER_CONTROL_PDN_DAC3_MASK  0x8
 #define CS42888_POWER_CONTROL_PDN_DAC3_SHIFT 4
 #define CS42888_POWER_CONTROL_PDN_DAC3(x) \
-    (((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_DAC3_SHIFT)) & CS42888_POWER_CONTROL_PDN_DAC3_MASK)
+	(((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_DAC3_SHIFT)) & \
+	 CS42888_POWER_CONTROL_PDN_DAC3_MASK)
 #define CS42888_POWER_CONTROL_PDN_DAC4_MASK  0x10
 #define CS42888_POWER_CONTROL_PDN_DAC4_SHIFT 5
 #define CS42888_POWER_CONTROL_PDN_DAC4(x) \
-    (((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_DAC4_SHIFT)) & CS42888_POWER_CONTROL_PDN_DAC4_MASK)
+	(((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_DAC4_SHIFT)) & \
+	 CS42888_POWER_CONTROL_PDN_DAC4_MASK)
 #define CS42888_POWER_CONTROL_PDN_ADC1_MASK  0x20
 #define CS42888_POWER_CONTROL_PDN_ADC1_SHIFT 5
 #define CS42888_POWER_CONTROL_PDN_ADC1(x) \
-    (((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_ADC1_SHIFT)) & CS42888_POWER_CONTROL_PDN_ADC1_MASK)
+	(((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_ADC1_SHIFT)) & \
+	 CS42888_POWER_CONTROL_PDN_ADC1_MASK)
 #define CS42888_POWER_CONTROL_PDN_ADC2_MASK  0x40
 #define CS42888_POWER_CONTROL_PDN_ADC2_SHIFT 6
 #define CS42888_POWER_CONTROL_PDN_ADC2(x) \
-    (((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_ADC2_SHIFT)) & CS42888_POWER_CONTROL_PDN_ADC2_MASK)
+	(((uint8_t)((uint8_t)(x) << CS42888_POWER_CONTROL_PDN_ADC2_SHIFT)) & \
+	 CS42888_POWER_CONTROL_PDN_ADC2_MASK)
 
 #define CS42888_FUNCTIONAL_MODE_ADC_FM_MASK  0x30
 #define CS42888_FUNCTIONAL_MODE_ADC_FM_SHIFT 4
 #define CS42888_FUNCTIONAL_MODE_ADC_FM(x) \
-    (((uint8_t)((uint8_t)(x) << CS42888_FUNCTIONAL_MODE_ADC_FM_SHIFT)) & CS42888_FUNCTIONAL_MODE_ADC_FM_MASK)
+	(((uint8_t)((uint8_t)(x) << CS42888_FUNCTIONAL_MODE_ADC_FM_SHIFT)) & \
+	 CS42888_FUNCTIONAL_MODE_ADC_FM_MASK)
 #define CS42888_FUNCTIONAL_MODE_DAC_FM_MASK  0xC0
 #define CS42888_FUNCTIONAL_MODE_DAC_FM_SHIFT 6
 #define CS42888_FUNCTIONAL_MODE_DAC_FM(x) \
-    (((uint8_t)((uint8_t)(x) << CS42888_FUNCTIONAL_MODE_DAC_FM_SHIFT)) & CS42888_FUNCTIONAL_MODE_DAC_FM_MASK)
+	(((uint8_t)((uint8_t)(x) << CS42888_FUNCTIONAL_MODE_DAC_FM_SHIFT)) & \
+	 CS42888_FUNCTIONAL_MODE_DAC_FM_MASK)
 
 #define CS42888_INTERFACE_FORMATS_DAC_DIF_MASK  0x38
 #define CS42888_INTERFACE_FORMATS_DAC_DIF_SHIFT 3
 #define CS42888_INTERFACE_FORMATS_DAC_DIF(x) \
-    (((uint8_t)((uint8_t)(x) << CS42888_INTERFACE_FORMATS_DAC_DIF_SHIFT)) & CS42888_INTERFACE_FORMATS_DAC_DIF_MASK)
+	(((uint8_t)((uint8_t)(x) << CS42888_INTERFACE_FORMATS_DAC_DIF_SHIFT)) & \
+	 CS42888_INTERFACE_FORMATS_DAC_DIF_MASK)
 
 /*! @brief Cache register number */
 #define CS42888_CACHEREGNUM 28
@@ -113,75 +123,68 @@
 typedef void (*cs42888_reset)(bool state);
 
 /*! @brief CS42888 support modes. */
-typedef enum _CS42888_func_mode
-{
-    kCS42888_ModeMasterSSM = 0x0, /*!< master single speed mode */
-    kCS42888_ModeMasterDSM = 0x1, /*!< master dual speed mode */
-    kCS42888_ModeMasterQSM = 0x2, /*!< master quad speed mode */
-    kCS42888_ModeSlave     = 0x3, /*!< master single speed mode */
+typedef enum _CS42888_func_mode {
+	kCS42888_ModeMasterSSM	= 0x0,  /*!< master single speed mode */
+	kCS42888_ModeMasterDSM	= 0x1,  /*!< master dual speed mode */
+	kCS42888_ModeMasterQSM	= 0x2,  /*!< master quad speed mode */
+	kCS42888_ModeSlave	= 0x3,  /*!< master single speed mode */
 } cs42888_func_mode;
 
 /*! @brief Modules in CS42888 board. */
-typedef enum _CS42888_module
-{
-    kCS42888_ModuleDACPair1 = 0x2,  /*!< DAC pair1 (AOUT1 and AOUT2) module in CS42888 */
-    kCS42888_ModuleDACPair2 = 0x4,  /*!< DAC pair2 (AOUT3 and AOUT4) module in CS42888 */
-    kCS42888_ModuleDACPair3 = 0x8,  /*!< DAC pair3 (AOUT5 and AOUT6) module in CS42888 */
-    kCS42888_ModuleDACPair4 = 0x10, /*!< DAC pair4 (AOUT7 and AOUT8) module in CS42888 */
-    kCS42888_ModuleADCPair1 = 0x20, /*!< ADC pair1 (AIN1 and AIN2) module in CS42888 */
-    kCS42888_ModuleADCPair2 = 0x40, /*!< ADC pair2 (AIN3 and AIN4) module in CS42888 */
+typedef enum _CS42888_module {
+	kCS42888_ModuleDACPair1 = 0x2,  /*!< DAC pair1 (AOUT1 and AOUT2) module in CS42888 */
+	kCS42888_ModuleDACPair2 = 0x4,  /*!< DAC pair2 (AOUT3 and AOUT4) module in CS42888 */
+	kCS42888_ModuleDACPair3 = 0x8,  /*!< DAC pair3 (AOUT5 and AOUT6) module in CS42888 */
+	kCS42888_ModuleDACPair4 = 0x10, /*!< DAC pair4 (AOUT7 and AOUT8) module in CS42888 */
+	kCS42888_ModuleADCPair1 = 0x20, /*!< ADC pair1 (AIN1 and AIN2) module in CS42888 */
+	kCS42888_ModuleADCPair2 = 0x40, /*!< ADC pair2 (AIN3 and AIN4) module in CS42888 */
 } cs42888_module_t;
 
 /*! @brief CS42888 supported audio bus type. */
-typedef enum _CS42888_bus
-{
-    kCS42888_BusLeftJustified  = 0x0, /*!< Left justified format, up to 24 bits.*/
-    kCS42888_BusI2S            = 0x1, /*!< I2S format, up to 24 bits */
-    kCS42888_BusRightJustified = 0x2, /*!< Right justified, can support 16bits and 24 bits */
-    kCS42888_BusOL1            = 0x4, /*!< One-Line #1 mode */
-    kCS42888_BusOL2            = 0x5, /*!< One-Line #2 mode */
-    kCS42888_BusTDM            = 0x6  /*!< TDM mode */
+typedef enum _CS42888_bus {
+	kCS42888_BusLeftJustified	= 0x0,  /*!< Left justified format, up to 24 bits.*/
+	kCS42888_BusI2S			= 0x1,  /*!< I2S format, up to 24 bits */
+	kCS42888_BusRightJustified	= 0x2,  /*!< Right justified, can support 16bits and 24 bits */
+	kCS42888_BusOL1			= 0x4,  /*!< One-Line #1 mode */
+	kCS42888_BusOL2			= 0x5,  /*!< One-Line #2 mode */
+	kCS42888_BusTDM			= 0x6   /*!< TDM mode */
 } cs42888_bus_t;
 
 /*! @brief CS428888 play channel */
-enum _cs42888_play_channel
-{
-    kCS42888_AOUT1 = 1U, /*!< aout1 */
-    kCS42888_AOUT2 = 2U, /*!< aout2 */
-    kCS42888_AOUT3 = 3U, /*!< aout3 */
-    kCS42888_AOUT4 = 4U, /*!< aout4 */
-    kCS42888_AOUT5 = 5U, /*!< aout5 */
-    kCS42888_AOUT6 = 6U, /*!< aout6 */
-    kCS42888_AOUT7 = 7U, /*!< aout7 */
-    kCS42888_AOUT8 = 8U, /*!< aout8 */
+enum _cs42888_play_channel {
+	kCS42888_AOUT1	= 1U,   /*!< aout1 */
+	kCS42888_AOUT2	= 2U,   /*!< aout2 */
+	kCS42888_AOUT3	= 3U,   /*!< aout3 */
+	kCS42888_AOUT4	= 4U,   /*!< aout4 */
+	kCS42888_AOUT5	= 5U,   /*!< aout5 */
+	kCS42888_AOUT6	= 6U,   /*!< aout6 */
+	kCS42888_AOUT7	= 7U,   /*!< aout7 */
+	kCS42888_AOUT8	= 8U,   /*!< aout8 */
 };
 
 /*! @brief cs42888 audio format */
-typedef struct _cs42888_audio_format
-{
-    uint32_t mclk_HZ;    /*!< master clock frequency */
-    uint32_t sampleRate; /*!< sample rate */
-    uint32_t bitWidth;   /*!< bit width */
+typedef struct _cs42888_audio_format {
+	uint32_t	mclk_HZ;        /*!< master clock frequency */
+	uint32_t	sampleRate;     /*!< sample rate */
+	uint32_t	bitWidth;       /*!< bit width */
 } cs42888_audio_format_t;
 
 /*! @brief Initialize structure of CS42888 */
-typedef struct cs42888_config
-{
-    cs42888_bus_t bus;             /*!< Audio transfer protocol */
-    cs42888_audio_format_t format; /*!< cs42888 audio format */
-    cs42888_func_mode ADCMode;     /*!< CS42888 ADC function mode. */
-    cs42888_func_mode DACMode;     /*!< CS42888 DAC function mode. */
-    bool master;                   /*!< true is master, false is slave */
-    codec_i2c_config_t i2cConfig;  /*!< i2c bus configuration */
-    uint8_t slaveAddress;          /*!< slave address */
-    cs42888_reset reset;           /*!< reset function pointer */
+typedef struct cs42888_config {
+	cs42888_bus_t		bus;            /*!< Audio transfer protocol */
+	cs42888_audio_format_t	format;         /*!< cs42888 audio format */
+	cs42888_func_mode	ADCMode;        /*!< CS42888 ADC function mode. */
+	cs42888_func_mode	DACMode;        /*!< CS42888 DAC function mode. */
+	bool			master;         /*!< true is master, false is slave */
+	codec_i2c_config_t	i2cConfig;      /*!< i2c bus configuration */
+	uint8_t			slaveAddress;   /*!< slave address */
+	cs42888_reset		reset;          /*!< reset function pointer */
 } cs42888_config_t;
 
 /*! @brief cs42888 handler */
-typedef struct _cs42888_handle
-{
-    cs42888_config_t *config;                    /*!< cs42888 config pointer */
-    uint8_t i2cHandle[CS42888_I2C_HANDLER_SIZE]; /*!< i2c handle pointer */
+typedef struct _cs42888_handle {
+	cs42888_config_t *	config;                                 /*!< cs42888 config pointer */
+	uint8_t			i2cHandle[CS42888_I2C_HANDLER_SIZE];    /*!< i2c handle pointer */
 } cs42888_handle_t;
 
 /*******************************************************************************
@@ -245,7 +248,8 @@ void CS42888_SetFuncMode(cs42888_handle_t *handle, cs42888_func_mode mode);
  * @param adcMode differenht working mode of CS42888.
  * @param dacMode differenht working mode of CS42888.
  */
-status_t CS42888_SelectFunctionalMode(cs42888_handle_t *handle, cs42888_func_mode adcMode, cs42888_func_mode dacMode);
+status_t CS42888_SelectFunctionalMode(cs42888_handle_t *handle, cs42888_func_mode adcMode,
+				      cs42888_func_mode dacMode);
 
 /*!
  * @brief Set the volume of different modules in CS42888.
@@ -332,7 +336,8 @@ status_t CS42888_SetModule(cs42888_handle_t *handle, cs42888_module_t module, bo
  * @param bits Bit depth of audio file (CS42888 only supports 16bit, 20bit, 24bit
  * and 32 bit in HW).
  */
-status_t CS42888_ConfigDataFormat(cs42888_handle_t *handle, uint32_t mclk, uint32_t sample_rate, uint32_t bits);
+status_t CS42888_ConfigDataFormat(cs42888_handle_t *handle, uint32_t mclk, uint32_t sample_rate,
+				  uint32_t bits);
 
 /*!
  * @brief Write register to CS42888 using I2C.

@@ -36,21 +36,19 @@
 #endif
 
 /*! @brief The status type of common task */
-typedef enum _common_task_status
-{
-    kStatus_COMMON_TASK_Success = kStatus_Success,                          /*!< Success */
-    kStatus_COMMON_TASK_Error   = MAKE_STATUS(kStatusGroup_COMMON_TASK, 1), /*!< Failed */
-    kStatus_COMMON_TASK_Busy    = MAKE_STATUS(kStatusGroup_COMMON_TASK, 2), /*!< Busy */
+typedef enum _common_task_status {
+	kStatus_COMMON_TASK_Success	= kStatus_Success,                              /*!< Success */
+	kStatus_COMMON_TASK_Error	= MAKE_STATUS(kStatusGroup_COMMON_TASK, 1),     /*!< Failed */
+	kStatus_COMMON_TASK_Busy	= MAKE_STATUS(kStatusGroup_COMMON_TASK, 2),     /*!< Busy */
 } common_task_status_t;
 
 /*! @brief The callback function of common task */
 typedef void (*common_task_message_callback_t)(void *callbackParam);
 
 /*! @brief The callback message struct of common task */
-typedef struct _common_task_message
-{
-    common_task_message_callback_t callback;
-    void *callbackParam;
+typedef struct _common_task_message {
+	common_task_message_callback_t	callback;
+	void *				callbackParam;
 } common_task_message_t;
 
 /*******************************************************************************
