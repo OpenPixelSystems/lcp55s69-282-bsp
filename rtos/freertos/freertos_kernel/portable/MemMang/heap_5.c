@@ -392,7 +392,7 @@ void vPortDefineHeapRegions(const HeapRegion_t *const pxHeapRegions)
 		/* Set xStart if it has not already been set. */
 		if (xDefinedRegions == 0) {
 			/* xStart is used to hold a pointer to the first item in the list of
-			*  free blocks.  The void cast is used to prevent compiler warnings. */
+			 *  free blocks.  The void cast is used to prevent compiler warnings. */
 			xStart.pxNextFreeBlock = (BlockLink_t *)xAlignedHeap;
 			xStart.xBlockSize = (size_t)0;
 		} else {

@@ -2495,8 +2495,8 @@ BaseType_t xTaskAbortDelay(TaskHandle_t xTask)
 #if (configUSE_PREEMPTION == 1)
 			{
 				/* Preemption is on, but a context switch should only be
-				*  performed if the unblocked task has a priority that is
-				*  equal to or higher than the currently executing task. */
+				 *  performed if the unblocked task has a priority that is
+				 *  equal to or higher than the currently executing task. */
 				if (pxTCB->uxPriority > pxCurrentTCB->uxPriority) {
 					/* Pend the yield to be performed when the scheduler
 					 * is unsuspended. */
@@ -3451,8 +3451,8 @@ void vTaskGetInfo(TaskHandle_t xTask, TaskStatus_t *pxTaskStatus, BaseType_t xGe
 #if (INCLUDE_vTaskSuspend == 1)
 			{
 				/* If the task is in the suspended list then there is a
-				*  chance it is actually just blocked indefinitely - so really
-				*  it should be reported as being in the Blocked state. */
+				 *  chance it is actually just blocked indefinitely - so really
+				 *  it should be reported as being in the Blocked state. */
 				if (eState == eSuspended) {
 					vTaskSuspendAll();
 					{

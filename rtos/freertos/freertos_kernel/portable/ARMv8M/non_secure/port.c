@@ -403,7 +403,7 @@ static void prvSetupMPU(void)           /* PRIVILEGED_FUNCTION */
 	if (portMPU_TYPE_REG == portEXPECTED_MPU_TYPE_VALUE) {
 		/* MAIR0 - Index 0. */
 		portMPU_MAIR0_REG |= ((portMPU_NORMAL_MEMORY_BUFFERABLE_CACHEABLE <<
-			portMPU_MAIR_ATTR0_POS) & portMPU_MAIR_ATTR0_MASK);
+				       portMPU_MAIR_ATTR0_POS) & portMPU_MAIR_ATTR0_MASK);
 		/* MAIR0 - Index 1. */
 		portMPU_MAIR0_REG |= ((portMPU_DEVICE_MEMORY_nGnRE << portMPU_MAIR_ATTR1_POS) &
 				      portMPU_MAIR_ATTR1_MASK);
@@ -827,7 +827,7 @@ void vPortStoreTaskMPUSettings(xMPU_SETTINGS *xMPUSettings, const struct xMEMORY
 
 	/* Setup MAIR0. */
 	xMPUSettings->ulMAIR0 = ((portMPU_NORMAL_MEMORY_BUFFERABLE_CACHEABLE <<
-		portMPU_MAIR_ATTR0_POS) & portMPU_MAIR_ATTR0_MASK);
+				  portMPU_MAIR_ATTR0_POS) & portMPU_MAIR_ATTR0_MASK);
 	xMPUSettings->ulMAIR0 |= ((portMPU_DEVICE_MEMORY_nGnRE << portMPU_MAIR_ATTR1_POS) &
 				  portMPU_MAIR_ATTR1_MASK);
 

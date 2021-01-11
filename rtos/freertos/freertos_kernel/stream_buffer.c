@@ -268,15 +268,15 @@ StreamBufferHandle_t xStreamBufferGenericCreate(size_t xBufferSizeBytes, size_t 
 #if (configSUPPORT_STATIC_ALLOCATION == 1)
 
 StreamBufferHandle_t xStreamBufferGenericCreateStatic(size_t
-							xBufferSizeBytes,
+						      xBufferSizeBytes,
 						      size_t
-							xTriggerLevelBytes,
+						      xTriggerLevelBytes,
 						      BaseType_t
-							xIsMessageBuffer,
+						      xIsMessageBuffer,
 						      uint8_t *const
-							pucStreamBufferStorageArea,
+						      pucStreamBufferStorageArea,
 						      StaticStreamBuffer_t *const
-							pxStaticStreamBuffer)
+						      pxStaticStreamBuffer)
 {
 	StreamBuffer_t *const pxStreamBuffer = (StreamBuffer_t *)pxStaticStreamBuffer;     /*lint !e740 !e9087 Safe cast as StaticStreamBuffer_t is opaque Streambuffer_t. */
 	StreamBufferHandle_t xReturn;
@@ -353,7 +353,7 @@ void vStreamBufferDelete(StreamBufferHandle_t xStreamBuffer)
 #if (configSUPPORT_DYNAMIC_ALLOCATION == 1)
 		{
 			/* Both the structure and the buffer were allocated using a single call
-			 * to pvPortMalloc(), hence only one call to vPortFree() is required. */
+			* to pvPortMalloc(), hence only one call to vPortFree() is required. */
 			vPortFree((void *)pxStreamBuffer);      /*lint !e9087 Standard free() semantics require void *, plus pxStreamBuffer was allocated by pvPortMalloc(). */
 		}
 #else

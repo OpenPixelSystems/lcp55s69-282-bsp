@@ -458,9 +458,9 @@ static void prvInitialiseMutex(Queue_t *pxNewQueue)
 {
 	if (pxNewQueue != NULL) {
 		/* The queue create function will set all the queue structure members
-		 * correctly for a generic queue, but this function is creating a
-		 * mutex.  Overwrite those members that need to be set differently -
-		 * in particular the information required for priority inheritance. */
+		* correctly for a generic queue, but this function is creating a
+		* mutex.  Overwrite those members that need to be set differently -
+		* in particular the information required for priority inheritance. */
 		pxNewQueue->u.xSemaphore.xMutexHolder = NULL;
 		pxNewQueue->uxQueueType = queueQUEUE_IS_MUTEX;
 
@@ -937,10 +937,10 @@ BaseType_t xQueueGenericSendFromISR(QueueHandle_t xQueue, const void *const pvIt
 			traceQUEUE_SEND_FROM_ISR(pxQueue);
 
 			/* Semaphores use xQueueGiveFromISR(), so pxQueue will not be a
-			*  semaphore or mutex.  That means prvCopyDataToQueue() cannot result
-			*  in a task disinheriting a priority and prvCopyDataToQueue() can be
-			*  called here even though the disinherit function does not check if
-			*  the scheduler is suspended before accessing the ready lists. */
+			 *  semaphore or mutex.  That means prvCopyDataToQueue() cannot result
+			 *  in a task disinheriting a priority and prvCopyDataToQueue() can be
+			 *  called here even though the disinherit function does not check if
+			 *  the scheduler is suspended before accessing the ready lists. */
 			(void)prvCopyDataToQueue(pxQueue, pvItemToQueue, xCopyPosition);
 
 			/* The event list is not altered if the queue is locked.  This will
@@ -977,7 +977,7 @@ BaseType_t xQueueGenericSendFromISR(QueueHandle_t xQueue, const void *const pvIt
 								      xTasksWaitingToReceive)) !=
 							    pdFALSE) {
 								/* The task waiting has a higher priority so
-								*  record that a context switch is required. */
+								 *  record that a context switch is required. */
 								if (pxHigherPriorityTaskWoken !=
 								    NULL) {
 									*pxHigherPriorityTaskWoken =
@@ -1124,7 +1124,7 @@ BaseType_t xQueueGiveFromISR(QueueHandle_t xQueue, BaseType_t *const pxHigherPri
 								      xTasksWaitingToReceive)) !=
 							    pdFALSE) {
 								/* The task waiting has a higher priority so
-								*  record that a context switch is required. */
+								 *  record that a context switch is required. */
 								if (pxHigherPriorityTaskWoken !=
 								    NULL) {
 									*pxHigherPriorityTaskWoken =
@@ -1585,7 +1585,7 @@ BaseType_t xQueuePeek(QueueHandle_t xQueue, void *const pvBuffer, TickType_t xTi
 		/* Update the timeout state to see if it has expired yet. */
 		if (xTaskCheckForTimeOut(&xTimeOut, &xTicksToWait) == pdFALSE) {
 			/* Timeout has not expired yet, check to see if there is data in the
-			 * queue now, and if not enter the Blocked state to wait for data. */
+			* queue now, and if not enter the Blocked state to wait for data. */
 			if (prvIsQueueEmpty(pxQueue) != pdFALSE) {
 				traceBLOCKING_ON_QUEUE_PEEK(pxQueue);
 				vTaskPlaceOnEventList(&(pxQueue->xTasksWaitingToReceive),
@@ -2455,11 +2455,11 @@ void vQueueWaitForMessageRestricted(QueueHandle_t xQueue, TickType_t xTicksToWai
 	 * section. */
 
 	/* Only do anything if there are no messages in the queue.  This function
-	*  will not actually cause the task to block, just place it on a blocked
-	*  list.  It will not block until the scheduler is unlocked - at which
-	*  time a yield will be performed.  If an item is added to the queue while
-	*  the queue is locked, and the calling task blocks on the queue, then the
-	*  calling task will be immediately unblocked when the queue is unlocked. */
+	 *  will not actually cause the task to block, just place it on a blocked
+	 *  list.  It will not block until the scheduler is unlocked - at which
+	 *  time a yield will be performed.  If an item is added to the queue while
+	 *  the queue is locked, and the calling task blocks on the queue, then the
+	 *  calling task will be immediately unblocked when the queue is unlocked. */
 	prvLockQueue(pxQueue);
 	if (pxQueue->uxMessagesWaiting == (UBaseType_t)0U) {
 		/* There is nothing in the queue, block for the specified period. */

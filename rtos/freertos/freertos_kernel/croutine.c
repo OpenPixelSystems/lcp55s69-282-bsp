@@ -110,7 +110,7 @@ BaseType_t xCoRoutineCreate(crCOROUTINE_CODE pxCoRoutineCode, UBaseType_t uxPrio
 	pxCoRoutine = (CRCB_t *)pvPortMalloc(sizeof(CRCB_t));
 	if (pxCoRoutine) {
 		/* If pxCurrentCoRoutine is NULL then this is the first co-routine to
-		 * be created and the co-routine data structures need initialising. */
+		* be created and the co-routine data structures need initialising. */
 		if (pxCurrentCoRoutine == NULL) {
 			pxCurrentCoRoutine = pxCoRoutine;
 			prvInitialiseCoRoutineLists();
@@ -247,10 +247,10 @@ static void prvCheckDelayedList(void)
 			portDISABLE_INTERRUPTS();
 			{
 				/* The event could have occurred just before this critical
-				*  section.  If this is the case then the generic list item will
-				*  have been moved to the pending ready list and the following
-				*  line is still valid.  Also the pvContainer parameter will have
-				*  been set to NULL so the following lines are also valid. */
+				 *  section.  If this is the case then the generic list item will
+				 *  have been moved to the pending ready list and the following
+				 *  line is still valid.  Also the pvContainer parameter will have
+				 *  been set to NULL so the following lines are also valid. */
 				(void)uxListRemove(&(pxCRCB->xGenericListItem));
 
 				/* Is the co-routine waiting on an event also? */

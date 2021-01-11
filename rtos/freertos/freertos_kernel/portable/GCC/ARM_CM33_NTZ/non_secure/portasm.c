@@ -45,7 +45,7 @@ void vRestoreContextOfFirstTask(void)   /* __attribute__ (( naked )) PRIVILEGED_
 	(
 		"	.syntax unified									\n"
 		"													\n"
-		"	ldr  r2, pxCurrentTCBConst2						\n"/* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
+		"	ldr  r2, pxCurrentTCBConst2						\n"     /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
 		"	ldr  r1, [r2]									\n"/* Read pxCurrentTCB. */
 		"	ldr  r0, [r1]									\n"/* Read top of stack from TCB - The first item in pxCurrentTCB is the task top of stack. */
 		"													\n"
@@ -110,11 +110,11 @@ BaseType_t xIsPrivileged(void)   /* __attribute__ (( naked )) */
 {
 	__asm volatile
 	(
-		"	mrs r0, control									\n"/* r0 = CONTROL. */
+		"	mrs r0, control									\n"     /* r0 = CONTROL. */
 		"	tst r0, #1										\n"/* Perform r0 & 1 (bitwise AND) and update the conditions flag. */
 		"	ite ne											\n"
-		"	movne r0, #0									\n"/* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
-		"	moveq r0, #1									\n"/* CONTROL[0]==0. Return true to indicate that the processor is privileged. */
+		"	movne r0, #0									\n"     /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
+		"	moveq r0, #1									\n"     /* CONTROL[0]==0. Return true to indicate that the processor is privileged. */
 		"	bx lr											\n"/* Return. */
 		"													\n"
 		"	.align 4										\n"
@@ -127,9 +127,9 @@ void vRaisePrivilege(void)   /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
 	__asm volatile
 	(
-		"	mrs  r0, control								\n"/* Read the CONTROL register. */
+		"	mrs  r0, control								\n"     /* Read the CONTROL register. */
 		"	bic r0, #1										\n"/* Clear the bit 0. */
-		"	msr  control, r0								\n"/* Write back the new CONTROL value. */
+		"	msr  control, r0								\n"     /* Write back the new CONTROL value. */
 		"	bx lr											\n"/* Return to the caller. */
 		::: "r0", "memory"
 	);
@@ -140,9 +140,9 @@ void vResetPrivilege(void)   /* __attribute__ (( naked )) */
 {
 	__asm volatile
 	(
-		"	mrs r0, control									\n"/* r0 = CONTROL. */
+		"	mrs r0, control									\n"     /* r0 = CONTROL. */
 		"	orr r0, #1										\n"/* r0 = r0 | 1. */
-		"	msr control, r0									\n"/* CONTROL = r0. */
+		"	msr control, r0									\n"     /* CONTROL = r0. */
 		"	bx lr											\n"/* Return to the caller. */
 		::: "r0", "memory"
 	);
@@ -153,9 +153,9 @@ void vStartFirstTask(void)   /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
 	__asm volatile
 	(
-		"	ldr r0, xVTORConst								\n"/* Use the NVIC offset register to locate the stack. */
-		"	ldr r0, [r0]									\n"/* Read the VTOR register which gives the address of vector table. */
-		"	ldr r0, [r0]									\n"/* The first entry in vector table is stack pointer. */
+		"	ldr r0, xVTORConst								\n"     /* Use the NVIC offset register to locate the stack. */
+		"	ldr r0, [r0]									\n"     /* Read the VTOR register which gives the address of vector table. */
+		"	ldr r0, [r0]									\n"     /* The first entry in vector table is stack pointer. */
 		"	msr msp, r0										\n"/* Set the MSP back to the start of the stack. */
 		"	cpsie i											\n"/* Globally enable interrupts. */
 		"	cpsie f											\n"
@@ -175,9 +175,9 @@ uint32_t ulSetInterruptMask(void)   /* __attribute__(( naked )) PRIVILEGED_FUNCT
 {
 	__asm volatile
 	(
-		"	mrs r0, basepri									\n"/* r0 = basepri. Return original basepri value. */
+		"	mrs r0, basepri									\n"     /* r0 = basepri. Return original basepri value. */
 		"	mov r1, %0										\n"/* r1 = configMAX_SYSCALL_INTERRUPT_PRIORITY. */
-		"	msr basepri, r1									\n"/* Disable interrupts upto configMAX_SYSCALL_INTERRUPT_PRIORITY. */
+		"	msr basepri, r1									\n"     /* Disable interrupts upto configMAX_SYSCALL_INTERRUPT_PRIORITY. */
 		"	dsb												\n"
 		"	isb												\n"
 		"	bx lr											\n"/* Return. */
@@ -234,7 +234,7 @@ void PendSV_Handler(void)   /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 		"	mov r0, #0										\n"/* r0 = 0. */
 		"	msr basepri, r0									\n"/* Enable interrupts. */
 		"													\n"
-		"	ldr r2, pxCurrentTCBConst						\n"/* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
+		"	ldr r2, pxCurrentTCBConst						\n"     /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
 		"	ldr r1, [r2]									\n"/* Read pxCurrentTCB. */
 		"	ldr r0, [r1]									\n"/* The first item in pxCurrentTCB is the task top of stack. r0 now points to the top of stack. */
 		"													\n"
