@@ -88,11 +88,21 @@ usb_host_class_srcs = files([
 #			     './middleware/usb/host/class/usb_host_printer.c',
 #			     './middleware/usb/host/class/usb_host_video.c',
 			   ])
-
 usb_phy_srcs = files(['./middleware/usb/phy/usb_phy.c'])
 
 sdk_mw_srcs = [usb_host_srcs, usb_host_class_srcs, usb_phy_srcs]
 
+# COMPONENT INCLUDES #
+osa_includes = include_directories('./components/osa')
+list_includes = include_directories('./components/lists/')
+
+# COMPONENT SOURCES #
+osa_srcs = files(['./components/osa/fsl_os_abstraction_bm.c'])
+list_srcs = files(['./components/lists/generic_list.c'])
+
+sdk_component_includes = [osa_includes, list_includes]
+sdk_component_srcs = [osa_srcs, list_srcs]
+
 # TOP LEVEL INCLUDES #
-sdk_includes = [sdk_device_includes, sdk_mw_includes]
-sdk_srcs = [sdk_device_srcs, sdk_mw_srcs]
+sdk_includes = [sdk_device_includes, sdk_mw_includes, sdk_component_includes]
+sdk_srcs = [sdk_device_srcs, sdk_mw_srcs, sdk_component_srcs]
