@@ -62,11 +62,17 @@ sdk_device_srcs = [device_srcs, driver_srcs]
 
 # MIDDLEWARE INCLUDES #
 usb_includes = include_directories('./middleware/usb/include/')
-usb_host_includes = include_directories('./middleware/usb/host')
-usb_host_class_includes = include_directories('./middleware/usb/host/class')
+usb_host_includes = include_directories('./middleware/usb/host/')
+usb_host_class_includes = include_directories('./middleware/usb/host/class/')
 usb_phy_includes = include_directories('./middleware/usb/phy/')
+
+fatfs_includes = include_directories('./middleware/fatfs/source/')
+fatfs_usb_includes = include_directories('./middleware/fatfs/source/fsl_usb_disk/')
+fatfs_ram_includes = include_directories('./middleware/fatfs/source/fsl_ram_disk/')
+
 sdk_mw_includes = [usb_includes, usb_host_includes, usb_host_class_includes,
-		   usb_phy_includes]
+		   usb_phy_includes, fatfs_includes, fatfs_usb_includes,
+		   fatfs_ram_includes]
 
 # MIDDLEWARE SRCS #
 usb_host_srcs = files([
@@ -90,7 +96,16 @@ usb_host_class_srcs = files([
 			   ])
 usb_phy_srcs = files(['./middleware/usb/phy/usb_phy.c'])
 
-sdk_mw_srcs = [usb_host_srcs, usb_host_class_srcs, usb_phy_srcs]
+fatfs_srcs = files([
+		    './middleware/fatfs/source/diskio.c',
+		    './middleware/fatfs/source/ff.c',
+		    './middleware/fatfs/source/ffsystem.c',
+		    './middleware/fatfs/source/ffunicode.c',
+		    './middleware/fatfs/source/fsl_ram_disk/fsl_ram_disk.c',
+		    './middleware/fatfs/source/fsl_usb_disk/fsl_usb_disk_bm.c'
+		  ])
+
+sdk_mw_srcs = [usb_host_srcs, usb_host_class_srcs, usb_phy_srcs, fatfs_srcs]
 
 # COMPONENT INCLUDES #
 osa_includes = include_directories('./components/osa')
