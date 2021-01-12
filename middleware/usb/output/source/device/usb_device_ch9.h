@@ -42,11 +42,10 @@
 #define USB_GET_STATUS_ENDPOINT_MASK (0x03U)
 
 /*! @brief Control read and write sequence */
-typedef enum _usb_device_control_read_write_sequence
-{
-    kUSB_DeviceControlPipeSetupStage = 0U, /*!< Setup stage */
-    kUSB_DeviceControlPipeDataStage,       /*!< Data stage */
-    kUSB_DeviceControlPipeStatusStage,     /*!< status stage */
+typedef enum _usb_device_control_read_write_sequence {
+	kUSB_DeviceControlPipeSetupStage = 0U,  /*!< Setup stage */
+	kUSB_DeviceControlPipeDataStage,        /*!< Data stage */
+	kUSB_DeviceControlPipeStatusStage,      /*!< status stage */
 } usb_device_control_read_write_sequence_t;
 
 #if defined(__cplusplus)

@@ -59,7 +59,7 @@
 #define USB_HOST_IP3516HS_USBCMD_FLS_MASK (0x0CU)
 #define USB_HOST_IP3516HS_USBCMD_FLS_SHIFT (2U)
 #define USB_HOST_IP3516HS_USBCMD_FLS(x) \
-    (((x) << USB_HOST_IP3516HS_USBCMD_FLS_SHIFT) & USB_HOST_IP3516HS_USBCMD_FLS_MASK)
+	(((x) << USB_HOST_IP3516HS_USBCMD_FLS_SHIFT) & USB_HOST_IP3516HS_USBCMD_FLS_MASK)
 #define USB_HOST_IP3516HS_USBCMD_LHCR_MASK (0x80U)
 #define USB_HOST_IP3516HS_USBCMD_ATL_EN_MASK (0x100U)
 #define USB_HOST_IP3516HS_USBCMD_ISO_EN_MASK (0x200U)
@@ -111,7 +111,8 @@
 #define USB_HOST_IP3516HS_PORTSC1_DEV_ADD_MASK (0xFE000000U)
 #define USB_HOST_IP3516HS_PORTSC1_DEV_ADD_SHIFT (25U)
 #define USB_HOST_IP3516HS_PORTSC1_WIC \
-    (USB_HOST_IP3516HS_PORTSC1_CSC_MASK | USB_HOST_IP3516HS_PORTSC1_PEDC_MASK | USB_HOST_IP3516HS_PORTSC1_OCC_MASK)
+	(USB_HOST_IP3516HS_PORTSC1_CSC_MASK | USB_HOST_IP3516HS_PORTSC1_PEDC_MASK | \
+	 USB_HOST_IP3516HS_PORTSC1_OCC_MASK)
 
 /*! Last PTD in use Register */
 #define USB_HOST_IP3516HS_LAST_PTD_IN_USE_ATL_LAST_MASK (0x1FU)
@@ -132,303 +133,260 @@
  * @{
  */
 /*! @brief IP3516HS Transaction Descriptor */
-typedef struct _usb_host_ip3516hs_atl_struct
-{
-    union
-    {
-        uint32_t controlState;
-        struct
-        {
-            volatile uint32_t V : 1U;              /*!< Valid */
-            volatile uint32_t NextPTDPointer : 5U; /*!< NextPTDPointer */
-            uint32_t R1 : 1U;                      /*!< Reserved */
-            volatile uint32_t J : 1U; /*!< Jump:  0: increment the PTD pointer. 1: enable the next PTD branching. */
-            volatile uint32_t
-                uFrame : 8U; /*!< This field is only applicable for interrupt and isochronous endpoints. */
-            volatile uint32_t MaxPacketLength : 11U; /*!< Maximum Packet Length */
-            uint32_t R2 : 1U;                        /*!< Reserved */
-            volatile uint32_t Mult : 2U;             /*!< EndpointNumber */
-            uint32_t R3 : 2U;                        /*!< Reserved */
-        } stateBitField;
-    } control1Union;
-    union
-    {
-        uint32_t controlState;
-        struct
-        {
-            volatile uint32_t EP : 4U;            /*!< Endpoint number */
-            volatile uint32_t DeviceAddress : 7U; /*!< Device address */
-            volatile uint32_t S : 1U;  /*!< This bit indicates whether a split transaction has to be executed. */
-            volatile uint32_t RL : 4U; /*!< Reload: If RL is set to 0h, hardware ignores the NakCnt value. RL and
-                                       NakCnt are set to the same value before a transaction. */
-            volatile uint32_t SE : 2U; /*!< This specifies the speed for a Control or Interrupt transaction to a device
-                                       that is not high-speed: 00-Full-speed, 10-Low-speed */
-            volatile uint32_t PortNumber : 7U; /*!< Port number */
-            volatile uint32_t HubAddress : 7U; /*!< Hub Address */
-        } stateBitField;
-    } control2Union;
-    union
-    {
-        uint32_t data;
-        struct
-        {
-            volatile uint32_t NrBytesToTransfer : 15U; /*!< Number of Bytes to Transfer. */
-            volatile uint32_t I : 1U;                  /*!< Interrupt on Complete */
-            volatile uint32_t DataStartAddress : 16U;  /*!< Data buffer address */
-        } dataBitField;
-    } dataUnion;
-    union
-    {
-        uint32_t state;
-        struct
-        {
-            volatile uint32_t NrBytesToTransfer : 15U; /*!< Number of Bytes Transferred. */
-            volatile uint32_t
-                Token : 2U; /*!< Token: Identifies the token Packet Identifier (PID) for this transaction. */
-            volatile uint32_t EpType : 2U; /*!< Endpoint type */
-            volatile uint32_t NakCnt : 4U; /*!< Nak count */
-            volatile uint32_t Cerr : 2U;   /*!< Error count */
-            volatile uint32_t DT : 1U;     /*!< Data Toggle */
-            volatile uint32_t P : 1U;      /*!< Ping */
-            volatile uint32_t SC : 1U;     /*!< Start/Complete */
-            volatile uint32_t X : 1U;      /*!< Error */
-            volatile uint32_t B : 1U;      /*!< Babble */
-            volatile uint32_t H : 1U;      /*!< Halt */
-            volatile uint32_t A : 1U;      /*!< Active */
-        } stateBitField;
-    } stateUnion;
+typedef struct _usb_host_ip3516hs_atl_struct {
+	union {
+		uint32_t controlState;
+		struct {
+			volatile uint32_t	V : 1U;                 /*!< Valid */
+			volatile uint32_t	NextPTDPointer : 5U;    /*!< NextPTDPointer */
+			uint32_t		R1 : 1U;                /*!< Reserved */
+			volatile uint32_t	J : 1U;                 /*!< Jump:  0: increment the PTD pointer. 1: enable the next PTD branching. */
+			volatile uint32_t
+						uFrame : 8U;            /*!< This field is only applicable for interrupt and isochronous endpoints. */
+			volatile uint32_t	MaxPacketLength : 11U;  /*!< Maximum Packet Length */
+			uint32_t		R2 : 1U;                /*!< Reserved */
+			volatile uint32_t	Mult : 2U;              /*!< EndpointNumber */
+			uint32_t		R3 : 2U;                /*!< Reserved */
+		} stateBitField;
+	} control1Union;
+	union {
+		uint32_t controlState;
+		struct {
+			volatile uint32_t	EP : 4U;                /*!< Endpoint number */
+			volatile uint32_t	DeviceAddress : 7U;     /*!< Device address */
+			volatile uint32_t	S : 1U;                 /*!< This bit indicates whether a split transaction has to be executed. */
+			volatile uint32_t	RL : 4U;                /*!< Reload: If RL is set to 0h, hardware ignores the NakCnt value. RL and
+			                                                 * NakCnt are set to the same value before a transaction. */
+			volatile uint32_t	SE : 2U;                /*!< This specifies the speed for a Control or Interrupt transaction to a device
+			                                                 * that is not high-speed: 00-Full-speed, 10-Low-speed */
+			volatile uint32_t	PortNumber : 7U;        /*!< Port number */
+			volatile uint32_t	HubAddress : 7U;        /*!< Hub Address */
+		} stateBitField;
+	} control2Union;
+	union {
+		uint32_t data;
+		struct {
+			volatile uint32_t	NrBytesToTransfer : 15U;        /*!< Number of Bytes to Transfer. */
+			volatile uint32_t	I : 1U;                         /*!< Interrupt on Complete */
+			volatile uint32_t	DataStartAddress : 16U;         /*!< Data buffer address */
+		} dataBitField;
+	} dataUnion;
+	union {
+		uint32_t state;
+		struct {
+			volatile uint32_t	NrBytesToTransfer : 15U;        /*!< Number of Bytes Transferred. */
+			volatile uint32_t
+						Token : 2U;                     /*!< Token: Identifies the token Packet Identifier (PID) for this transaction. */
+			volatile uint32_t	EpType : 2U;                    /*!< Endpoint type */
+			volatile uint32_t	NakCnt : 4U;                    /*!< Nak count */
+			volatile uint32_t	Cerr : 2U;                      /*!< Error count */
+			volatile uint32_t	DT : 1U;                        /*!< Data Toggle */
+			volatile uint32_t	P : 1U;                         /*!< Ping */
+			volatile uint32_t	SC : 1U;                        /*!< Start/Complete */
+			volatile uint32_t	X : 1U;                         /*!< Error */
+			volatile uint32_t	B : 1U;                         /*!< Babble */
+			volatile uint32_t	H : 1U;                         /*!< Halt */
+			volatile uint32_t	A : 1U;                         /*!< Active */
+		} stateBitField;
+	} stateUnion;
 } usb_host_ip3516hs_atl_struct_t;
 
 /*! @brief IP3516HS Transaction Descriptor */
-typedef struct _usb_host_ip3516hs_ptl_struct
-{
-    union
-    {
-        uint32_t controlState;
-        struct
-        {
-            volatile uint32_t V : 1U; /*!< valid */
-            volatile uint32_t
-                NextPTDPointer : 5U;  /*!< Next PTD Counter: Next PTD branching assigned by the PTDpointer. */
-            uint32_t R1 : 1U;         /*!< Reserved */
-            volatile uint32_t J : 1U; /*!< Jump:  0: increment the PTD pointer. 1: enable the next PTD branching. */
-            volatile uint32_t
-                uFrame : 8U; /*!< This field is only applicable for interrupt and isochronous endpoints. */
-            volatile uint32_t MaxPacketLength : 11U; /*!< Maximum Packet Length */
-            uint32_t R2 : 1U;                        /*!< Reserved */
-            volatile uint32_t Mult : 2U;             /*!< Multiplier */
-            uint32_t R3 : 2U;                        /*!< Reserved */
-        } stateBitField;
-    } control1Union;
-    union
-    {
-        uint32_t controlState;
-        struct
-        {
-            volatile uint32_t EP : 4U;            /*!< Endpoint number */
-            volatile uint32_t DeviceAddress : 7U; /*!< Device address */
-            volatile uint32_t S : 1U;  /*!< This bit indicates whether a split transaction has to be executed. */
-            volatile uint32_t RL : 4U; /*!< Reload: If RL is set to 0h, hardware ignores the NakCnt value. RL and
-                                       NakCnt are set to the same value before a transaction. */
-            volatile uint32_t SE : 2U; /*!< This specifies the speed for a Control or Interrupt transaction to a device
-                                       that is not high-speed: 00-Full-speed, 10-Low-speed */
-            uint32_t R1 : 14U;         /*!< Reserved */
-        } stateBitField;
-    } control2Union;
-    union
-    {
-        uint32_t data;
-        struct
-        {
-            volatile uint32_t NrBytesToTransfer : 15U; /*!< Number of Bytes to Transfer. */
-            volatile uint32_t I : 1U;                  /*!< Interrupt on Complete. */
-            volatile uint32_t DataStartAddress : 16U;  /*!< Data buffer address */
-        } dataBitField;
-    } dataUnion;
-    union
-    {
-        uint32_t state;
-        struct
-        {
-            volatile uint32_t NrBytesToTransfer : 15U; /*!< Number of Bytes Transferred. */
-            volatile uint32_t
-                Token : 2U; /*!< Token: Identifies the token Packet Identifier (PID) for this transaction. */
-            volatile uint32_t EpType : 2U; /*!< Endpoint type */
-            volatile uint32_t NakCnt : 4U; /*!< Nak count */
-            volatile uint32_t Cerr : 2U;   /*!< Error count */
-            volatile uint32_t DT : 1U;     /*!< Data Toggle */
-            volatile uint32_t P : 1U;      /*!< Ping */
-            volatile uint32_t SC : 1U;     /*!< Start/Complete */
-            volatile uint32_t X : 1U;      /*!< Error */
-            volatile uint32_t B : 1U;      /*!< Babble */
-            volatile uint32_t H : 1U;      /*!< Halt */
-            volatile uint32_t A : 1U;      /*!< Active */
-        } stateBitField;
-    } stateUnion;
-    union
-    {
-        uint32_t status;
-        struct
-        {
-            volatile uint32_t uSA : 8U; /*!< This field is only used for periodic split transactions or if the port is
-                                           enabled in HS mode. */
-            volatile uint32_t Status0 : 3U; /*!< Isochronous IN or OUT status at uSOF0 */
-            volatile uint32_t Status1 : 3U; /*!< Isochronous IN or OUT status at uSOF1 */
-            volatile uint32_t Status2 : 3U; /*!< Isochronous IN or OUT status at uSOF2 */
-            volatile uint32_t Status3 : 3U; /*!< Isochronous IN or OUT status at uSOF3 */
-            volatile uint32_t Status4 : 3U; /*!< Isochronous IN or OUT status at uSOF4 */
-            volatile uint32_t Status5 : 3U; /*!< Isochronous IN or OUT status at uSOF5 */
-            volatile uint32_t Status6 : 3U; /*!< Isochronous IN or OUT status at uSOF6 */
-            volatile uint32_t Status7 : 3U; /*!< Isochronous IN or OUT status at uSOF7 */
-        } statusBitField;
-    } statusUnion;
-    union
-    {
-        uint32_t isoIn;
-        struct
-        {
-            volatile uint32_t isoIn0 : 12U;   /*!< Data length */
-            volatile uint32_t isoIn1 : 12U;   /*!< Data length */
-            volatile uint32_t isoIn2low : 8U; /*!< Data length */
-        } bitField;
-    } isoInUnion1;
-    union
-    {
-        uint32_t isoIn;
-        struct
-        {
-            volatile uint32_t isoIn2High : 4U; /*!< Data length */
-            volatile uint32_t isoIn3 : 12U;    /*!< Data length */
-            volatile uint32_t isoIn4 : 12U;    /*!< Data length */
-            volatile uint32_t isoIn5Low : 4U;  /*!< Data length */
-        } bitField;
-    } isoInUnion2;
-    union
-    {
-        uint32_t isoIn;
-        struct
-        {
-            volatile uint32_t isoIn5High : 8U; /*!< Data length */
-            volatile uint32_t isoIn6 : 12U;    /*!< Data length */
-            volatile uint32_t isoIn7 : 12U;    /*!< Data length */
-        } bitField;
-    } isoInUnion3;
+typedef struct _usb_host_ip3516hs_ptl_struct {
+	union {
+		uint32_t controlState;
+		struct {
+			volatile uint32_t	V : 1U;                 /*!< valid */
+			volatile uint32_t
+						NextPTDPointer : 5U;    /*!< Next PTD Counter: Next PTD branching assigned by the PTDpointer. */
+			uint32_t		R1 : 1U;                /*!< Reserved */
+			volatile uint32_t	J : 1U;                 /*!< Jump:  0: increment the PTD pointer. 1: enable the next PTD branching. */
+			volatile uint32_t
+						uFrame : 8U;            /*!< This field is only applicable for interrupt and isochronous endpoints. */
+			volatile uint32_t	MaxPacketLength : 11U;  /*!< Maximum Packet Length */
+			uint32_t		R2 : 1U;                /*!< Reserved */
+			volatile uint32_t	Mult : 2U;              /*!< Multiplier */
+			uint32_t		R3 : 2U;                /*!< Reserved */
+		} stateBitField;
+	} control1Union;
+	union {
+		uint32_t controlState;
+		struct {
+			volatile uint32_t	EP : 4U;                /*!< Endpoint number */
+			volatile uint32_t	DeviceAddress : 7U;     /*!< Device address */
+			volatile uint32_t	S : 1U;                 /*!< This bit indicates whether a split transaction has to be executed. */
+			volatile uint32_t	RL : 4U;                /*!< Reload: If RL is set to 0h, hardware ignores the NakCnt value. RL and
+			                                                 * NakCnt are set to the same value before a transaction. */
+			volatile uint32_t	SE : 2U;                /*!< This specifies the speed for a Control or Interrupt transaction to a device
+			                                                 * that is not high-speed: 00-Full-speed, 10-Low-speed */
+			uint32_t		R1 : 14U;               /*!< Reserved */
+		} stateBitField;
+	} control2Union;
+	union {
+		uint32_t data;
+		struct {
+			volatile uint32_t	NrBytesToTransfer : 15U;        /*!< Number of Bytes to Transfer. */
+			volatile uint32_t	I : 1U;                         /*!< Interrupt on Complete. */
+			volatile uint32_t	DataStartAddress : 16U;         /*!< Data buffer address */
+		} dataBitField;
+	} dataUnion;
+	union {
+		uint32_t state;
+		struct {
+			volatile uint32_t	NrBytesToTransfer : 15U;        /*!< Number of Bytes Transferred. */
+			volatile uint32_t
+						Token : 2U;                     /*!< Token: Identifies the token Packet Identifier (PID) for this transaction. */
+			volatile uint32_t	EpType : 2U;                    /*!< Endpoint type */
+			volatile uint32_t	NakCnt : 4U;                    /*!< Nak count */
+			volatile uint32_t	Cerr : 2U;                      /*!< Error count */
+			volatile uint32_t	DT : 1U;                        /*!< Data Toggle */
+			volatile uint32_t	P : 1U;                         /*!< Ping */
+			volatile uint32_t	SC : 1U;                        /*!< Start/Complete */
+			volatile uint32_t	X : 1U;                         /*!< Error */
+			volatile uint32_t	B : 1U;                         /*!< Babble */
+			volatile uint32_t	H : 1U;                         /*!< Halt */
+			volatile uint32_t	A : 1U;                         /*!< Active */
+		} stateBitField;
+	} stateUnion;
+	union {
+		uint32_t status;
+		struct {
+			volatile uint32_t	uSA : 8U;       /*!< This field is only used for periodic split transactions or if the port is
+			                                         * enabled in HS mode. */
+			volatile uint32_t	Status0 : 3U;   /*!< Isochronous IN or OUT status at uSOF0 */
+			volatile uint32_t	Status1 : 3U;   /*!< Isochronous IN or OUT status at uSOF1 */
+			volatile uint32_t	Status2 : 3U;   /*!< Isochronous IN or OUT status at uSOF2 */
+			volatile uint32_t	Status3 : 3U;   /*!< Isochronous IN or OUT status at uSOF3 */
+			volatile uint32_t	Status4 : 3U;   /*!< Isochronous IN or OUT status at uSOF4 */
+			volatile uint32_t	Status5 : 3U;   /*!< Isochronous IN or OUT status at uSOF5 */
+			volatile uint32_t	Status6 : 3U;   /*!< Isochronous IN or OUT status at uSOF6 */
+			volatile uint32_t	Status7 : 3U;   /*!< Isochronous IN or OUT status at uSOF7 */
+		} statusBitField;
+	} statusUnion;
+	union {
+		uint32_t isoIn;
+		struct {
+			volatile uint32_t	isoIn0 : 12U;   /*!< Data length */
+			volatile uint32_t	isoIn1 : 12U;   /*!< Data length */
+			volatile uint32_t	isoIn2low : 8U; /*!< Data length */
+		} bitField;
+	} isoInUnion1;
+	union {
+		uint32_t isoIn;
+		struct {
+			volatile uint32_t	isoIn2High : 4U;        /*!< Data length */
+			volatile uint32_t	isoIn3 : 12U;           /*!< Data length */
+			volatile uint32_t	isoIn4 : 12U;           /*!< Data length */
+			volatile uint32_t	isoIn5Low : 4U;         /*!< Data length */
+		} bitField;
+	} isoInUnion2;
+	union {
+		uint32_t isoIn;
+		struct {
+			volatile uint32_t	isoIn5High : 8U;        /*!< Data length */
+			volatile uint32_t	isoIn6 : 12U;           /*!< Data length */
+			volatile uint32_t	isoIn7 : 12U;           /*!< Data length */
+		} bitField;
+	} isoInUnion3;
 } usb_host_ip3516hs_ptl_struct_t;
 
 /*! @brief IP3516HS Transaction Descriptor */
-typedef struct _usb_host_ip3516hs_sptl_struct
-{
-    union
-    {
-        uint32_t controlState;
-        struct
-        {
-            volatile uint32_t V : 1U;                /*!< Valid */
-            volatile uint32_t NextPTDPointer : 5U;   /*!< NextPTDPointer */
-            uint32_t R1 : 1U;                        /*!< Reserved */
-            volatile uint32_t J : 1U;                /*!< Jump */
-            volatile uint32_t uFrame : 8U;           /*!< Frame number at which this PTD will be sent. */
-            volatile uint32_t MaxPacketLength : 11U; /*!< Maximum Packet Length. */
-            uint32_t R2 : 1U;                        /*!< Reserved */
-            volatile uint32_t Mult : 2U;             /*!< Multiplier */
-            uint32_t R3 : 2U;                        /*!< Reserved */
-        } stateBitField;
-    } control1Union;
-    union
-    {
-        uint32_t controlState;
-        struct
-        {
-            volatile uint32_t EP : 4U;            /*!< Endpoint number */
-            volatile uint32_t DeviceAddress : 7U; /*!< Device address */
-            volatile uint32_t S : 1U;  /*!< This bit indicates whether a split transaction has to be executed. */
-            volatile uint32_t RL : 4U; /*!< Reload: If RL is set to 0h, hardware ignores the NakCnt value. RL and
-                                       NakCnt are set to the same value before a transaction. */
-            volatile uint32_t SE : 2U; /*!< This specifies the speed for a Control or Interrupt transaction to a device
-                                       that is not high-speed: 00-Full-speed, 10-Low-speed */
-            volatile uint32_t PortNumber : 7U; /*!< Port number */
-            volatile uint32_t HubAddress : 7U; /*!< Hub Address */
-        } stateBitField;
-    } control2Union;
-    union
-    {
-        uint32_t data;
-        struct
-        {
-            volatile uint32_t NrBytesToTransfer : 15U; /*!< Number of Bytes to Transfer. */
-            volatile uint32_t I : 1U;                  /*!< Interrupt on Complete. */
-            volatile uint32_t DataStartAddress : 16U;  /*!< Data buffer address */
-        } dataBitField;
-    } dataUnion;
-    union
-    {
-        uint32_t state;
-        struct
-        {
-            volatile uint32_t NrBytesToTransfer : 15U; /*!< Number of Bytes Transferred. */
-            volatile uint32_t
-                Token : 2U; /*!< Token: Identifies the token Packet Identifier (PID) for this transaction. */
-            volatile uint32_t EpType : 2U; /*!< Endpoint type */
-            volatile uint32_t NakCnt : 4U; /*!< Nak count */
-            volatile uint32_t Cerr : 2U;   /*!< Error count */
-            volatile uint32_t DT : 1U;     /*!< Data Toggle */
-            volatile uint32_t P : 1U;      /*!< Ping */
-            volatile uint32_t SC : 1U;     /*!< Start/Complete */
-            volatile uint32_t X : 1U;      /*!< Error */
-            volatile uint32_t B : 1U;      /*!< Babble */
-            volatile uint32_t H : 1U;      /*!< Halt */
-            volatile uint32_t A : 1U;      /*!< Active */
-        } dataBitField;
-    } stateUnion;
-    union
-    {
-        uint32_t status;
-        struct
-        {
-            volatile uint32_t uSA : 8U; /*!< This field is only used for periodic split transactions or if the port is
-                                           enabled in HS mode. */
-            volatile uint32_t Status0 : 3U; /*!< Isochronous IN or OUT status at uSOF0 */
-            volatile uint32_t Status1 : 3U; /*!< Isochronous IN or OUT status at uSOF1 */
-            volatile uint32_t Status2 : 3U; /*!< Isochronous IN or OUT status at uSOF2 */
-            volatile uint32_t Status3 : 3U; /*!< Isochronous IN or OUT status at uSOF3 */
-            volatile uint32_t Status4 : 3U; /*!< Isochronous IN or OUT status at uSOF4 */
-            volatile uint32_t Status5 : 3U; /*!< Isochronous IN or OUT status at uSOF5 */
-            volatile uint32_t Status6 : 3U; /*!< Isochronous IN or OUT status at uSOF6 */
-            volatile uint32_t Status7 : 3U; /*!< Isochronous IN or OUT status at uSOF7 */
-        } statusBitField;
-    } statusUnion;
-    union
-    {
-        uint32_t isoIn;
-        struct
-        {
-            volatile uint32_t uSCS : 8U; /*!< All bits can be set to one for every transfer. It specifies which uSOF the
-                                              complete split needs to be sent. */
-            volatile uint32_t isoIn0 : 8U; /*!< Data length */
-            volatile uint32_t isoIn1 : 8U; /*!< Data length */
-            volatile uint32_t isoIn2 : 8U; /*!< Data length */
-        } bitField;
-    } isoInUnion1;
-    union
-    {
-        uint32_t isoIn;
-        struct
-        {
-            volatile uint32_t isoIn3 : 8U; /*!< Data length */
-            volatile uint32_t isoIn4 : 8U; /*!< Data length */
-            volatile uint32_t isoIn5 : 8U; /*!< Data length */
-            volatile uint32_t isoIn6 : 8U; /*!< Data length */
-        } bitField;
-    } isoInUnion2;
-    union
-    {
-        uint32_t isoIn;
-        struct
-        {
-            volatile uint32_t isoIn7 : 8U; /*!< Data length */
-            volatile uint32_t R : 24U;     /*!< Reserved */
-        } bitField;
-    } isoInUnion3;
+typedef struct _usb_host_ip3516hs_sptl_struct {
+	union {
+		uint32_t controlState;
+		struct {
+			volatile uint32_t	V : 1U;                 /*!< Valid */
+			volatile uint32_t	NextPTDPointer : 5U;    /*!< NextPTDPointer */
+			uint32_t		R1 : 1U;                /*!< Reserved */
+			volatile uint32_t	J : 1U;                 /*!< Jump */
+			volatile uint32_t	uFrame : 8U;            /*!< Frame number at which this PTD will be sent. */
+			volatile uint32_t	MaxPacketLength : 11U;  /*!< Maximum Packet Length. */
+			uint32_t		R2 : 1U;                /*!< Reserved */
+			volatile uint32_t	Mult : 2U;              /*!< Multiplier */
+			uint32_t		R3 : 2U;                /*!< Reserved */
+		} stateBitField;
+	} control1Union;
+	union {
+		uint32_t controlState;
+		struct {
+			volatile uint32_t	EP : 4U;                /*!< Endpoint number */
+			volatile uint32_t	DeviceAddress : 7U;     /*!< Device address */
+			volatile uint32_t	S : 1U;                 /*!< This bit indicates whether a split transaction has to be executed. */
+			volatile uint32_t	RL : 4U;                /*!< Reload: If RL is set to 0h, hardware ignores the NakCnt value. RL and
+			                                                 * NakCnt are set to the same value before a transaction. */
+			volatile uint32_t	SE : 2U;                /*!< This specifies the speed for a Control or Interrupt transaction to a device
+			                                                 * that is not high-speed: 00-Full-speed, 10-Low-speed */
+			volatile uint32_t	PortNumber : 7U;        /*!< Port number */
+			volatile uint32_t	HubAddress : 7U;        /*!< Hub Address */
+		} stateBitField;
+	} control2Union;
+	union {
+		uint32_t data;
+		struct {
+			volatile uint32_t	NrBytesToTransfer : 15U;        /*!< Number of Bytes to Transfer. */
+			volatile uint32_t	I : 1U;                         /*!< Interrupt on Complete. */
+			volatile uint32_t	DataStartAddress : 16U;         /*!< Data buffer address */
+		} dataBitField;
+	} dataUnion;
+	union {
+		uint32_t state;
+		struct {
+			volatile uint32_t	NrBytesToTransfer : 15U;        /*!< Number of Bytes Transferred. */
+			volatile uint32_t
+						Token : 2U;                     /*!< Token: Identifies the token Packet Identifier (PID) for this transaction. */
+			volatile uint32_t	EpType : 2U;                    /*!< Endpoint type */
+			volatile uint32_t	NakCnt : 4U;                    /*!< Nak count */
+			volatile uint32_t	Cerr : 2U;                      /*!< Error count */
+			volatile uint32_t	DT : 1U;                        /*!< Data Toggle */
+			volatile uint32_t	P : 1U;                         /*!< Ping */
+			volatile uint32_t	SC : 1U;                        /*!< Start/Complete */
+			volatile uint32_t	X : 1U;                         /*!< Error */
+			volatile uint32_t	B : 1U;                         /*!< Babble */
+			volatile uint32_t	H : 1U;                         /*!< Halt */
+			volatile uint32_t	A : 1U;                         /*!< Active */
+		} dataBitField;
+	} stateUnion;
+	union {
+		uint32_t status;
+		struct {
+			volatile uint32_t	uSA : 8U;       /*!< This field is only used for periodic split transactions or if the port is
+			                                         * enabled in HS mode. */
+			volatile uint32_t	Status0 : 3U;   /*!< Isochronous IN or OUT status at uSOF0 */
+			volatile uint32_t	Status1 : 3U;   /*!< Isochronous IN or OUT status at uSOF1 */
+			volatile uint32_t	Status2 : 3U;   /*!< Isochronous IN or OUT status at uSOF2 */
+			volatile uint32_t	Status3 : 3U;   /*!< Isochronous IN or OUT status at uSOF3 */
+			volatile uint32_t	Status4 : 3U;   /*!< Isochronous IN or OUT status at uSOF4 */
+			volatile uint32_t	Status5 : 3U;   /*!< Isochronous IN or OUT status at uSOF5 */
+			volatile uint32_t	Status6 : 3U;   /*!< Isochronous IN or OUT status at uSOF6 */
+			volatile uint32_t	Status7 : 3U;   /*!< Isochronous IN or OUT status at uSOF7 */
+		} statusBitField;
+	} statusUnion;
+	union {
+		uint32_t isoIn;
+		struct {
+			volatile uint32_t	uSCS : 8U;      /*!< All bits can be set to one for every transfer. It specifies which uSOF the
+			                                         *   complete split needs to be sent. */
+			volatile uint32_t	isoIn0 : 8U;    /*!< Data length */
+			volatile uint32_t	isoIn1 : 8U;    /*!< Data length */
+			volatile uint32_t	isoIn2 : 8U;    /*!< Data length */
+		} bitField;
+	} isoInUnion1;
+	union {
+		uint32_t isoIn;
+		struct {
+			volatile uint32_t	isoIn3 : 8U;    /*!< Data length */
+			volatile uint32_t	isoIn4 : 8U;    /*!< Data length */
+			volatile uint32_t	isoIn5 : 8U;    /*!< Data length */
+			volatile uint32_t	isoIn6 : 8U;    /*!< Data length */
+		} bitField;
+	} isoInUnion2;
+	union {
+		uint32_t isoIn;
+		struct {
+			volatile uint32_t	isoIn7 : 8U;    /*!< Data length */
+			volatile uint32_t	R : 24U;        /*!< Reserved */
+		} bitField;
+	} isoInUnion3;
 } usb_host_ip3516hs_sptl_struct_t;
 
 #define USB_HOST_IP3516HS_PTD_TOKEN_OUT 0x00U
@@ -454,48 +412,44 @@ typedef struct _usb_host_ip3516hs_sptl_struct
 #define USB_HOST_IP3516HS_HUB_LS_SETUP_TIME_DELAY (333U)
 
 #if ((defined(USB_HOST_CONFIG_LOW_POWER_MODE)) && (USB_HOST_CONFIG_LOW_POWER_MODE > 0U))
-typedef enum _bus_ip3516hs_suspend_request_state
-{
-    kBus_Ip3516HsIdle = 0,
-    kBus_Ip3516HsStartSuspend,
-    kBus_Ip3516HsSuspended,
-    kBus_Ip3516HsStartResume,
-    kBus_Ip3516HsL1StartSleep,
-    kBus_Ip3516HsL1Sleeped,
-    kBus_Ip3516HsL1StartResume,
-    kBus_Ip3516HsError,
+typedef enum _bus_ip3516hs_suspend_request_state {
+	kBus_Ip3516HsIdle = 0,
+	kBus_Ip3516HsStartSuspend,
+	kBus_Ip3516HsSuspended,
+	kBus_Ip3516HsStartResume,
+	kBus_Ip3516HsL1StartSleep,
+	kBus_Ip3516HsL1Sleeped,
+	kBus_Ip3516HsL1StartResume,
+	kBus_Ip3516HsError,
 } bus_ip3516hs_suspend_request_state_t;
 #endif
 
-typedef enum _usb_host_ip3516hs_transfer_status
-{
-    kStatus_UsbHostIp3516Hs_Idle = 0,
-    kStatus_UsbHostIp3516Hs_Setup,
-    kStatus_UsbHostIp3516Hs_Data,
-    kStatus_UsbHostIp3516Hs_Data2,
-    kStatus_UsbHostIp3516Hs_State,
+typedef enum _usb_host_ip3516hs_transfer_status {
+	kStatus_UsbHostIp3516Hs_Idle = 0,
+	kStatus_UsbHostIp3516Hs_Setup,
+	kStatus_UsbHostIp3516Hs_Data,
+	kStatus_UsbHostIp3516Hs_Data2,
+	kStatus_UsbHostIp3516Hs_State,
 } usb_host_ip3516hs_transfer_status_t;
 #if ((defined(USB_HOST_CONFIG_IP3516HS_MAX_ISO)) && (USB_HOST_CONFIG_IP3516HS_MAX_ISO > 0U))
-typedef union index_length
-{
-    uint32_t indexLength;
-    struct
-    {
-        uint32_t tdIndex : 8U;
-        uint32_t bufferIndex : 8U;
-        uint32_t bufferLength : 16U;
-    } state;
+typedef union index_length {
+	uint32_t indexLength;
+	struct {
+		uint32_t	tdIndex : 8U;
+		uint32_t	bufferIndex : 8U;
+		uint32_t	bufferLength : 16U;
+	} state;
 } indexLength_t;
 #endif
-typedef struct _usb_host_ip3516hs_td_struct
-{
+typedef struct _usb_host_ip3516hs_td_struct {
 #if (defined(USB_HOST_CONFIG_IP3516HS_MAX_ISO) && (USB_HOST_CONFIG_IP3516HS_MAX_ISO > 0U))
-    usb_host_ip3516hs_ptl_struct_t iso[USB_HOST_CONFIG_IP3516HS_MAX_ISO];
+	usb_host_ip3516hs_ptl_struct_t	iso[USB_HOST_CONFIG_IP3516HS_MAX_ISO];
 #endif
 #if (defined(USB_HOST_CONFIG_IP3516HS_MAX_INT) && (USB_HOST_CONFIG_IP3516HS_MAX_INT > 0U))
-    usb_host_ip3516hs_ptl_struct_t interrupt[USB_HOST_CONFIG_IP3516HS_MAX_INT];
+	usb_host_ip3516hs_ptl_struct_t	interrupt[USB_HOST_CONFIG_IP3516HS_MAX_INT];
 #endif
-    usb_host_ip3516hs_atl_struct_t atl[(((USB_HOST_CONFIG_IP3516HS_MAX_ATL - 1U) >> 1U) + 1U) << 1U];
+	usb_host_ip3516hs_atl_struct_t	atl[(((USB_HOST_CONFIG_IP3516HS_MAX_ATL - 1U) >> 1U) +
+					     1U) << 1U];
 } usb_host_ip3516hs_ptd_struct_t;
 
 /*! @brief task event */
@@ -508,12 +462,14 @@ typedef struct _usb_host_ip3516hs_td_struct
 #define USB_HOST_IP3516HS_EVENT_SOF (0x40U)
 
 #define USB_HOST_IP3516HS_PERIODIC_BANDWIDTH_PERCENT ((float)90U / (float)100U)
-#define USB_HOST_IP3516HS_PERIODIC_BANDWIDTH ((float)125U * USB_HOST_IP3516HS_PERIODIC_BANDWIDTH_PERCENT)
+#define USB_HOST_IP3516HS_PERIODIC_BANDWIDTH ((float)125U * \
+					      USB_HOST_IP3516HS_PERIODIC_BANDWIDTH_PERCENT)
 
 /*! @brief Transfer scan interval (ms)*/
 #define USB_HOST_IP3516HS_TRANSFER_SCAN_INTERVAL (200U)
 /*! @brief Time out gap for each transfer (USB_HOST_OHCI_TRANSFER_SCAN_INTERVAL * 1ms) */
-#define USB_HOST_IP3516HS_TRANSFER_TIMEOUT_GAP ((5000U * 8U) / USB_HOST_IP3516HS_TRANSFER_SCAN_INTERVAL)
+#define USB_HOST_IP3516HS_TRANSFER_TIMEOUT_GAP ((5000U * 8U) / \
+						USB_HOST_IP3516HS_TRANSFER_SCAN_INTERVAL)
 
 #define USB_HOST_IP3516HS_CONTROL_PIPE_MAX_TRANSFER_LENGTH 64U
 
@@ -523,107 +479,105 @@ typedef struct _usb_host_ip3516hs_td_struct
 #define USB_HostIp3516HsUnlock() (void)OSA_MutexUnlock(usbHostState->mutex)
 
 /*! @brief IP3516HS Host Controller Operational Registers */
-typedef struct _usb_host_ip3516hs_hcor_struct
-{
-    __I uint32_t CAPLENGTH_CHIPID;
-    __I uint32_t HCSPARAMS;
-    __I uint32_t HCCPARAMS;
-    __IO uint32_t FLADJ_FRINDEX;
-    __IO uint32_t ATL_PTD_BASE_ADDRESS;
-    __IO uint32_t ISO_PTD_BASE_ADDRESS;
-    __IO uint32_t INT_PTD_BASE_ADDRESS;
-    __IO uint32_t DATA_PAYLOAD_BASE_ADDRESS;
-    __IO uint32_t USBCMD;
-    __IO uint32_t USBSTS;
-    __IO uint32_t USBINTR;
-    __IO uint32_t PORTSC1;
-    __IO uint32_t ATL_PTD_DONE_MAP;
-    __IO uint32_t ATL_PTD_SKIP_MAP;
-    __IO uint32_t ISO_PTD_DONE_MAP;
-    __IO uint32_t ISO_PTD_SKIP_MAP;
-    __IO uint32_t INT_PTD_DONE_MAP;
-    __IO uint32_t INT_PTD_SKIP_MAP;
-    __IO uint32_t LAST_PTD_IN_USE;
-    __IO uint32_t UTMI_ULPI_DEBUG;
-    __IO uint32_t PORT_MODE;
-    uint8_t RESERVED_0[48];
-#if (defined(FSL_FEATURE_USBHSH_HAS_TURNAROUND_TIMEOUT) && (FSL_FEATURE_USBHSH_HAS_TURNAROUND_TIMEOUT > 0U))
-    __IO uint32_t PACKET_TURNAROUND_TIMEOUT;
+typedef struct _usb_host_ip3516hs_hcor_struct {
+	__I uint32_t	CAPLENGTH_CHIPID;
+	__I uint32_t	HCSPARAMS;
+	__I uint32_t	HCCPARAMS;
+	__IO uint32_t	FLADJ_FRINDEX;
+	__IO uint32_t	ATL_PTD_BASE_ADDRESS;
+	__IO uint32_t	ISO_PTD_BASE_ADDRESS;
+	__IO uint32_t	INT_PTD_BASE_ADDRESS;
+	__IO uint32_t	DATA_PAYLOAD_BASE_ADDRESS;
+	__IO uint32_t	USBCMD;
+	__IO uint32_t	USBSTS;
+	__IO uint32_t	USBINTR;
+	__IO uint32_t	PORTSC1;
+	__IO uint32_t	ATL_PTD_DONE_MAP;
+	__IO uint32_t	ATL_PTD_SKIP_MAP;
+	__IO uint32_t	ISO_PTD_DONE_MAP;
+	__IO uint32_t	ISO_PTD_SKIP_MAP;
+	__IO uint32_t	INT_PTD_DONE_MAP;
+	__IO uint32_t	INT_PTD_SKIP_MAP;
+	__IO uint32_t	LAST_PTD_IN_USE;
+	__IO uint32_t	UTMI_ULPI_DEBUG;
+	__IO uint32_t	PORT_MODE;
+	uint8_t		RESERVED_0[48];
+#if (defined(FSL_FEATURE_USBHSH_HAS_TURNAROUND_TIMEOUT) && \
+	(FSL_FEATURE_USBHSH_HAS_TURNAROUND_TIMEOUT > 0U))
+	__IO uint32_t	PACKET_TURNAROUND_TIMEOUT;
 #endif
 } usb_host_ip3516hs_register_struct_t;
 
 /*! @brief Port state for device attachment/detachment. */
-typedef enum _usb_host_ip3516hs_port_state
-{
-    kUSB_DeviceIp3516HsPortDetached = 0U, /*!< Port is detached and de-initialized */
-    kUSB_DeviceIp3516HsPortPhyDetached,   /*!< Port is physically detached */
-    kUSB_DeviceIp3516HsPortPhyAttached,   /*!< Port is physically attached */
-    kUSB_DeviceIp3516HsPortAttached,      /*!< Port is attached and initialized */
+typedef enum _usb_host_ip3516hs_port_state {
+	kUSB_DeviceIp3516HsPortDetached = 0U,   /*!< Port is detached and de-initialized */
+	kUSB_DeviceIp3516HsPortPhyDetached,     /*!< Port is physically detached */
+	kUSB_DeviceIp3516HsPortPhyAttached,     /*!< Port is physically attached */
+	kUSB_DeviceIp3516HsPortAttached,        /*!< Port is attached and initialized */
 } usb_host_ip3516hs_port_state_t;
 
-typedef struct _usb_host_ip3516hs_port_state_struct
-{
-    volatile uint8_t portSpeed;  /*!< Port speed */
-    volatile uint8_t portStatus; /*!< Port status */
+typedef struct _usb_host_ip3516hs_port_state_struct {
+	volatile uint8_t	portSpeed;      /*!< Port speed */
+	volatile uint8_t	portStatus;     /*!< Port status */
 } usb_host_ip3516hs_port_state_struct_t;
 
-typedef struct _usb_host_ip3516hs_pipe_struct
-{
-    usb_host_pipe_t pipeCommon; /*!< Common pipe information */
-    usb_host_transfer_t *trList;
-    volatile usb_host_transfer_t *currentTr;
-    uint32_t bufferIndex;
-    uint32_t bufferLength;
-    uint16_t cutOffTime;
-    uint16_t busHsTime;
-    uint16_t busNoneHsTime;
-    uint16_t startUFrame;
-    uint16_t lastPrimedIndex;
-    uint8_t ssSlot;
-    uint8_t csSlot;
-    uint8_t tdIndex;
-    volatile uint8_t isBusy;
+typedef struct _usb_host_ip3516hs_pipe_struct {
+	usb_host_pipe_t			pipeCommon; /*!< Common pipe information */
+	usb_host_transfer_t *		trList;
+	volatile usb_host_transfer_t *	currentTr;
+	uint32_t			bufferIndex;
+	uint32_t			bufferLength;
+	uint16_t			cutOffTime;
+	uint16_t			busHsTime;
+	uint16_t			busNoneHsTime;
+	uint16_t			startUFrame;
+	uint16_t			lastPrimedIndex;
+	uint8_t				ssSlot;
+	uint8_t				csSlot;
+	uint8_t				tdIndex;
+	volatile uint8_t		isBusy;
 } usb_host_ip3516hs_pipe_struct_t;
 
 /*! @brief IP3516HS controller driver instance structure */
-typedef struct _usb_host_ip3516hs_state_struct
-{
-    volatile usb_host_ip3516hs_register_struct_t *usbRegBase; /*!< The base address of the register */
-    void *hostHandle;                                         /*!< Related host handle*/
+typedef struct _usb_host_ip3516hs_state_struct {
+	volatile usb_host_ip3516hs_register_struct_t *	usbRegBase;     /*!< The base address of the register */
+	void *						hostHandle;     /*!< Related host handle*/
 #if (defined(USB_HOST_CONFIG_BATTERY_CHARGER) && (USB_HOST_CONFIG_BATTERY_CHARGER > 0U)) && \
-    (defined(FSL_FEATURE_SOC_USBHSDCD_COUNT) && (FSL_FEATURE_SOC_USBHSDCD_COUNT > 0U))
-    void *dcdHandle; /*!< Dcd handle used to identify the device object belongs to */
+	(defined(FSL_FEATURE_SOC_USBHSDCD_COUNT) && (FSL_FEATURE_SOC_USBHSDCD_COUNT > 0U))
+	void *						dcdHandle; /*!< Dcd handle used to identify the device object belongs to */
 #endif
-    usb_host_ip3516hs_port_state_struct_t *portState;
-    usb_host_ip3516hs_pipe_struct_t *pipeList;
-    usb_host_ip3516hs_pipe_struct_t *pipeListInUsing;
-    volatile uint32_t bufferArrayBitMap[4]; /*!< Bit map for USB dedicated RAM (Uint is 64bytes) */
+	usb_host_ip3516hs_port_state_struct_t *		portState;
+	usb_host_ip3516hs_pipe_struct_t *		pipeList;
+	usb_host_ip3516hs_pipe_struct_t *		pipeListInUsing;
+	volatile uint32_t				bufferArrayBitMap[4]; /*!< Bit map for USB dedicated RAM (Uint is 64bytes) */
 #if ((defined(USB_HOST_CONFIG_LOW_POWER_MODE)) && (USB_HOST_CONFIG_LOW_POWER_MODE > 0U))
-    uint64_t matchTick;
+	uint64_t					matchTick;
 #endif
-    osa_event_handle_t ip3516HsEvent;                                /*!< IP3516HS event*/
-    uint32_t taskEventHandleBuffer[(OSA_EVENT_HANDLE_SIZE + 3) / 4]; /*!< task event handle buffer*/
-    osa_mutex_handle_t mutex;                                        /*!< Ip3516Hs layer mutex*/
-    uint32_t mutexBuffer[(OSA_MUTEX_HANDLE_SIZE + 3) / 4];
-    usb_host_ip3516hs_pipe_struct_t pipePool[USB_HOST_CONFIG_IP3516HS_MAX_PIPE];
-    uint8_t controllerId;      /*!< Controller id */
-    uint8_t portNumber;        /*!< Port count */
-    uint8_t isrNumber;         /*!< ISR Number */
-    volatile uint8_t isrLevel; /*!< The disable deep of the ISR */
+	osa_event_handle_t				ip3516HsEvent;                          /*!< IP3516HS event*/
+	uint32_t					taskEventHandleBuffer[(OSA_EVENT_HANDLE_SIZE
+									       + 3) / 4];       /*!< task event handle buffer*/
+	osa_mutex_handle_t				mutex;                                  /*!< Ip3516Hs layer mutex*/
+	uint32_t					mutexBuffer[(OSA_MUTEX_HANDLE_SIZE + 3) /
+								    4];
+	usb_host_ip3516hs_pipe_struct_t			pipePool[USB_HOST_CONFIG_IP3516HS_MAX_PIPE];
+	uint8_t						controllerId;   /*!< Controller id */
+	uint8_t						portNumber;     /*!< Port count */
+	uint8_t						isrNumber;      /*!< ISR Number */
+	volatile uint8_t				isrLevel;       /*!< The disable deep of the ISR */
 #if ((defined USB_HOST_CONFIG_COMPLIANCE_TEST) && (USB_HOST_CONFIG_COMPLIANCE_TEST))
-    uint8_t complianceTestStart;
-    uint8_t complianceTest;
+	uint8_t						complianceTestStart;
+	uint8_t						complianceTest;
 #endif
 #if ((defined(USB_HOST_CONFIG_LOW_POWER_MODE)) && (USB_HOST_CONFIG_LOW_POWER_MODE > 0U))
 #if ((defined(USB_HOST_CONFIG_LPM_L1)) && (USB_HOST_CONFIG_LPM_L1 > 0U))
-    uint8_t hirdValue;
-    uint8_t L1remoteWakeupEnable;
+	uint8_t						hirdValue;
+	uint8_t						L1remoteWakeupEnable;
 #endif
-    uint8_t busSuspendStatus; /*!< Bus Suspend Status*/
+	uint8_t						busSuspendStatus; /*!< Bus Suspend Status*/
 #endif
 #if (defined(USB_HOST_CONFIG_BATTERY_CHARGER) && (USB_HOST_CONFIG_BATTERY_CHARGER > 0U)) && \
-    (defined(FSL_FEATURE_SOC_USBHSDCD_COUNT) && (FSL_FEATURE_SOC_USBHSDCD_COUNT > 0U))
-    uint8_t chargerType;
+	(defined(FSL_FEATURE_SOC_USBHSDCD_COUNT) && (FSL_FEATURE_SOC_USBHSDCD_COUNT > 0U))
+	uint8_t						chargerType;
 #endif
 } usb_host_ip3516hs_state_struct_t;
 
@@ -653,9 +607,8 @@ extern "C" {
  * @retval kStatus_USB_Error                Host mutex create failed, IP3516HS mutex or IP3516HS event create failed.
  *                                          Or, IP3516HS IP initialize failed.
  */
-extern usb_status_t USB_HostIp3516HsCreate(uint8_t controllerId,
-                                           usb_host_handle hostHandle,
-                                           usb_host_controller_handle *controllerHandle);
+extern usb_status_t USB_HostIp3516HsCreate(uint8_t controllerId, usb_host_handle hostHandle,
+					   usb_host_controller_handle *controllerHandle);
 
 /*!
  * @brief Destroys the USB host IP3516HS instance.
@@ -682,8 +635,8 @@ extern usb_status_t USB_HostIp3516HsDestory(usb_host_controller_handle controlle
  *
  */
 extern usb_status_t USB_HostIp3516HsOpenPipe(usb_host_controller_handle controllerHandle,
-                                             usb_host_pipe_handle *pipeHandle,
-                                             usb_host_pipe_init_t *pipeInit);
+					     usb_host_pipe_handle *	pipeHandle,
+					     usb_host_pipe_init_t *	pipeInit);
 
 /*!
  * @brief Closes the USB host pipe.
@@ -695,8 +648,8 @@ extern usb_status_t USB_HostIp3516HsOpenPipe(usb_host_controller_handle controll
  *
  * @retval kStatus_USB_Success              The host is initialized successfully.
  */
-extern usb_status_t USB_HostIp3516HsClosePipe(usb_host_controller_handle controllerHandle,
-                                              usb_host_pipe_handle pipeHandle);
+extern usb_status_t USB_HostIp3516HsClosePipe(usb_host_controller_handle	controllerHandle,
+					      usb_host_pipe_handle		pipeHandle);
 
 /*!
  * @brief Sends data to the pipe.
@@ -710,9 +663,9 @@ extern usb_status_t USB_HostIp3516HsClosePipe(usb_host_controller_handle control
  * @retval kStatus_USB_Success                  Send successful.
  * @retval kStatus_USB_LackSwapBuffer       There is no swap buffer for IP3516HS.
  */
-extern usb_status_t USB_HostIp3516HsWritePipe(usb_host_controller_handle controllerHandle,
-                                              usb_host_pipe_handle pipeHandle,
-                                              usb_host_transfer_t *transfer);
+extern usb_status_t USB_HostIp3516HsWritePipe(usb_host_controller_handle	controllerHandle,
+					      usb_host_pipe_handle		pipeHandle,
+					      usb_host_transfer_t *		transfer);
 
 /*!
  * @brief Receives data from the pipe.
@@ -727,8 +680,8 @@ extern usb_status_t USB_HostIp3516HsWritePipe(usb_host_controller_handle control
  * @retval kStatus_USB_LackSwapBuffer       There is no swap buffer for IP3516HS.
  */
 extern usb_status_t USB_HostIp3516HsReadPipe(usb_host_controller_handle controllerHandle,
-                                             usb_host_pipe_handle pipeHandle,
-                                             usb_host_transfer_t *transfer);
+					     usb_host_pipe_handle	pipeHandle,
+					     usb_host_transfer_t *	transfer);
 
 /*!
  * @brief Controls the IP3516HS.
@@ -742,9 +695,8 @@ extern usb_status_t USB_HostIp3516HsReadPipe(usb_host_controller_handle controll
  * @retval kStatus_USB_Success                Cancel successful.
  * @retval kStatus_USB_InvalidHandle        The controllerHandle is a NULL pointer.
  */
-extern usb_status_t USB_HostIp3516HsIoctl(usb_host_controller_handle controllerHandle,
-                                          uint32_t ioctlEvent,
-                                          void *ioctlParam);
+extern usb_status_t USB_HostIp3516HsIoctl(usb_host_controller_handle controllerHandle, uint32_t
+					  ioctlEvent, void *ioctlParam);
 
 /*! @}*/
 #ifdef __cplusplus

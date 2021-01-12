@@ -66,7 +66,7 @@ DSTATUS mmc_disk_status(BYTE pdrv);
  * @retval RES_PARERR Failed.
  * @retval RES_OK Success.
  */
-DRESULT mmc_disk_read(BYTE pdrv, BYTE* buff, LBA_t sector, UINT count);
+DRESULT mmc_disk_read(BYTE pdrv, BYTE *buff, LBA_t sector, UINT count);
 
 /*!
  * @brief Writes MMC disk.
@@ -78,7 +78,7 @@ DRESULT mmc_disk_read(BYTE pdrv, BYTE* buff, LBA_t sector, UINT count);
  * @retval RES_PARERR Failed.
  * @retval RES_OK Success.
  */
-DRESULT mmc_disk_write(BYTE pdrv, const BYTE* buff, LBA_t sector, UINT count);
+DRESULT mmc_disk_write(BYTE pdrv, const BYTE *buff, LBA_t sector, UINT count);
 
 /*!
  * @brief MMC disk IO operation.
@@ -89,7 +89,7 @@ DRESULT mmc_disk_write(BYTE pdrv, const BYTE* buff, LBA_t sector, UINT count);
  * @retval RES_PARERR Failed.
  * @retval RES_OK Success.
  */
-DRESULT mmc_disk_ioctl(BYTE pdrv, BYTE cmd, void* buff);
+DRESULT mmc_disk_ioctl(BYTE pdrv, BYTE cmd, void *buff);
 
 /* @} */
 

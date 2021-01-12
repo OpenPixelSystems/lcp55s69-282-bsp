@@ -45,7 +45,8 @@
  * for example: 2 - one for khci, one for ehci.
  */
 #define USB_HOST_CONFIG_MAX_HOST \
-    (USB_HOST_CONFIG_KHCI + USB_HOST_CONFIG_EHCI + USB_HOST_CONFIG_OHCI + USB_HOST_CONFIG_IP3516HS)
+	(USB_HOST_CONFIG_KHCI + USB_HOST_CONFIG_EHCI + USB_HOST_CONFIG_OHCI + \
+	 USB_HOST_CONFIG_IP3516HS)
 
 /*!
  * @brief host pipe max count.

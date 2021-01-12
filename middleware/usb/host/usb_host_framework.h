@@ -34,9 +34,8 @@
  * @return kStatus_USB_Success or error codes.
  */
 usb_status_t USB_HostCh9RequestCommon(usb_host_device_instance_t *deviceInstance,
-                                      usb_host_transfer_t *transfer,
-                                      uint8_t *buffer,
-                                      uint32_t bufferLen);
+				      usb_host_transfer_t *transfer, uint8_t *buffer, uint32_t
+				      bufferLen);
 
 /*!
  * @brief standard get status implementation.
@@ -48,8 +47,7 @@ usb_status_t USB_HostCh9RequestCommon(usb_host_device_instance_t *deviceInstance
  * @return kStatus_USB_Success or error codes.
  */
 usb_status_t USB_HostStandardGetStatus(usb_host_device_instance_t *deviceInstance,
-                                       usb_host_transfer_t *transfer,
-                                       void *param);
+				       usb_host_transfer_t *transfer, void *param);
 
 /*!
  * @brief standard set/clear feature implementation.
@@ -61,8 +59,7 @@ usb_status_t USB_HostStandardGetStatus(usb_host_device_instance_t *deviceInstanc
  * @return kStatus_USB_Success or error codes.
  */
 usb_status_t USB_HostStandardSetClearFeature(usb_host_device_instance_t *deviceInstance,
-                                             usb_host_transfer_t *transfer,
-                                             void *param);
+					     usb_host_transfer_t *transfer, void *param);
 
 /*!
  * @brief standard set address implementation.
@@ -74,8 +71,7 @@ usb_status_t USB_HostStandardSetClearFeature(usb_host_device_instance_t *deviceI
  * @return kStatus_USB_Success or error codes.
  */
 usb_status_t USB_HostStandardSetAddress(usb_host_device_instance_t *deviceInstance,
-                                        usb_host_transfer_t *transfer,
-                                        void *param);
+					usb_host_transfer_t *transfer, void *param);
 
 /*!
  * @brief standard set/get descriptor implementation.
@@ -87,8 +83,7 @@ usb_status_t USB_HostStandardSetAddress(usb_host_device_instance_t *deviceInstan
  * @return kStatus_USB_Success or error codes.
  */
 usb_status_t USB_HostStandardSetGetDescriptor(usb_host_device_instance_t *deviceInstance,
-                                              usb_host_transfer_t *transfer,
-                                              void *param);
+					      usb_host_transfer_t *transfer, void *param);
 
 /*!
  * @brief standard get interface implementation.
@@ -100,8 +95,7 @@ usb_status_t USB_HostStandardSetGetDescriptor(usb_host_device_instance_t *device
  * @return kStatus_USB_Success or error codes.
  */
 usb_status_t USB_HostStandardGetInterface(usb_host_device_instance_t *deviceInstance,
-                                          usb_host_transfer_t *transfer,
-                                          void *param);
+					  usb_host_transfer_t *transfer, void *param);
 
 /*!
  * @brief standard set interface implementation.
@@ -113,8 +107,7 @@ usb_status_t USB_HostStandardGetInterface(usb_host_device_instance_t *deviceInst
  * @return kStatus_USB_Success or error codes.
  */
 usb_status_t USB_HostStandardSetInterface(usb_host_device_instance_t *deviceInstance,
-                                          usb_host_transfer_t *transfer,
-                                          void *param);
+					  usb_host_transfer_t *transfer, void *param);
 
 /*!
  * @brief standard sync frame implementation.
@@ -126,6 +119,5 @@ usb_status_t USB_HostStandardSetInterface(usb_host_device_instance_t *deviceInst
  * @return kStatus_USB_Success or error codes.
  */
 usb_status_t USB_HostStandardSyncFrame(usb_host_device_instance_t *deviceInstance,
-                                       usb_host_transfer_t *transfer,
-                                       void *param);
+				       usb_host_transfer_t *transfer, void *param);
 #endif /* _USB_HOST_CH9_H_ */

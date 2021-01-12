@@ -54,47 +54,44 @@
 #define USB_HOST_HID_REQUEST_PROTOCOL_REPORT (1U)
 
 /*! @brief HID instance structure and HID usb_host_class_handle pointer to this structure */
-typedef struct _usb_host_hid_instance
-{
-    usb_host_handle hostHandle;                /*!< This instance's related host handle*/
-    usb_device_handle deviceHandle;            /*!< This instance's related device handle*/
-    usb_host_interface_handle interfaceHandle; /*!< This instance's related interface handle*/
-    usb_host_pipe_handle controlPipe;          /*!< This instance's related device control pipe*/
-    usb_host_pipe_handle inPipe;               /*!< HID interrupt in pipe*/
-    usb_host_pipe_handle outPipe;              /*!< HID interrupt out pipe*/
-    transfer_callback_t inCallbackFn;          /*!< HID interrupt in transfer callback function pointer*/
-    void *inCallbackParam;                     /*!< HID interrupt in transfer callback parameter*/
-    transfer_callback_t outCallbackFn;         /*!< HID interrupt out transfer callback function pointer*/
-    void *outCallbackParam;                    /*!< HID interrupt out transfer callback parameter*/
-    transfer_callback_t controlCallbackFn;     /*!< HID control transfer callback function pointer*/
-    void *controlCallbackParam;                /*!< HID control transfer callback parameter*/
-    usb_host_transfer_t *controlTransfer;      /*!< Ongoing control transfer*/
+typedef struct _usb_host_hid_instance {
+	usb_host_handle			hostHandle;             /*!< This instance's related host handle*/
+	usb_device_handle		deviceHandle;           /*!< This instance's related device handle*/
+	usb_host_interface_handle	interfaceHandle;        /*!< This instance's related interface handle*/
+	usb_host_pipe_handle		controlPipe;            /*!< This instance's related device control pipe*/
+	usb_host_pipe_handle		inPipe;                 /*!< HID interrupt in pipe*/
+	usb_host_pipe_handle		outPipe;                /*!< HID interrupt out pipe*/
+	transfer_callback_t		inCallbackFn;           /*!< HID interrupt in transfer callback function pointer*/
+	void *				inCallbackParam;        /*!< HID interrupt in transfer callback parameter*/
+	transfer_callback_t		outCallbackFn;          /*!< HID interrupt out transfer callback function pointer*/
+	void *				outCallbackParam;       /*!< HID interrupt out transfer callback parameter*/
+	transfer_callback_t		controlCallbackFn;      /*!< HID control transfer callback function pointer*/
+	void *				controlCallbackParam;   /*!< HID control transfer callback parameter*/
+	usb_host_transfer_t *		controlTransfer;        /*!< Ongoing control transfer*/
 #if ((defined USB_HOST_CONFIG_CLASS_AUTO_CLEAR_STALL) && USB_HOST_CONFIG_CLASS_AUTO_CLEAR_STALL)
-    uint8_t *stallDataBuffer; /*!< keep the data buffer for stall transfer's data*/
-    uint32_t stallDataLength; /*!< keep the data length for stall transfer's data*/
+	uint8_t *			stallDataBuffer;        /*!< keep the data buffer for stall transfer's data*/
+	uint32_t			stallDataLength;        /*!< keep the data length for stall transfer's data*/
 #endif
 
-    uint16_t inPacketSize;  /*!< HID interrupt in maximum packet size*/
-    uint16_t outPacketSize; /*!< HID interrupt out maximum packet size*/
+	uint16_t			inPacketSize;   /*!< HID interrupt in maximum packet size*/
+	uint16_t			outPacketSize;  /*!< HID interrupt out maximum packet size*/
 } usb_host_hid_instance_t;
 
 /*! @brief HID descriptor structure according to the 6.2.1 in HID specification */
-typedef struct _usb_host_hid_descriptor
-{
-    uint8_t bLength;              /*!< Total size of the HID descriptor*/
-    uint8_t bDescriptorType;      /*!< Constant name specifying type of HID descriptor*/
-    uint8_t bcdHID[2];            /*!< Numeric expression identifying the HID Class Specification release*/
-    uint8_t bCountryCode;         /*!< Numeric expression identifying country code of the localized hardware*/
-    uint8_t bNumDescriptors;      /*!< Numeric expression specifying the number of class descriptors*/
-    uint8_t bHidDescriptorType;   /*!< Constant name identifying type of class descriptor*/
-    uint8_t wDescriptorLength[2]; /*!< Numeric expression that is the total size of the Report descriptor*/
+typedef struct _usb_host_hid_descriptor {
+	uint8_t bLength;                /*!< Total size of the HID descriptor*/
+	uint8_t bDescriptorType;        /*!< Constant name specifying type of HID descriptor*/
+	uint8_t bcdHID[2];              /*!< Numeric expression identifying the HID Class Specification release*/
+	uint8_t bCountryCode;           /*!< Numeric expression identifying country code of the localized hardware*/
+	uint8_t bNumDescriptors;        /*!< Numeric expression specifying the number of class descriptors*/
+	uint8_t bHidDescriptorType;     /*!< Constant name identifying type of class descriptor*/
+	uint8_t wDescriptorLength[2];   /*!< Numeric expression that is the total size of the Report descriptor*/
 } usb_host_hid_descriptor_t;
 
 /*! @brief HID descriptor structure according to the 6.2.1 in HID specification */
-typedef struct _usb_host_hid_class_descriptor
-{
-    uint8_t bHidDescriptorType;   /*!< Constant name specifying type of optional descriptor*/
-    uint8_t wDescriptorLength[2]; /*!< Numeric expression that is the total size of the optional descriptor*/
+typedef struct _usb_host_hid_class_descriptor {
+	uint8_t bHidDescriptorType;     /*!< Constant name specifying type of optional descriptor*/
+	uint8_t wDescriptorLength[2];   /*!< Numeric expression that is the total size of the optional descriptor*/
 } usb_host_hid_class_descriptor_t;
 
 /*******************************************************************************
@@ -121,7 +118,8 @@ extern "C" {
  * @retval kStatus_USB_Success        The device is initialized successfully.
  * @retval kStatus_USB_AllocFail      Allocate memory fail.
  */
-extern usb_status_t USB_HostHidInit(usb_device_handle deviceHandle, usb_host_class_handle *classHandle);
+extern usb_status_t USB_HostHidInit(usb_device_handle		deviceHandle,
+				    usb_host_class_handle *	classHandle);
 
 /*!
  * @brief Sets the interface.
@@ -143,10 +141,9 @@ extern usb_status_t USB_HostHidInit(usb_device_handle deviceHandle, usb_host_cla
  * @retval kStatus_USB_Error          Callback return status, open pipe fail. See the USB_HostOpenPipe.
  */
 extern usb_status_t USB_HostHidSetInterface(usb_host_class_handle classHandle,
-                                            usb_host_interface_handle interfaceHandle,
-                                            uint8_t alternateSetting,
-                                            transfer_callback_t callbackFn,
-                                            void *callbackParam);
+					    usb_host_interface_handle interfaceHandle, uint8_t
+					    alternateSetting, transfer_callback_t callbackFn,
+					    void *callbackParam);
 
 /*!
  * @brief Deinitializes the HID instance.
@@ -158,7 +155,8 @@ extern usb_status_t USB_HostHidSetInterface(usb_host_class_handle classHandle,
  *
  * @retval kStatus_USB_Success        The device is de-initialized successfully.
  */
-extern usb_status_t USB_HostHidDeinit(usb_device_handle deviceHandle, usb_host_class_handle classHandle);
+extern usb_status_t USB_HostHidDeinit(usb_device_handle deviceHandle, usb_host_class_handle
+				      classHandle);
 
 /*!
  * @brief Gets the pipe maximum packet size.
@@ -172,7 +170,8 @@ extern usb_status_t USB_HostHidDeinit(usb_device_handle deviceHandle, usb_host_c
  * @retval 0        The classHandle is NULL.
  * @retval          Maximum packet size.
  */
-extern uint16_t USB_HostHidGetPacketsize(usb_host_class_handle classHandle, uint8_t pipeType, uint8_t direction);
+extern uint16_t USB_HostHidGetPacketsize(usb_host_class_handle classHandle, uint8_t pipeType,
+					 uint8_t direction);
 
 /*!
  * @brief HID get report descriptor.
@@ -191,10 +190,9 @@ extern uint16_t USB_HostHidGetPacketsize(usb_host_class_handle classHandle, uint
  * @retval kStatus_USB_Error          Send transfer fail. See the USB_HostSendSetup.
  */
 extern usb_status_t USB_HostHidGetReportDescriptor(usb_host_class_handle classHandle,
-                                                   uint8_t *buffer,
-                                                   uint16_t buffer_len,
-                                                   transfer_callback_t callbackFn,
-                                                   void *callbackParam);
+						   uint8_t *buffer, uint16_t buffer_len,
+						   transfer_callback_t callbackFn,
+						   void *callbackParam);
 
 /*!
  * @brief Receives data.
@@ -213,11 +211,9 @@ extern usb_status_t USB_HostHidGetReportDescriptor(usb_host_class_handle classHa
  * @retval kStatus_USB_Error          Pipe is not initialized.
  *                                    Or, send transfer fail. See the USB_HostRecv.
  */
-extern usb_status_t USB_HostHidRecv(usb_host_class_handle classHandle,
-                                    uint8_t *buffer,
-                                    uint32_t bufferLength,
-                                    transfer_callback_t callbackFn,
-                                    void *callbackParam);
+extern usb_status_t USB_HostHidRecv(usb_host_class_handle classHandle, uint8_t *buffer, uint32_t
+				    bufferLength, transfer_callback_t callbackFn,
+				    void *callbackParam);
 
 /*!
  * @brief Sends data.
@@ -236,11 +232,9 @@ extern usb_status_t USB_HostHidRecv(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Error          Pipe is not initialized.
  *                                    Or, send transfer fail. See the USB_HostSend.
  */
-extern usb_status_t USB_HostHidSend(usb_host_class_handle classHandle,
-                                    uint8_t *buffer,
-                                    uint32_t bufferLength,
-                                    transfer_callback_t callbackFn,
-                                    void *callbackParam);
+extern usb_status_t USB_HostHidSend(usb_host_class_handle classHandle, uint8_t *buffer, uint32_t
+				    bufferLength, transfer_callback_t callbackFn,
+				    void *callbackParam);
 
 /*!
  * @brief HID get idle.
@@ -258,11 +252,9 @@ extern usb_status_t USB_HostHidSend(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Busy           There is no idle transfer.
  * @retval kStatus_USB_Error          Send transfer fail. See the USB_HostSendSetup.
  */
-extern usb_status_t USB_HostHidGetIdle(usb_host_class_handle classHandle,
-                                       uint8_t reportId,
-                                       uint8_t *idleRate,
-                                       transfer_callback_t callbackFn,
-                                       void *callbackParam);
+extern usb_status_t USB_HostHidGetIdle(usb_host_class_handle classHandle, uint8_t reportId,
+				       uint8_t *idleRate, transfer_callback_t callbackFn,
+				       void *callbackParam);
 
 /*!
  * @brief HID set idle.
@@ -280,11 +272,9 @@ extern usb_status_t USB_HostHidGetIdle(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Busy           There is no idle transfer.
  * @retval kStatus_USB_Error          Send transfer fail. See the USB_HostSendSetup.
  */
-extern usb_status_t USB_HostHidSetIdle(usb_host_class_handle classHandle,
-                                       uint8_t reportId,
-                                       uint8_t idleRate,
-                                       transfer_callback_t callbackFn,
-                                       void *callbackParam);
+extern usb_status_t USB_HostHidSetIdle(usb_host_class_handle classHandle, uint8_t reportId, uint8_t
+				       idleRate, transfer_callback_t callbackFn,
+				       void *callbackParam);
 
 /*!
  * @brief HID get protocol.
@@ -301,10 +291,8 @@ extern usb_status_t USB_HostHidSetIdle(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Busy           There is no idle transfer.
  * @retval kStatus_USB_Error          Send transfer fail. See the USB_HostSendSetup.
  */
-extern usb_status_t USB_HostHidGetProtocol(usb_host_class_handle classHandle,
-                                           uint8_t *protocol,
-                                           transfer_callback_t callbackFn,
-                                           void *callbackParam);
+extern usb_status_t USB_HostHidGetProtocol(usb_host_class_handle classHandle, uint8_t *protocol,
+					   transfer_callback_t callbackFn, void *callbackParam);
 
 /*!
  * @brief HID set protocol.
@@ -321,10 +309,8 @@ extern usb_status_t USB_HostHidGetProtocol(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Busy           There is no idle transfer.
  * @retval kStatus_USB_Error          Send transfer fail. See the USB_HostSendSetup.
  */
-extern usb_status_t USB_HostHidSetProtocol(usb_host_class_handle classHandle,
-                                           uint8_t protocol,
-                                           transfer_callback_t callbackFn,
-                                           void *callbackParam);
+extern usb_status_t USB_HostHidSetProtocol(usb_host_class_handle classHandle, uint8_t protocol,
+					   transfer_callback_t callbackFn, void *callbackParam);
 
 /*!
  * @brief HID get report.
@@ -344,13 +330,10 @@ extern usb_status_t USB_HostHidSetProtocol(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Busy           There is no idle transfer.
  * @retval kStatus_USB_Error          Send transfer fail. See the USB_HostSendSetup.
  */
-extern usb_status_t USB_HostHidGetReport(usb_host_class_handle classHandle,
-                                         uint8_t reportId,
-                                         uint8_t reportType,
-                                         uint8_t *buffer,
-                                         uint32_t bufferLength,
-                                         transfer_callback_t callbackFn,
-                                         void *callbackParam);
+extern usb_status_t USB_HostHidGetReport(usb_host_class_handle classHandle, uint8_t reportId,
+					 uint8_t reportType, uint8_t *buffer, uint32_t bufferLength,
+					 transfer_callback_t callbackFn,
+					 void *callbackParam);
 
 /*!
  * @brief HID set report.
@@ -370,13 +353,10 @@ extern usb_status_t USB_HostHidGetReport(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Busy           There is no idle transfer.
  * @retval kStatus_USB_Error          Send transfer fail. See the USB_HostSendSetup.
  */
-extern usb_status_t USB_HostHidSetReport(usb_host_class_handle classHandle,
-                                         uint8_t reportId,
-                                         uint8_t reportType,
-                                         uint8_t *buffer,
-                                         uint32_t bufferLength,
-                                         transfer_callback_t callbackFn,
-                                         void *callbackParam);
+extern usb_status_t USB_HostHidSetReport(usb_host_class_handle classHandle, uint8_t reportId,
+					 uint8_t reportType, uint8_t *buffer, uint32_t bufferLength,
+					 transfer_callback_t callbackFn,
+					 void *callbackParam);
 
 /*! @}*/
 

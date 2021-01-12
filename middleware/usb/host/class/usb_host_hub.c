@@ -25,7 +25,8 @@
  * @param transfer    callback transfer.
  * @param status      transfer status.
  */
-static void USB_HostHubControlCallback(void *param, usb_host_transfer_t *transfer, usb_status_t status);
+static void USB_HostHubControlCallback(void *param, usb_host_transfer_t *transfer, usb_status_t
+				       status);
 
 /*!
  * @brief hub interrupt in transfer callback.
@@ -34,7 +35,8 @@ static void USB_HostHubControlCallback(void *param, usb_host_transfer_t *transfe
  * @param transfer    callback transfer.
  * @param status      transfer status.
  */
-static void USB_HostHubInPipeCallback(void *param, usb_host_transfer_t *transfer, usb_status_t status);
+static void USB_HostHubInPipeCallback(void *param, usb_host_transfer_t *transfer, usb_status_t
+				      status);
 
 /*!
  * @brief USB_HostHubSendPortReset's transfer callback.
@@ -43,7 +45,8 @@ static void USB_HostHubInPipeCallback(void *param, usb_host_transfer_t *transfer
  * @param transfer    callback transfer.
  * @param status      transfer status.
  */
-static void USB_HostHubResetCallback(void *param, usb_host_transfer_t *transfer, usb_status_t status);
+static void USB_HostHubResetCallback(void *param, usb_host_transfer_t *transfer, usb_status_t
+				     status);
 
 /*!
  * @brief hub control transfer common code.
@@ -60,15 +63,11 @@ static void USB_HostHubResetCallback(void *param, usb_host_transfer_t *transfer,
  *
  * @return kStatus_USB_Success or error codes.
  */
-static usb_status_t USB_HostHubClassRequestCommon(usb_host_class_handle classHandle,
-                                                  uint8_t requestType,
-                                                  uint8_t request,
-                                                  uint16_t wvalue,
-                                                  uint16_t windex,
-                                                  uint8_t *buffer,
-                                                  uint16_t bufferLength,
-                                                  transfer_callback_t callbackFn,
-                                                  void *callbackParam);
+static usb_status_t USB_HostHubClassRequestCommon(usb_host_class_handle classHandle, uint8_t
+						  requestType, uint8_t request, uint16_t wvalue,
+						  uint16_t windex, uint8_t *buffer, uint16_t
+						  bufferLength, transfer_callback_t callbackFn,
+						  void *callbackParam);
 
 /*******************************************************************************
  * Variables
@@ -77,378 +76,372 @@ static usb_status_t USB_HostHubClassRequestCommon(usb_host_class_handle classHan
 /*******************************************************************************
  * Code
  ******************************************************************************/
-
-static void USB_HostHubControlCallback(void *param, usb_host_transfer_t *transfer, usb_status_t status)
+static void USB_HostHubControlCallback(void *param, usb_host_transfer_t *transfer, usb_status_t
+				       status)
 {
-    usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)param;
+	usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)param;
 
-    hubInstance->controlTransfer = NULL;
-    if (NULL != hubInstance->controlCallbackFn)
-    {
-        /* callback to application, callback function is initialized in the USB_HostPrinterControl,
-        USB_HostPrinterSetInterface
-        or USB_HostHubClassRequestCommon, but is the same function */
-        hubInstance->controlCallbackFn(hubInstance->controlCallbackParam, transfer->transferBuffer,
-                                       transfer->transferSofar, status); /* callback to application */
-    }
-    (void)USB_HostFreeTransfer(hubInstance->hostHandle, transfer);
+	hubInstance->controlTransfer = NULL;
+	if (NULL != hubInstance->controlCallbackFn) {
+		/* callback to application, callback function is initialized in the USB_HostPrinterControl,
+		 * USB_HostPrinterSetInterface
+		 * or USB_HostHubClassRequestCommon, but is the same function */
+		hubInstance->controlCallbackFn(hubInstance->controlCallbackParam,
+					       transfer->transferBuffer,
+					       transfer->transferSofar, status); /* callback to application */
+	}
+	(void)USB_HostFreeTransfer(hubInstance->hostHandle, transfer);
 }
 
-static void USB_HostHubInPipeCallback(void *param, usb_host_transfer_t *transfer, usb_status_t status)
+static void USB_HostHubInPipeCallback(void *param, usb_host_transfer_t *transfer, usb_status_t
+				      status)
 {
-    usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)param;
+	usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)param;
 
-    if (NULL != hubInstance->inCallbackFn)
-    {
-        /* callback to application, callback function is initialized in the USB_HostHubInterruptRecv */
-        hubInstance->inCallbackFn(hubInstance->inCallbackParam, transfer->transferBuffer, transfer->transferSofar,
-                                  status); /* callback to application */
-    }
-    (void)USB_HostFreeTransfer(hubInstance->hostHandle, transfer);
+	if (NULL != hubInstance->inCallbackFn) {
+		/* callback to application, callback function is initialized in the USB_HostHubInterruptRecv */
+		hubInstance->inCallbackFn(hubInstance->inCallbackParam, transfer->transferBuffer,
+					  transfer->transferSofar,
+					  status); /* callback to application */
+	}
+	(void)USB_HostFreeTransfer(hubInstance->hostHandle, transfer);
 }
 
-static void USB_HostHubResetCallback(void *param, usb_host_transfer_t *transfer, usb_status_t status)
+static void USB_HostHubResetCallback(void *param, usb_host_transfer_t *transfer, usb_status_t
+				     status)
 {
-    usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)param;
+	usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)param;
 
-    /* note: there is not callback to application, the re-enumeration will start automatically after reset. */
-    (void)USB_HostFreeTransfer(hubInstance->hostHandle, transfer);
+	/* note: there is not callback to application, the re-enumeration will start automatically after reset. */
+	(void)USB_HostFreeTransfer(hubInstance->hostHandle, transfer);
 }
 
 static usb_status_t USB_HostHubClassRequestCommon(usb_host_class_handle classHandle,
-                                                  uint8_t requestType,
-                                                  uint8_t request,
-                                                  uint16_t wvalue,
-                                                  uint16_t windex,
-                                                  uint8_t *buffer,
-                                                  uint16_t bufferLength,
-                                                  transfer_callback_t callbackFn,
-                                                  void *callbackParam)
+						  uint8_t		requestType,
+						  uint8_t		request,
+						  uint16_t		wvalue,
+						  uint16_t		windex,
+						  uint8_t *		buffer,
+						  uint16_t		bufferLength,
+						  transfer_callback_t	callbackFn,
+						  void *		callbackParam)
 {
-    usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)classHandle;
-    usb_host_transfer_t *transfer;
+	usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)classHandle;
+	usb_host_transfer_t *transfer;
 
-    if (hubInstance->controlTransfer != NULL)
-    {
-        return kStatus_USB_Busy;
-    }
+	if (hubInstance->controlTransfer != NULL) {
+		return kStatus_USB_Busy;
+	}
 
-    /* get transfer */
-    if (USB_HostMallocTransfer(hubInstance->hostHandle, &transfer) != kStatus_USB_Success)
-    {
+	/* get transfer */
+	if (USB_HostMallocTransfer(hubInstance->hostHandle, &transfer) != kStatus_USB_Success) {
 #ifdef HOST_ECHO
-        usb_echo("error to get transfer\r\n");
+		usb_echo("error to get transfer\r\n");
 #endif
-        return kStatus_USB_Error;
-    }
+		return kStatus_USB_Error;
+	}
 
-    /* save hub application callback */
-    hubInstance->controlCallbackFn    = callbackFn;
-    hubInstance->controlCallbackParam = callbackParam;
+	/* save hub application callback */
+	hubInstance->controlCallbackFn = callbackFn;
+	hubInstance->controlCallbackParam = callbackParam;
 
-    /* initialize transfer */
-    transfer->transferBuffer             = buffer;
-    transfer->transferLength             = bufferLength;
-    transfer->callbackFn                 = USB_HostHubControlCallback;
-    transfer->callbackParam              = hubInstance;
-    transfer->setupPacket->bmRequestType = requestType;
-    transfer->setupPacket->bRequest      = request;
-    transfer->setupPacket->wValue        = USB_SHORT_TO_LITTLE_ENDIAN(wvalue);
-    transfer->setupPacket->wIndex        = USB_SHORT_TO_LITTLE_ENDIAN(windex);
-    transfer->setupPacket->wLength       = USB_SHORT_TO_LITTLE_ENDIAN(bufferLength);
+	/* initialize transfer */
+	transfer->transferBuffer = buffer;
+	transfer->transferLength = bufferLength;
+	transfer->callbackFn = USB_HostHubControlCallback;
+	transfer->callbackParam = hubInstance;
+	transfer->setupPacket->bmRequestType = requestType;
+	transfer->setupPacket->bRequest = request;
+	transfer->setupPacket->wValue = USB_SHORT_TO_LITTLE_ENDIAN(wvalue);
+	transfer->setupPacket->wIndex = USB_SHORT_TO_LITTLE_ENDIAN(windex);
+	transfer->setupPacket->wLength = USB_SHORT_TO_LITTLE_ENDIAN(bufferLength);
 
-    /* send transfer */
-    if (USB_HostSendSetup(hubInstance->hostHandle, hubInstance->controlPipe, transfer) != kStatus_USB_Success)
-    {
+	/* send transfer */
+	if (USB_HostSendSetup(hubInstance->hostHandle, hubInstance->controlPipe, transfer) !=
+	    kStatus_USB_Success) {
 #ifdef HOST_ECHO
-        usb_echo("Error in hid get report descriptor\r\n");
+		usb_echo("Error in hid get report descriptor\r\n");
 #endif
-        (void)USB_HostFreeTransfer(hubInstance->hostHandle, transfer);
-        return kStatus_USB_Error;
-    }
-    hubInstance->controlTransfer = transfer; /* record the on-going setup transfer */
-    return kStatus_USB_Success;
+		(void)USB_HostFreeTransfer(hubInstance->hostHandle, transfer);
+		return kStatus_USB_Error;
+	}
+	hubInstance->controlTransfer = transfer; /* record the on-going setup transfer */
+	return kStatus_USB_Success;
 }
 
 usb_status_t USB_HostHubInit(usb_device_handle deviceHandle, usb_host_class_handle *classHandle)
 {
-    /* malloc the hub instance */
-    usb_host_hub_instance_t *hubInstance =
-        (usb_host_hub_instance_t *)OSA_MemoryAllocate(sizeof(usb_host_hub_instance_t));
-    uint32_t *temp;
-    uint32_t infoValue;
+	/* malloc the hub instance */
+	usb_host_hub_instance_t *hubInstance =
+		(usb_host_hub_instance_t *)OSA_MemoryAllocate(sizeof(usb_host_hub_instance_t));
+	uint32_t *temp;
+	uint32_t infoValue;
 
-    if (hubInstance == NULL)
-    {
-        return kStatus_USB_AllocFail;
-    }
+	if (hubInstance == NULL) {
+		return kStatus_USB_AllocFail;
+	}
 
-#if ((defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE)) && (USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE > 0U))
-    hubInstance->hubDescriptor    = (uint8_t *)SDK_Malloc(7 + (USB_HOST_HUB_MAX_PORT >> 3) + 1, USB_CACHE_LINESIZE);
-    hubInstance->portStatusBuffer = (uint8_t *)SDK_Malloc(4, USB_CACHE_LINESIZE);
-    hubInstance->hubStatusBuffer  = (uint8_t *)SDK_Malloc(4, USB_CACHE_LINESIZE);
-    hubInstance->hubBitmapBuffer  = (uint8_t *)SDK_Malloc((USB_HOST_HUB_MAX_PORT >> 3) + 1, USB_CACHE_LINESIZE);
+#if ((defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE)) && \
+	(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE > 0U))
+	hubInstance->hubDescriptor = (uint8_t *)SDK_Malloc(7 + (USB_HOST_HUB_MAX_PORT >> 3) + 1,
+							   USB_CACHE_LINESIZE);
+	hubInstance->portStatusBuffer = (uint8_t *)SDK_Malloc(4, USB_CACHE_LINESIZE);
+	hubInstance->hubStatusBuffer = (uint8_t *)SDK_Malloc(4, USB_CACHE_LINESIZE);
+	hubInstance->hubBitmapBuffer = (uint8_t *)SDK_Malloc((USB_HOST_HUB_MAX_PORT >> 3) + 1,
+							     USB_CACHE_LINESIZE);
 #endif
 
-    /* initialize hub instance structure */
-    hubInstance->deviceHandle    = deviceHandle;
-    hubInstance->interfaceHandle = NULL;
-    (void)USB_HostHelperGetPeripheralInformation(deviceHandle, (uint32_t)kUSB_HostGetHostHandle, &infoValue);
-    temp                    = (uint32_t *)infoValue;
-    hubInstance->hostHandle = (usb_host_handle)temp;
-    (void)USB_HostHelperGetPeripheralInformation(deviceHandle, (uint32_t)kUSB_HostGetDeviceControlPipe, &infoValue);
-    temp                     = (uint32_t *)infoValue;
-    hubInstance->controlPipe = (usb_host_pipe_handle)temp;
-    (void)USB_HostHelperGetPeripheralInformation(deviceHandle, (uint32_t)kUSB_HostGetDeviceLevel, &infoValue);
-    hubInstance->hubLevel = (uint8_t)infoValue;
+	/* initialize hub instance structure */
+	hubInstance->deviceHandle = deviceHandle;
+	hubInstance->interfaceHandle = NULL;
+	(void)USB_HostHelperGetPeripheralInformation(deviceHandle, (uint32_t)kUSB_HostGetHostHandle,
+						     &infoValue);
+	temp = (uint32_t *)infoValue;
+	hubInstance->hostHandle = (usb_host_handle)temp;
+	(void)USB_HostHelperGetPeripheralInformation(deviceHandle,
+						     (uint32_t)kUSB_HostGetDeviceControlPipe,
+						     &infoValue);
+	temp = (uint32_t *)infoValue;
+	hubInstance->controlPipe = (usb_host_pipe_handle)temp;
+	(void)USB_HostHelperGetPeripheralInformation(deviceHandle,
+						     (uint32_t)kUSB_HostGetDeviceLevel, &infoValue);
+	hubInstance->hubLevel = (uint8_t)infoValue;
 
-    *classHandle = hubInstance; /* return the hub class handle */
-    return kStatus_USB_Success;
+	*classHandle = hubInstance; /* return the hub class handle */
+	return kStatus_USB_Success;
 }
 
-usb_status_t USB_HostHubSetInterface(usb_host_class_handle classHandle,
-                                     usb_host_interface_handle interfaceHandle,
-                                     uint8_t alternateSetting,
-                                     transfer_callback_t callbackFn,
-                                     void *callbackParam)
+usb_status_t USB_HostHubSetInterface(usb_host_class_handle	classHandle,
+				     usb_host_interface_handle	interfaceHandle,
+				     uint8_t			alternateSetting,
+				     transfer_callback_t	callbackFn,
+				     void *			callbackParam)
 {
-    usb_status_t status;
-    usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)classHandle;
-    usb_host_interface_t *interface      = (usb_host_interface_t *)interfaceHandle;
-    usb_descriptor_endpoint_t *epDesc    = NULL;
-    usb_host_pipe_init_t pipeInit;
-    uint8_t epIndex;
+	usb_status_t status;
+	usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)classHandle;
+	usb_host_interface_t *interface = (usb_host_interface_t *)interfaceHandle;
+	usb_descriptor_endpoint_t *epDesc = NULL;
+	usb_host_pipe_init_t pipeInit;
+	uint8_t epIndex;
 
-    if (classHandle == NULL)
-    {
-        return kStatus_USB_InvalidHandle;
-    }
+	if (classHandle == NULL) {
+		return kStatus_USB_InvalidHandle;
+	}
 
-    hubInstance->interfaceHandle = interfaceHandle; /* save the interface handle */
+	hubInstance->interfaceHandle = interfaceHandle; /* save the interface handle */
 
-    /* notify the host driver that the interface is used by class */
-    status = USB_HostOpenDeviceInterface(hubInstance->deviceHandle, interfaceHandle);
-    if (status != kStatus_USB_Success)
-    {
-        return status;
-    }
+	/* notify the host driver that the interface is used by class */
+	status = USB_HostOpenDeviceInterface(hubInstance->deviceHandle, interfaceHandle);
+	if (status != kStatus_USB_Success) {
+		return status;
+	}
 
-    /* close opened hub interrupt pipe */
-    if (hubInstance->interruptPipe != NULL)
-    {
-        status = USB_HostCancelTransfer(hubInstance->hostHandle, hubInstance->interruptPipe, NULL);
-        if (status != kStatus_USB_Success)
-        {
+	/* close opened hub interrupt pipe */
+	if (hubInstance->interruptPipe != NULL) {
+		status = USB_HostCancelTransfer(hubInstance->hostHandle, hubInstance->interruptPipe,
+						NULL);
+		if (status != kStatus_USB_Success) {
 #ifdef HOST_ECHO
-            usb_echo("error when Cancel pipe\r\n");
+			usb_echo("error when Cancel pipe\r\n");
 #endif
-        }
-        status = USB_HostClosePipe(hubInstance->hostHandle, hubInstance->interruptPipe);
-        if (status != kStatus_USB_Success)
-        {
+		}
+		status = USB_HostClosePipe(hubInstance->hostHandle, hubInstance->interruptPipe);
+		if (status != kStatus_USB_Success) {
 #ifdef HOST_ECHO
-            usb_echo("error when close pipe\r\n");
+			usb_echo("error when close pipe\r\n");
 #endif
-        }
-        hubInstance->interruptPipe = NULL;
-    }
+		}
+		hubInstance->interruptPipe = NULL;
+	}
 
-    /* open hub interrupt pipe */
-    for (epIndex = 0; epIndex < interface->epCount; ++epIndex)
-    {
-        epDesc = interface->epList[epIndex].epDesc;
-        if (((epDesc->bEndpointAddress & USB_DESCRIPTOR_ENDPOINT_ADDRESS_DIRECTION_MASK) ==
-             USB_DESCRIPTOR_ENDPOINT_ADDRESS_DIRECTION_IN) &&
-            ((epDesc->bmAttributes & USB_DESCRIPTOR_ENDPOINT_ATTRIBUTE_TYPE_MASK) == USB_ENDPOINT_INTERRUPT))
-        {
-            /* get pipe information from endpoint descriptor */
-            pipeInit.devInstance     = hubInstance->deviceHandle;
-            pipeInit.pipeType        = USB_ENDPOINT_INTERRUPT;
-            pipeInit.direction       = USB_IN;
-            pipeInit.endpointAddress = (epDesc->bEndpointAddress & USB_DESCRIPTOR_ENDPOINT_ADDRESS_NUMBER_MASK);
-            pipeInit.interval        = epDesc->bInterval;
-            pipeInit.maxPacketSize   = (uint16_t)((USB_SHORT_FROM_LITTLE_ENDIAN_ADDRESS(epDesc->wMaxPacketSize) &
-                                                 USB_DESCRIPTOR_ENDPOINT_MAXPACKETSIZE_SIZE_MASK));
-            pipeInit.numberPerUframe = (uint8_t)((USB_SHORT_FROM_LITTLE_ENDIAN_ADDRESS(epDesc->wMaxPacketSize) &
-                                                  USB_DESCRIPTOR_ENDPOINT_MAXPACKETSIZE_MULT_TRANSACTIONS_MASK));
-            pipeInit.nakCount        = USB_HOST_CONFIG_MAX_NAK;
+	/* open hub interrupt pipe */
+	for (epIndex = 0; epIndex < interface->epCount; ++epIndex) {
+		epDesc = interface->epList[epIndex].epDesc;
+		if (((epDesc->bEndpointAddress & USB_DESCRIPTOR_ENDPOINT_ADDRESS_DIRECTION_MASK) ==
+		     USB_DESCRIPTOR_ENDPOINT_ADDRESS_DIRECTION_IN) &&
+		    ((epDesc->bmAttributes & USB_DESCRIPTOR_ENDPOINT_ATTRIBUTE_TYPE_MASK) ==
+		     USB_ENDPOINT_INTERRUPT)) {
+			/* get pipe information from endpoint descriptor */
+			pipeInit.devInstance = hubInstance->deviceHandle;
+			pipeInit.pipeType = USB_ENDPOINT_INTERRUPT;
+			pipeInit.direction = USB_IN;
+			pipeInit.endpointAddress = (epDesc->bEndpointAddress &
+						    USB_DESCRIPTOR_ENDPOINT_ADDRESS_NUMBER_MASK);
+			pipeInit.interval = epDesc->bInterval;
+			pipeInit.maxPacketSize = (uint16_t)((USB_SHORT_FROM_LITTLE_ENDIAN_ADDRESS(
+								     epDesc->wMaxPacketSize) &
+							     USB_DESCRIPTOR_ENDPOINT_MAXPACKETSIZE_SIZE_MASK));
+			pipeInit.numberPerUframe = (uint8_t)((USB_SHORT_FROM_LITTLE_ENDIAN_ADDRESS(
+								      epDesc->wMaxPacketSize) &
+							      USB_DESCRIPTOR_ENDPOINT_MAXPACKETSIZE_MULT_TRANSACTIONS_MASK));
+			pipeInit.nakCount = USB_HOST_CONFIG_MAX_NAK;
 
-            /* open hub interrupt in pipe */
-            status = USB_HostOpenPipe(hubInstance->hostHandle, &hubInstance->interruptPipe, &pipeInit);
-            if (status != kStatus_USB_Success)
-            {
+			/* open hub interrupt in pipe */
+			status = USB_HostOpenPipe(hubInstance->hostHandle,
+						  &hubInstance->interruptPipe, &pipeInit);
+			if (status != kStatus_USB_Success) {
 #ifdef HOST_ECHO
-                usb_echo("usb_host_hid_set_interface fail to open pipe\r\n");
+				usb_echo("usb_host_hid_set_interface fail to open pipe\r\n");
 #endif
-                return kStatus_USB_Error;
-            }
-            break;
-        }
-    }
+				return kStatus_USB_Error;
+			}
+			break;
+		}
+	}
 
-    /* hub don't support alternatesetting that is not 0 */
-    if (alternateSetting == 0U)
-    {
-        if (callbackFn != NULL)
-        {
-            callbackFn(callbackParam, NULL, 0, kStatus_USB_Success);
-        }
-    }
-    else
-    {
+	/* hub don't support alternatesetting that is not 0 */
+	if (alternateSetting == 0U) {
+		if (callbackFn != NULL) {
+			callbackFn(callbackParam, NULL, 0, kStatus_USB_Success);
+		}
+	} else {
 #ifdef HOST_ECHO
-        usb_echo("host don't support alternate setting\r\n");
+		usb_echo("host don't support alternate setting\r\n");
 #endif
-        return kStatus_USB_Error;
-    }
+		return kStatus_USB_Error;
+	}
 
-    return status;
+	return status;
 }
 
 usb_status_t USB_HostHubDeinit(usb_device_handle deviceHandle, usb_host_class_handle classHandle)
 {
-    usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)classHandle;
-    usb_status_t status                  = kStatus_USB_Success;
-    if (deviceHandle == NULL)
-    {
-        return kStatus_USB_InvalidHandle;
-    }
+	usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)classHandle;
+	usb_status_t status = kStatus_USB_Success;
+	if (deviceHandle == NULL) {
+		return kStatus_USB_InvalidHandle;
+	}
 
-    if (classHandle != NULL)
-    {
-        /* close opened hub interrupt pipe */
-        if (hubInstance->interruptPipe != NULL)
-        {
-            status = USB_HostCancelTransfer(hubInstance->hostHandle, hubInstance->interruptPipe, NULL);
-            if (status != kStatus_USB_Success)
-            {
+	if (classHandle != NULL) {
+		/* close opened hub interrupt pipe */
+		if (hubInstance->interruptPipe != NULL) {
+			status = USB_HostCancelTransfer(hubInstance->hostHandle,
+							hubInstance->interruptPipe, NULL);
+			if (status != kStatus_USB_Success) {
 #ifdef HOST_ECHO
-                usb_echo("error when Cancel pipe\r\n");
+				usb_echo("error when Cancel pipe\r\n");
 #endif
-            }
-            status = USB_HostClosePipe(hubInstance->hostHandle, hubInstance->interruptPipe);
-            if (status != kStatus_USB_Success)
-            {
+			}
+			status = USB_HostClosePipe(hubInstance->hostHandle,
+						   hubInstance->interruptPipe);
+			if (status != kStatus_USB_Success) {
 #ifdef HOST_ECHO
-                usb_echo("hub close interrupt pipe error\r\n");
+				usb_echo("hub close interrupt pipe error\r\n");
 #endif
-            }
-            hubInstance->interruptPipe = NULL;
-        }
+			}
+			hubInstance->interruptPipe = NULL;
+		}
 
-        /* cancel control transfer if exist */
-        if ((hubInstance->controlPipe != NULL) && (hubInstance->controlTransfer != NULL))
-        {
-            status =
-                USB_HostCancelTransfer(hubInstance->hostHandle, hubInstance->controlPipe, hubInstance->controlTransfer);
-        }
+		/* cancel control transfer if exist */
+		if ((hubInstance->controlPipe != NULL) && (hubInstance->controlTransfer != NULL)) {
+			status =
+				USB_HostCancelTransfer(hubInstance->hostHandle,
+						       hubInstance->controlPipe,
+						       hubInstance->controlTransfer);
+		}
 
-        /* notify host driver that the interface will not be used */
-        (void)USB_HostCloseDeviceInterface(deviceHandle, hubInstance->interfaceHandle);
-#if ((defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE)) && (USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE > 0U))
-        SDK_Free(hubInstance->hubDescriptor);
-        SDK_Free(hubInstance->portStatusBuffer);
-        SDK_Free(hubInstance->hubStatusBuffer);
-        SDK_Free(hubInstance->hubBitmapBuffer);
+		/* notify host driver that the interface will not be used */
+		(void)USB_HostCloseDeviceInterface(deviceHandle, hubInstance->interfaceHandle);
+#if ((defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE)) && \
+		(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE > 0U))
+		SDK_Free(hubInstance->hubDescriptor);
+		SDK_Free(hubInstance->portStatusBuffer);
+		SDK_Free(hubInstance->hubStatusBuffer);
+		SDK_Free(hubInstance->hubBitmapBuffer);
 #endif
-        OSA_MemoryFree(hubInstance);
-    }
-    else
-    {
-        /* notify host driver that the interface will not be used */
-        (void)USB_HostCloseDeviceInterface(deviceHandle, NULL);
-    }
+		OSA_MemoryFree(hubInstance);
+	} else {
+		/* notify host driver that the interface will not be used */
+		(void)USB_HostCloseDeviceInterface(deviceHandle, NULL);
+	}
 
-    return status;
+	return status;
 }
 
-usb_status_t USB_HostHubInterruptRecv(usb_host_class_handle classHandle,
-                                      uint8_t *buffer,
-                                      uint16_t bufferLength,
-                                      transfer_callback_t callbackFn,
-                                      void *callbackParam)
+usb_status_t USB_HostHubInterruptRecv(usb_host_class_handle	classHandle,
+				      uint8_t *			buffer,
+				      uint16_t			bufferLength,
+				      transfer_callback_t	callbackFn,
+				      void *			callbackParam)
 {
-    usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)classHandle;
-    usb_host_transfer_t *transfer;
+	usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)classHandle;
+	usb_host_transfer_t *transfer;
 
-    if (classHandle == NULL)
-    {
-        return kStatus_USB_InvalidHandle;
-    }
+	if (classHandle == NULL) {
+		return kStatus_USB_InvalidHandle;
+	}
 
-    /* get transfer */
-    if (USB_HostMallocTransfer(hubInstance->hostHandle, &transfer) != kStatus_USB_Success)
-    {
+	/* get transfer */
+	if (USB_HostMallocTransfer(hubInstance->hostHandle, &transfer) != kStatus_USB_Success) {
 #ifdef HOST_ECHO
-        usb_echo("error to get transfer\r\n");
+		usb_echo("error to get transfer\r\n");
 #endif
-        return kStatus_USB_Error;
-    }
+		return kStatus_USB_Error;
+	}
 
-    /* save hub application callback */
-    hubInstance->inCallbackFn    = callbackFn;
-    hubInstance->inCallbackParam = callbackParam;
+	/* save hub application callback */
+	hubInstance->inCallbackFn = callbackFn;
+	hubInstance->inCallbackParam = callbackParam;
 
-    /* initialize transfer */
-    transfer->transferBuffer = buffer;
-    transfer->transferLength = bufferLength;
-    transfer->callbackFn     = USB_HostHubInPipeCallback;
-    transfer->callbackParam  = hubInstance;
+	/* initialize transfer */
+	transfer->transferBuffer = buffer;
+	transfer->transferLength = bufferLength;
+	transfer->callbackFn = USB_HostHubInPipeCallback;
+	transfer->callbackParam = hubInstance;
 
-    /* call host driver API to receive data */
-    if (USB_HostRecv(hubInstance->hostHandle, hubInstance->interruptPipe, transfer) != kStatus_USB_Success)
-    {
+	/* call host driver API to receive data */
+	if (USB_HostRecv(hubInstance->hostHandle, hubInstance->interruptPipe, transfer) !=
+	    kStatus_USB_Success) {
 #ifdef HOST_ECHO
-        usb_echo("failed to USB_HostRecv\r\n");
+		usb_echo("failed to USB_HostRecv\r\n");
 #endif
-        (void)USB_HostFreeTransfer(hubInstance->hostHandle, transfer);
-        return kStatus_USB_Error;
-    }
+		(void)USB_HostFreeTransfer(hubInstance->hostHandle, transfer);
+		return kStatus_USB_Error;
+	}
 
-    return kStatus_USB_Success;
+	return kStatus_USB_Success;
 }
 
 usb_status_t USB_HostHubSendPortReset(usb_host_class_handle classHandle, uint8_t portNumber)
 {
-    usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)classHandle;
-    usb_host_transfer_t *transfer;
+	usb_host_hub_instance_t *hubInstance = (usb_host_hub_instance_t *)classHandle;
+	usb_host_transfer_t *transfer;
 
-    if (classHandle == NULL)
-    {
-        return kStatus_USB_InvalidHandle;
-    }
+	if (classHandle == NULL) {
+		return kStatus_USB_InvalidHandle;
+	}
 
-    /* get transfer */
-    if (USB_HostMallocTransfer(hubInstance->hostHandle, &transfer) != kStatus_USB_Success)
-    {
+	/* get transfer */
+	if (USB_HostMallocTransfer(hubInstance->hostHandle, &transfer) != kStatus_USB_Success) {
 #ifdef HOST_ECHO
-        usb_echo("error to get transfer\r\n");
+		usb_echo("error to get transfer\r\n");
 #endif
-        return kStatus_USB_Busy;
-    }
+		return kStatus_USB_Busy;
+	}
 
-    /* initialize transfer */
-    transfer->transferBuffer = NULL;
-    transfer->transferLength = 0;
-    transfer->callbackFn     = USB_HostHubResetCallback;
-    transfer->callbackParam  = hubInstance;
-    transfer->setupPacket->bmRequestType =
-        USB_REQUEST_TYPE_DIR_OUT | USB_REQUEST_TYPE_TYPE_CLASS | USB_REQUEST_TYPE_RECIPIENT_OTHER;
-    transfer->setupPacket->bRequest = USB_REQUEST_STANDARD_SET_FEATURE;
-    transfer->setupPacket->wValue   = USB_SHORT_TO_LITTLE_ENDIAN(PORT_RESET);
-    transfer->setupPacket->wIndex   = USB_SHORT_TO_LITTLE_ENDIAN(portNumber);
-    transfer->setupPacket->wLength  = 0;
+	/* initialize transfer */
+	transfer->transferBuffer = NULL;
+	transfer->transferLength = 0;
+	transfer->callbackFn = USB_HostHubResetCallback;
+	transfer->callbackParam = hubInstance;
+	transfer->setupPacket->bmRequestType =
+		USB_REQUEST_TYPE_DIR_OUT | USB_REQUEST_TYPE_TYPE_CLASS |
+		USB_REQUEST_TYPE_RECIPIENT_OTHER;
+	transfer->setupPacket->bRequest = USB_REQUEST_STANDARD_SET_FEATURE;
+	transfer->setupPacket->wValue = USB_SHORT_TO_LITTLE_ENDIAN(PORT_RESET);
+	transfer->setupPacket->wIndex = USB_SHORT_TO_LITTLE_ENDIAN(portNumber);
+	transfer->setupPacket->wLength = 0;
 
-    /* send the transfer */
-    if (USB_HostSendSetup(hubInstance->hostHandle, hubInstance->controlPipe, transfer) != kStatus_USB_Success)
-    {
+	/* send the transfer */
+	if (USB_HostSendSetup(hubInstance->hostHandle, hubInstance->controlPipe, transfer) !=
+	    kStatus_USB_Success) {
 #ifdef HOST_ECHO
-        usb_echo("Error in hid get report descriptor\r\n");
+		usb_echo("Error in hid get report descriptor\r\n");
 #endif
-        (void)USB_HostFreeTransfer(hubInstance->hostHandle, transfer);
-        return kStatus_USB_Error;
-    }
-    return kStatus_USB_Success;
+		(void)USB_HostFreeTransfer(hubInstance->hostHandle, transfer);
+		return kStatus_USB_Error;
+	}
+	return kStatus_USB_Success;
 }
 
 /*!
@@ -468,15 +461,17 @@ usb_status_t USB_HostHubSendPortReset(usb_host_class_handle classHandle, uint8_t
  * @retval kStatus_USB_Error          pipe is not initialized.
  *                                    Or, send transfer fail, please reference to USB_HostSendSetup.
  */
-usb_status_t USB_HostHubGetDescriptor(usb_host_class_handle classHandle,
-                                      uint8_t *buffer,
-                                      uint16_t bufferLength,
-                                      transfer_callback_t callbackFn,
-                                      void *callbackParam)
+usb_status_t USB_HostHubGetDescriptor(usb_host_class_handle	classHandle,
+				      uint8_t *			buffer,
+				      uint16_t			bufferLength,
+				      transfer_callback_t	callbackFn,
+				      void *			callbackParam)
 {
-    return USB_HostHubClassRequestCommon(
-        classHandle, USB_REQUEST_TYPE_DIR_IN | USB_REQUEST_TYPE_TYPE_CLASS | USB_REQUEST_TYPE_RECIPIENT_DEVICE,
-        USB_REQUEST_STANDARD_GET_DESCRIPTOR, 0x00, 0, buffer, bufferLength, callbackFn, callbackParam);
+	return USB_HostHubClassRequestCommon(
+		classHandle, USB_REQUEST_TYPE_DIR_IN | USB_REQUEST_TYPE_TYPE_CLASS |
+		USB_REQUEST_TYPE_RECIPIENT_DEVICE,
+		USB_REQUEST_STANDARD_GET_DESCRIPTOR, 0x00, 0, buffer, bufferLength, callbackFn,
+		callbackParam);
 }
 
 /*!
@@ -496,14 +491,16 @@ usb_status_t USB_HostHubGetDescriptor(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Error          pipe is not initialized.
  *                                    Or, send transfer fail, please reference to USB_HostSendSetup.
  */
-usb_status_t USB_HostHubClearFeature(usb_host_class_handle classHandle,
-                                     uint8_t feature,
-                                     transfer_callback_t callbackFn,
-                                     void *callbackParam)
+usb_status_t USB_HostHubClearFeature(usb_host_class_handle	classHandle,
+				     uint8_t			feature,
+				     transfer_callback_t	callbackFn,
+				     void *			callbackParam)
 {
-    return USB_HostHubClassRequestCommon(classHandle, USB_REQUEST_TYPE_DIR_OUT | USB_REQUEST_TYPE_TYPE_CLASS,
-                                         USB_REQUEST_STANDARD_CLEAR_FEATURE, feature, 0, NULL, 0, callbackFn,
-                                         callbackParam);
+	return USB_HostHubClassRequestCommon(classHandle, USB_REQUEST_TYPE_DIR_OUT |
+					     USB_REQUEST_TYPE_TYPE_CLASS,
+					     USB_REQUEST_STANDARD_CLEAR_FEATURE, feature, 0, NULL,
+					     0, callbackFn,
+					     callbackParam);
 }
 
 /*!
@@ -524,14 +521,16 @@ usb_status_t USB_HostHubClearFeature(usb_host_class_handle classHandle,
  *                                    Or, send transfer fail, please reference to USB_HostSendSetup.
  */
 usb_status_t USB_HostHubGetStatus(usb_host_class_handle classHandle,
-                                  uint8_t *buffer,
-                                  uint16_t bufferLength,
-                                  transfer_callback_t callbackFn,
-                                  void *callbackParam)
+				  uint8_t *		buffer,
+				  uint16_t		bufferLength,
+				  transfer_callback_t	callbackFn,
+				  void *		callbackParam)
 {
-    return USB_HostHubClassRequestCommon(classHandle, USB_REQUEST_TYPE_DIR_IN | USB_REQUEST_TYPE_TYPE_CLASS,
-                                         USB_REQUEST_STANDARD_GET_STATUS, 0, 0, buffer, bufferLength, callbackFn,
-                                         callbackParam);
+	return USB_HostHubClassRequestCommon(classHandle, USB_REQUEST_TYPE_DIR_IN |
+					     USB_REQUEST_TYPE_TYPE_CLASS,
+					     USB_REQUEST_STANDARD_GET_STATUS, 0, 0, buffer,
+					     bufferLength, callbackFn,
+					     callbackParam);
 }
 
 /*!
@@ -551,15 +550,17 @@ usb_status_t USB_HostHubGetStatus(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Error          pipe is not initialized.
  *                                    Or, send transfer fail, please reference to USB_HostSendSetup.
  */
-usb_status_t USB_HostHubSetPortFeature(usb_host_class_handle classHandle,
-                                       uint8_t portNumber,
-                                       uint8_t feature,
-                                       transfer_callback_t callbackFn,
-                                       void *callbackParam)
+usb_status_t USB_HostHubSetPortFeature(usb_host_class_handle	classHandle,
+				       uint8_t			portNumber,
+				       uint8_t			feature,
+				       transfer_callback_t	callbackFn,
+				       void *			callbackParam)
 {
-    return USB_HostHubClassRequestCommon(
-        classHandle, USB_REQUEST_TYPE_DIR_OUT | USB_REQUEST_TYPE_TYPE_CLASS | USB_REQUEST_TYPE_RECIPIENT_OTHER,
-        USB_REQUEST_STANDARD_SET_FEATURE, feature, portNumber, NULL, 0, callbackFn, callbackParam);
+	return USB_HostHubClassRequestCommon(
+		classHandle, USB_REQUEST_TYPE_DIR_OUT | USB_REQUEST_TYPE_TYPE_CLASS |
+		USB_REQUEST_TYPE_RECIPIENT_OTHER,
+		USB_REQUEST_STANDARD_SET_FEATURE, feature, portNumber, NULL, 0, callbackFn,
+		callbackParam);
 }
 
 /*!
@@ -579,15 +580,17 @@ usb_status_t USB_HostHubSetPortFeature(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Error          pipe is not initialized.
  *                                    Or, send transfer fail, please reference to USB_HostSendSetup.
  */
-usb_status_t USB_HostHubClearPortFeature(usb_host_class_handle classHandle,
-                                         uint8_t portNumber,
-                                         uint8_t feature,
-                                         transfer_callback_t callbackFn,
-                                         void *callbackParam)
+usb_status_t USB_HostHubClearPortFeature(usb_host_class_handle	classHandle,
+					 uint8_t		portNumber,
+					 uint8_t		feature,
+					 transfer_callback_t	callbackFn,
+					 void *			callbackParam)
 {
-    return USB_HostHubClassRequestCommon(
-        classHandle, USB_REQUEST_TYPE_DIR_OUT | USB_REQUEST_TYPE_TYPE_CLASS | USB_REQUEST_TYPE_RECIPIENT_OTHER,
-        USB_REQUEST_STANDARD_CLEAR_FEATURE, feature, portNumber, NULL, 0, callbackFn, callbackParam);
+	return USB_HostHubClassRequestCommon(
+		classHandle, USB_REQUEST_TYPE_DIR_OUT | USB_REQUEST_TYPE_TYPE_CLASS |
+		USB_REQUEST_TYPE_RECIPIENT_OTHER,
+		USB_REQUEST_STANDARD_CLEAR_FEATURE, feature, portNumber, NULL, 0, callbackFn,
+		callbackParam);
 }
 
 /*!
@@ -607,16 +610,18 @@ usb_status_t USB_HostHubClearPortFeature(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Error          pipe is not initialized.
  *                                    Or, send transfer fail, please reference to USB_HostSendSetup.
  */
-usb_status_t USB_HostHubGetPortStatus(usb_host_class_handle classHandle,
-                                      uint8_t portNumber,
-                                      uint8_t *buffer,
-                                      uint16_t bufferLength,
-                                      transfer_callback_t callbackFn,
-                                      void *callbackParam)
+usb_status_t USB_HostHubGetPortStatus(usb_host_class_handle	classHandle,
+				      uint8_t			portNumber,
+				      uint8_t *			buffer,
+				      uint16_t			bufferLength,
+				      transfer_callback_t	callbackFn,
+				      void *			callbackParam)
 {
-    return USB_HostHubClassRequestCommon(
-        classHandle, USB_REQUEST_TYPE_DIR_IN | USB_REQUEST_TYPE_TYPE_CLASS | USB_REQUEST_TYPE_RECIPIENT_OTHER,
-        USB_REQUEST_STANDARD_GET_STATUS, 0, portNumber, buffer, bufferLength, callbackFn, callbackParam);
+	return USB_HostHubClassRequestCommon(
+		classHandle, USB_REQUEST_TYPE_DIR_IN | USB_REQUEST_TYPE_TYPE_CLASS |
+		USB_REQUEST_TYPE_RECIPIENT_OTHER,
+		USB_REQUEST_STANDARD_GET_STATUS, 0, portNumber, buffer, bufferLength, callbackFn,
+		callbackParam);
 }
 
 #endif /* USB_HOST_CONFIG_HUB */

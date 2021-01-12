@@ -62,125 +62,117 @@
 #define USB_HOST_HID_GET_MAX_LUN (0xFEU)
 
 /*! @brief UFI command process status */
-typedef enum _usb_host_msd_command_status
-{
-    kMSD_CommandIdle = 0,
-    kMSD_CommandTransferCBW,
-    kMSD_CommandTransferData,
-    kMSD_CommandTransferCSW,
-    kMSD_CommandDone,
-    kMSD_CommandCancel,
-    kMSD_CommandErrorDone,
+typedef enum _usb_host_msd_command_status {
+	kMSD_CommandIdle = 0,
+	kMSD_CommandTransferCBW,
+	kMSD_CommandTransferData,
+	kMSD_CommandTransferCSW,
+	kMSD_CommandDone,
+	kMSD_CommandCancel,
+	kMSD_CommandErrorDone,
 } usb_host_msd_command_status_t;
 
 /*! @brief MSC Bulk-Only command block wrapper (CBW) */
-typedef struct _usb_host_cbw
-{
-    uint32_t CBWSignature; /*!< Signature that helps identify this data packet as a CBW. The signature field shall
-                              contain the value 43425355h (little endian), indicating a CBW */
-    uint32_t CBWTag; /*!< A Command Block Tag sent by the host. The device shall echo the contents of this field back to
-                        the host in the dCSWTag field of the associated CSW */
-    uint32_t CBWDataTransferLength; /*!< The number of bytes of data that the host expects to transfer on the Bulk-In or
-                                       Bulk-Out endpoint during the execution of this command */
-    uint8_t CBWFlags;               /*!<
-                                         Bit 7 Direction - the device shall ignore this bit if the dCBWDataTransferLength field is
-                                       zero, otherwise:
-                                             0 = Data-Out from host to the device,
-                                             1 = Data-In from the device to the host.
-                                         Bit 6 Obsolete. The host shall set this bit to zero.
-                                         Bits 5..0 Reserved - the host shall set these bits to zero.
-                                     */
-    uint8_t CBWLun;      /*!< The device Logical Unit Number (LUN) to which the command block is being sent */
-    uint8_t CBWCBLength; /*!< The valid length of the CBWCB in bytes. This defines the valid length of the command
-                            block. The only legal values are 1 through 16 (01h through 10h).*/
-    uint8_t CBWCB[16];   /*!< The command block to be executed by the device*/
+typedef struct _usb_host_cbw {
+	uint32_t	CBWSignature;           /*!< Signature that helps identify this data packet as a CBW. The signature field shall
+	                                         * contain the value 43425355h (little endian), indicating a CBW */
+	uint32_t	CBWTag;                 /*!< A Command Block Tag sent by the host. The device shall echo the contents of this field back to
+	                                         * the host in the dCSWTag field of the associated CSW */
+	uint32_t	CBWDataTransferLength;  /*!< The number of bytes of data that the host expects to transfer on the Bulk-In or
+	                                         * Bulk-Out endpoint during the execution of this command */
+	uint8_t		CBWFlags;               /*!<
+	                                         *   Bit 7 Direction - the device shall ignore this bit if the dCBWDataTransferLength field is
+	                                         * zero, otherwise:
+	                                         *       0 = Data-Out from host to the device,
+	                                         *       1 = Data-In from the device to the host.
+	                                         *   Bit 6 Obsolete. The host shall set this bit to zero.
+	                                         *   Bits 5..0 Reserved - the host shall set these bits to zero.
+	                                         */
+	uint8_t CBWLun;                         /*!< The device Logical Unit Number (LUN) to which the command block is being sent */
+	uint8_t CBWCBLength;                    /*!< The valid length of the CBWCB in bytes. This defines the valid length of the command
+	                                         * block. The only legal values are 1 through 16 (01h through 10h).*/
+	uint8_t CBWCB[16];                      /*!< The command block to be executed by the device*/
 } usb_host_cbw_t;
 
 /*! @brief MSC Bulk-Only command status wrapper (CSW) */
-typedef struct _usb_host_csw
-{
-    uint32_t CSWSignature; /*!< Signature that helps identify this data packet as a CSW. The signature field shall
-                              contain the value 53425355h (little endian), indicating CSW.*/
-    uint32_t CSWTag; /*!< The device shall set this field to the value received in the dCBWTag of the associated CBW*/
-    uint32_t CSWDataResidue; /*!< the difference between the amount of data expected as stated in the
-                                dCBWDataTransferLength and the actual amount of relevant data processed by the device.*/
-    uint8_t CSWStatus;       /*!<
-                                   bCSWStatus indicates the success or failure of the command.
-                                   00h - Command passed.
-                                   01h - Command Failed.
-                                   02h - Phase error.
-                                   others - Reserved.
-                             */
+typedef struct _usb_host_csw {
+	uint32_t	CSWSignature;   /*!< Signature that helps identify this data packet as a CSW. The signature field shall
+	                                 * contain the value 53425355h (little endian), indicating CSW.*/
+	uint32_t	CSWTag;         /*!< The device shall set this field to the value received in the dCBWTag of the associated CBW*/
+	uint32_t	CSWDataResidue; /*!< the difference between the amount of data expected as stated in the
+	                                 * dCBWDataTransferLength and the actual amount of relevant data processed by the device.*/
+	uint8_t		CSWStatus;      /*!<
+	                                 *    bCSWStatus indicates the success or failure of the command.
+	                                 *    00h - Command passed.
+	                                 *    01h - Command Failed.
+	                                 *    02h - Phase error.
+	                                 *    others - Reserved.
+	                                 */
 } usb_host_csw_t;
 
 /*! @brief MSC UFI command information structure */
-typedef struct _usb_host_msd_command
-{
-    usb_host_cbw_t cbwBlock;       /*!< CBW data block*/
-    usb_host_csw_t cswBlock;       /*!< CSW data block*/
-    uint8_t *dataBuffer;           /*!< Data buffer pointer*/
-    uint32_t dataLength;           /*!< Data buffer length*/
-    uint32_t dataSofar;            /*!< Successful transfer data length*/
-    usb_host_transfer_t *transfer; /*!< The transfer is used for processing the UFI command*/
-    uint8_t retryTime;     /*!< The UFI command residual retry time, when it reduce to zero the UFI command fail */
-    uint8_t dataDirection; /*!< The data direction, its value is USB_OUT or USB_IN*/
+typedef struct _usb_host_msd_command {
+	usb_host_cbw_t		cbwBlock;       /*!< CBW data block*/
+	usb_host_csw_t		cswBlock;       /*!< CSW data block*/
+	uint8_t *		dataBuffer;     /*!< Data buffer pointer*/
+	uint32_t		dataLength;     /*!< Data buffer length*/
+	uint32_t		dataSofar;      /*!< Successful transfer data length*/
+	usb_host_transfer_t *	transfer;       /*!< The transfer is used for processing the UFI command*/
+	uint8_t			retryTime;      /*!< The UFI command residual retry time, when it reduce to zero the UFI command fail */
+	uint8_t			dataDirection;  /*!< The data direction, its value is USB_OUT or USB_IN*/
 } usb_host_msd_command_t;
 
 /*! @brief MSD instance structure, MSD usb_host_class_handle pointer to this structure */
-typedef struct _usb_host_msd_instance
-{
-    usb_host_handle hostHandle;                /*!< This instance's related host handle*/
-    usb_device_handle deviceHandle;            /*!< This instance's related device handle*/
-    usb_host_interface_handle interfaceHandle; /*!< This instance's related interface handle*/
-    usb_host_pipe_handle controlPipe;          /*!< This instance's related device control pipe*/
-    usb_host_pipe_handle outPipe;              /*!< MSD bulk out pipe*/
-    usb_host_pipe_handle inPipe;               /*!< MSD bulk in pipe*/
-    transfer_callback_t commandCallbackFn;     /*!< MSD UFI command callback function pointer*/
-    void *commandCallbackParam;                /*!< MSD UFI command callback parameter*/
-    transfer_callback_t controlCallbackFn;     /*!< MSD control transfer callback function pointer*/
-    void *controlCallbackParam;                /*!< MSD control transfer callback parameter*/
-    usb_host_transfer_t *controlTransfer;      /*!< Ongoing control transfer*/
-    usb_host_msd_command_t msdCommand;         /*!< Ongoing MSD UFI command information*/
-    uint8_t commandStatus;                     /*!< UFI command process status, see command_status_t*/
-    uint8_t internalResetRecovery; /*!< 1 - class driver internal mass storage reset recovery is on-going; 0 -
-                                      application call USB_HostMsdMassStorageReset to reset or there is no reset*/
+typedef struct _usb_host_msd_instance {
+	usb_host_handle			hostHandle;             /*!< This instance's related host handle*/
+	usb_device_handle		deviceHandle;           /*!< This instance's related device handle*/
+	usb_host_interface_handle	interfaceHandle;        /*!< This instance's related interface handle*/
+	usb_host_pipe_handle		controlPipe;            /*!< This instance's related device control pipe*/
+	usb_host_pipe_handle		outPipe;                /*!< MSD bulk out pipe*/
+	usb_host_pipe_handle		inPipe;                 /*!< MSD bulk in pipe*/
+	transfer_callback_t		commandCallbackFn;      /*!< MSD UFI command callback function pointer*/
+	void *				commandCallbackParam;   /*!< MSD UFI command callback parameter*/
+	transfer_callback_t		controlCallbackFn;      /*!< MSD control transfer callback function pointer*/
+	void *				controlCallbackParam;   /*!< MSD control transfer callback parameter*/
+	usb_host_transfer_t *		controlTransfer;        /*!< Ongoing control transfer*/
+	usb_host_msd_command_t		msdCommand;             /*!< Ongoing MSD UFI command information*/
+	uint8_t				commandStatus;          /*!< UFI command process status, see command_status_t*/
+	uint8_t				internalResetRecovery;  /*!< 1 - class driver internal mass storage reset recovery is on-going; 0 -
+	                                                         * application call USB_HostMsdMassStorageReset to reset or there is no reset*/
 } usb_host_msd_instance_t;
 
 /*! @brief UFI standard sense data structure */
-typedef struct _usb_host_ufi_sense_data
-{
-    uint8_t errorCode;      /*!< This field shall contain a value of 70h to indicate current errors*/
-    uint8_t reserved1;      /*!< Reserved field*/
-    uint8_t senseKey;       /*!< Provide a hierarchy of error or command result information*/
-    uint8_t information[4]; /*!< This field is command-specific; it is typically used by some commands to return a
-                               logical block address denoting where an error occurred*/
-    uint8_t additionalSenseLength; /*!< The UFI device sets the value of this field to ten, to indicate that ten more
-                                      bytes of sense data follow this field*/
-    uint8_t reserved2[4];          /*!< Reserved field*/
-    uint8_t additionalSenseCode;   /*!< Provide a hierarchy of error or command result information*/
-    uint8_t additionalSenseCodeQualifier; /*!< Provide a hierarchy of error or command result information*/
-    uint8_t reserved3[4];                 /*!< Reserved field*/
+typedef struct _usb_host_ufi_sense_data {
+	uint8_t errorCode;                      /*!< This field shall contain a value of 70h to indicate current errors*/
+	uint8_t reserved1;                      /*!< Reserved field*/
+	uint8_t senseKey;                       /*!< Provide a hierarchy of error or command result information*/
+	uint8_t information[4];                 /*!< This field is command-specific; it is typically used by some commands to return a
+	                                         * logical block address denoting where an error occurred*/
+	uint8_t additionalSenseLength;          /*!< The UFI device sets the value of this field to ten, to indicate that ten more
+	                                         * bytes of sense data follow this field*/
+	uint8_t reserved2[4];                   /*!< Reserved field*/
+	uint8_t additionalSenseCode;            /*!< Provide a hierarchy of error or command result information*/
+	uint8_t additionalSenseCodeQualifier;   /*!< Provide a hierarchy of error or command result information*/
+	uint8_t reserved3[4];                   /*!< Reserved field*/
 } usb_host_ufi_sense_data_t;
 
 /*! @brief UFI standard inquiry data structure */
-typedef struct _usb_host_ufi_inquiry_data
-{
-    uint8_t peripheralDeviceType;      /*!< Identifies the device currently connected to the requested logical unit*/
-    uint8_t removableMediaBit;         /*!< This shall be set to one to indicate removable media*/
-    uint8_t version;                   /*!< Version*/
-    uint8_t responseDataFormat;        /*!< A value of 01h shall be used for UFI device*/
-    uint8_t additionalLength;          /*!< Specify the length in bytes of the parameters*/
-    uint8_t reserved1[3];              /*!< Reserved field*/
-    uint8_t vendorInformation[8];      /*!< Contains 8 bytes of ASCII data identifying the vendor of the product*/
-    uint8_t productIdentification[16]; /*!< Contains 16 bytes of ASCII data as defined by the vendor*/
-    uint8_t productRevisionLevel[4];   /*!< Contains 4 bytes of ASCII data as defined by the vendor*/
+typedef struct _usb_host_ufi_inquiry_data {
+	uint8_t peripheralDeviceType;           /*!< Identifies the device currently connected to the requested logical unit*/
+	uint8_t removableMediaBit;              /*!< This shall be set to one to indicate removable media*/
+	uint8_t version;                        /*!< Version*/
+	uint8_t responseDataFormat;             /*!< A value of 01h shall be used for UFI device*/
+	uint8_t additionalLength;               /*!< Specify the length in bytes of the parameters*/
+	uint8_t reserved1[3];                   /*!< Reserved field*/
+	uint8_t vendorInformation[8];           /*!< Contains 8 bytes of ASCII data identifying the vendor of the product*/
+	uint8_t productIdentification[16];      /*!< Contains 16 bytes of ASCII data as defined by the vendor*/
+	uint8_t productRevisionLevel[4];        /*!< Contains 4 bytes of ASCII data as defined by the vendor*/
 } usb_host_ufi_inquiry_data_t;
 
 /*! @brief UFI read capacity data structure */
-typedef struct _usb_host_ufi_read_capacity
-{
-    uint8_t lastLogicalBlockAddress[4]; /*!< The logical block number*/
-    uint8_t blockLengthInBytes[4];      /*!< Block size*/
+typedef struct _usb_host_ufi_read_capacity {
+	uint8_t lastLogicalBlockAddress[4];     /*!< The logical block number*/
+	uint8_t blockLengthInBytes[4];          /*!< Block size*/
 } usb_host_ufi_read_capacity_t;
 
 #ifdef __cplusplus
@@ -207,7 +199,8 @@ extern "C" {
  * @retval kStatus_USB_Success        The device is initialized successfully.
  * @retval kStatus_USB_AllocFail      Allocate memory fail.
  */
-extern usb_status_t USB_HostMsdInit(usb_device_handle deviceHandle, usb_host_class_handle *classHandle);
+extern usb_status_t USB_HostMsdInit(usb_device_handle		deviceHandle,
+				    usb_host_class_handle *	classHandle);
 
 /*!
  * @brief Sets the interface.
@@ -230,10 +223,9 @@ extern usb_status_t USB_HostMsdInit(usb_device_handle deviceHandle, usb_host_cla
  * @retval kStatus_USB_Error          Callback return status, open pipe fail. See the USB_HostOpenPipe.
  */
 extern usb_status_t USB_HostMsdSetInterface(usb_host_class_handle classHandle,
-                                            usb_host_interface_handle interfaceHandle,
-                                            uint8_t alternateSetting,
-                                            transfer_callback_t callbackFn,
-                                            void *callbackParam);
+					    usb_host_interface_handle interfaceHandle, uint8_t
+					    alternateSetting, transfer_callback_t callbackFn,
+					    void *callbackParam);
 
 /*!
  * @brief Deinitializes the MSD instance.
@@ -245,7 +237,8 @@ extern usb_status_t USB_HostMsdSetInterface(usb_host_class_handle classHandle,
  *
  * @retval kStatus_USB_Success        The device is de-initialized successfully.
  */
-extern usb_status_t USB_HostMsdDeinit(usb_device_handle deviceHandle, usb_host_class_handle classHandle);
+extern usb_status_t USB_HostMsdDeinit(usb_device_handle deviceHandle, usb_host_class_handle
+				      classHandle);
 
 /*!
  * @brief Mass storage reset.
@@ -261,9 +254,9 @@ extern usb_status_t USB_HostMsdDeinit(usb_device_handle deviceHandle, usb_host_c
  * @retval kStatus_USB_Busy           There is no idle transfer.
  * @retval kStatus_USB_Error          Send transfer fail. See the USB_HostSendSetup.
  */
-extern usb_status_t USB_HostMsdMassStorageReset(usb_host_class_handle classHandle,
-                                                transfer_callback_t callbackFn,
-                                                void *callbackParam);
+extern usb_status_t USB_HostMsdMassStorageReset(usb_host_class_handle	classHandle,
+						transfer_callback_t	callbackFn,
+						void *			callbackParam);
 
 /*!
  * @brief Gets the maximum logical unit number.
@@ -284,9 +277,8 @@ extern usb_status_t USB_HostMsdMassStorageReset(usb_host_class_handle classHandl
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
 extern usb_status_t USB_HostMsdGetMaxLun(usb_host_class_handle classHandle,
-                                         uint8_t *logicalUnitNumber,
-                                         transfer_callback_t callbackFn,
-                                         void *callbackParam);
+					 uint8_t *logicalUnitNumber, transfer_callback_t callbackFn,
+					 void *callbackParam);
 
 /*!
  * @brief Mass storage read (10).
@@ -311,14 +303,10 @@ extern usb_status_t USB_HostMsdGetMaxLun(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdRead10(usb_host_class_handle classHandle,
-                                      uint8_t logicalUnit,
-                                      uint32_t blockAddress,
-                                      uint8_t *buffer,
-                                      uint32_t bufferLength,
-                                      uint32_t blockNumber,
-                                      transfer_callback_t callbackFn,
-                                      void *callbackParam);
+extern usb_status_t USB_HostMsdRead10(usb_host_class_handle classHandle, uint8_t logicalUnit,
+				      uint32_t blockAddress, uint8_t *buffer, uint32_t bufferLength,
+				      uint32_t blockNumber,
+				      transfer_callback_t callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage read (12).
@@ -343,14 +331,10 @@ extern usb_status_t USB_HostMsdRead10(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdRead12(usb_host_class_handle classHandle,
-                                      uint8_t logicalUnit,
-                                      uint32_t blockAddress,
-                                      uint8_t *buffer,
-                                      uint32_t bufferLength,
-                                      uint32_t blockNumber,
-                                      transfer_callback_t callbackFn,
-                                      void *callbackParam);
+extern usb_status_t USB_HostMsdRead12(usb_host_class_handle classHandle, uint8_t logicalUnit,
+				      uint32_t blockAddress, uint8_t *buffer, uint32_t bufferLength,
+				      uint32_t blockNumber,
+				      transfer_callback_t callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage write (10).
@@ -375,14 +359,10 @@ extern usb_status_t USB_HostMsdRead12(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdWrite10(usb_host_class_handle classHandle,
-                                       uint8_t logicalUnit,
-                                       uint32_t blockAddress,
-                                       uint8_t *buffer,
-                                       uint32_t bufferLength,
-                                       uint32_t blockNumber,
-                                       transfer_callback_t callbackFn,
-                                       void *callbackParam);
+extern usb_status_t USB_HostMsdWrite10(usb_host_class_handle classHandle, uint8_t logicalUnit,
+				       uint32_t blockAddress, uint8_t *buffer, uint32_t
+				       bufferLength, uint32_t blockNumber, transfer_callback_t
+				       callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage write (12).
@@ -407,14 +387,10 @@ extern usb_status_t USB_HostMsdWrite10(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdWrite12(usb_host_class_handle classHandle,
-                                       uint8_t logicalUnit,
-                                       uint32_t blockAddress,
-                                       uint8_t *buffer,
-                                       uint32_t bufferLength,
-                                       uint32_t blockNumber,
-                                       transfer_callback_t callbackFn,
-                                       void *callbackParam);
+extern usb_status_t USB_HostMsdWrite12(usb_host_class_handle classHandle, uint8_t logicalUnit,
+				       uint32_t blockAddress, uint8_t *buffer, uint32_t
+				       bufferLength, uint32_t blockNumber, transfer_callback_t
+				       callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage read capacity.
@@ -437,12 +413,9 @@ extern usb_status_t USB_HostMsdWrite12(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdReadCapacity(usb_host_class_handle classHandle,
-                                            uint8_t logicalUnit,
-                                            uint8_t *buffer,
-                                            uint32_t bufferLength,
-                                            transfer_callback_t callbackFn,
-                                            void *callbackParam);
+extern usb_status_t USB_HostMsdReadCapacity(usb_host_class_handle classHandle, uint8_t logicalUnit,
+					    uint8_t *buffer, uint32_t bufferLength,
+					    transfer_callback_t callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage test unit ready.
@@ -463,10 +436,8 @@ extern usb_status_t USB_HostMsdReadCapacity(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdTestUnitReady(usb_host_class_handle classHandle,
-                                             uint8_t logicalUnit,
-                                             transfer_callback_t callbackFn,
-                                             void *callbackParam);
+extern usb_status_t USB_HostMsdTestUnitReady(usb_host_class_handle classHandle, uint8_t logicalUnit,
+					     transfer_callback_t callbackFn, void *callbackParam);
 
 /*!
  * @brief mass storage request sense.
@@ -489,12 +460,9 @@ extern usb_status_t USB_HostMsdTestUnitReady(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdRequestSense(usb_host_class_handle classHandle,
-                                            uint8_t logicalUnit,
-                                            uint8_t *buffer,
-                                            uint32_t bufferLength,
-                                            transfer_callback_t callbackFn,
-                                            void *callbackParam);
+extern usb_status_t USB_HostMsdRequestSense(usb_host_class_handle classHandle, uint8_t logicalUnit,
+					    uint8_t *buffer, uint32_t bufferLength,
+					    transfer_callback_t callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage mode select.
@@ -517,12 +485,9 @@ extern usb_status_t USB_HostMsdRequestSense(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdModeSelect(usb_host_class_handle classHandle,
-                                          uint8_t logicalUnit,
-                                          uint8_t *buffer,
-                                          uint32_t bufferLength,
-                                          transfer_callback_t callbackFn,
-                                          void *callbackParam);
+extern usb_status_t USB_HostMsdModeSelect(usb_host_class_handle classHandle, uint8_t logicalUnit,
+					  uint8_t *buffer, uint32_t bufferLength,
+					  transfer_callback_t callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage mode sense.
@@ -547,14 +512,10 @@ extern usb_status_t USB_HostMsdModeSelect(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdModeSense(usb_host_class_handle classHandle,
-                                         uint8_t logicalUnit,
-                                         uint8_t pageControl,
-                                         uint8_t pageCode,
-                                         uint8_t *buffer,
-                                         uint32_t bufferLength,
-                                         transfer_callback_t callbackFn,
-                                         void *callbackParam);
+extern usb_status_t USB_HostMsdModeSense(usb_host_class_handle classHandle, uint8_t logicalUnit,
+					 uint8_t pageControl, uint8_t pageCode, uint8_t *buffer,
+					 uint32_t bufferLength, transfer_callback_t
+					 callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage inquiry.
@@ -577,12 +538,9 @@ extern usb_status_t USB_HostMsdModeSense(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdInquiry(usb_host_class_handle classHandle,
-                                       uint8_t logicalUnit,
-                                       uint8_t *buffer,
-                                       uint32_t bufferLength,
-                                       transfer_callback_t callbackFn,
-                                       void *callbackParam);
+extern usb_status_t USB_HostMsdInquiry(usb_host_class_handle classHandle, uint8_t logicalUnit,
+				       uint8_t *buffer, uint32_t bufferLength, transfer_callback_t
+				       callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage read format capacities.
@@ -605,12 +563,10 @@ extern usb_status_t USB_HostMsdInquiry(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdReadFormatCapacities(usb_host_class_handle classHandle,
-                                                    uint8_t logicalUnit,
-                                                    uint8_t *buffer,
-                                                    uint32_t bufferLength,
-                                                    transfer_callback_t callbackFn,
-                                                    void *callbackParam);
+extern usb_status_t USB_HostMsdReadFormatCapacities(usb_host_class_handle classHandle, uint8_t
+						    logicalUnit, uint8_t *buffer, uint32_t
+						    bufferLength, transfer_callback_t callbackFn,
+						    void *callbackParam);
 
 /*!
  * @brief Mass storage format unit.
@@ -635,14 +591,10 @@ extern usb_status_t USB_HostMsdReadFormatCapacities(usb_host_class_handle classH
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdFormatUnit(usb_host_class_handle classHandle,
-                                          uint8_t logicalUnit,
-                                          uint8_t trackNumber,
-                                          uint16_t interLeave,
-                                          uint8_t *buffer,
-                                          uint32_t bufferLength,
-                                          transfer_callback_t callbackFn,
-                                          void *callbackParam);
+extern usb_status_t USB_HostMsdFormatUnit(usb_host_class_handle classHandle, uint8_t logicalUnit,
+					  uint8_t trackNumber, uint16_t interLeave, uint8_t *buffer,
+					  uint32_t bufferLength,
+					  transfer_callback_t callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage prevents/allows a medium removal.
@@ -666,11 +618,9 @@ extern usb_status_t USB_HostMsdFormatUnit(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdPreventAllowRemoval(usb_host_class_handle classHandle,
-                                                   uint8_t logicalUnit,
-                                                   uint8_t prevent,
-                                                   transfer_callback_t callbackFn,
-                                                   void *callbackParam);
+extern usb_status_t USB_HostMsdPreventAllowRemoval(usb_host_class_handle classHandle, uint8_t
+						   logicalUnit, uint8_t prevent, transfer_callback_t
+						   callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage write and verify.
@@ -695,14 +645,10 @@ extern usb_status_t USB_HostMsdPreventAllowRemoval(usb_host_class_handle classHa
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdWriteAndVerify(usb_host_class_handle classHandle,
-                                              uint8_t logicalUnit,
-                                              uint32_t blockAddress,
-                                              uint8_t *buffer,
-                                              uint32_t bufferLength,
-                                              uint32_t blockNumber,
-                                              transfer_callback_t callbackFn,
-                                              void *callbackParam);
+extern usb_status_t USB_HostMsdWriteAndVerify(usb_host_class_handle classHandle, uint8_t
+					      logicalUnit, uint32_t blockAddress, uint8_t *buffer,
+					      uint32_t bufferLength, uint32_t blockNumber,
+					      transfer_callback_t callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage start stop unit.
@@ -728,12 +674,9 @@ extern usb_status_t USB_HostMsdWriteAndVerify(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdStartStopUnit(usb_host_class_handle classHandle,
-                                             uint8_t logicalUnit,
-                                             uint8_t loadEject,
-                                             uint8_t start,
-                                             transfer_callback_t callbackFn,
-                                             void *callbackParam);
+extern usb_status_t USB_HostMsdStartStopUnit(usb_host_class_handle classHandle, uint8_t logicalUnit,
+					     uint8_t loadEject, uint8_t start, transfer_callback_t
+					     callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage verify.
@@ -756,12 +699,10 @@ extern usb_status_t USB_HostMsdStartStopUnit(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdVerify(usb_host_class_handle classHandle,
-                                      uint8_t logicalUnit,
-                                      uint32_t blockAddress,
-                                      uint16_t verificationLength,
-                                      transfer_callback_t callbackFn,
-                                      void *callbackParam);
+extern usb_status_t USB_HostMsdVerify(usb_host_class_handle classHandle, uint8_t logicalUnit,
+				      uint32_t blockAddress, uint16_t verificationLength,
+				      transfer_callback_t callbackFn,
+				      void *callbackParam);
 
 /*!
  * @brief Mass storage rezero.
@@ -782,10 +723,8 @@ extern usb_status_t USB_HostMsdVerify(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdRezeroUnit(usb_host_class_handle classHandle,
-                                          uint8_t logicalUnit,
-                                          transfer_callback_t callbackFn,
-                                          void *callbackParam);
+extern usb_status_t USB_HostMsdRezeroUnit(usb_host_class_handle classHandle, uint8_t logicalUnit,
+					  transfer_callback_t callbackFn, void *callbackParam);
 
 /*!
  * @brief Mass storage seek(10).
@@ -807,11 +746,9 @@ extern usb_status_t USB_HostMsdRezeroUnit(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdSeek10(usb_host_class_handle classHandle,
-                                      uint8_t logicalUnit,
-                                      uint32_t blockAddress,
-                                      transfer_callback_t callbackFn,
-                                      void *callbackParam);
+extern usb_status_t USB_HostMsdSeek10(usb_host_class_handle classHandle, uint8_t logicalUnit,
+				      uint32_t blockAddress, transfer_callback_t callbackFn,
+				      void *callbackParam);
 
 /*!
  * @brief Mass storage send diagnostic.
@@ -833,11 +770,9 @@ extern usb_status_t USB_HostMsdSeek10(usb_host_class_handle classHandle,
  * @retval kStatus_USB_MSDStatusFail  Callback return status, the CSW status indicate this command fail.
  * @retval kStatus_USB_Error          Callback return status, the command fail.
  */
-extern usb_status_t USB_HostMsdSendDiagnostic(usb_host_class_handle classHandle,
-                                              uint8_t logicalUnit,
-                                              uint8_t selfTest,
-                                              transfer_callback_t callbackFn,
-                                              void *callbackParam);
+extern usb_status_t USB_HostMsdSendDiagnostic(usb_host_class_handle classHandle, uint8_t
+					      logicalUnit, uint8_t selfTest, transfer_callback_t
+					      callbackFn, void *callbackParam);
 
 /*!
  * @brief all ufi function calls this api.
@@ -854,13 +789,10 @@ extern usb_status_t USB_HostMsdSendDiagnostic(usb_host_class_handle classHandle,
  *
  * @return An error code or kStatus_USB_Success.
  */
-usb_status_t USB_HostMsdCommand(usb_host_class_handle classHandle,
-                                uint8_t *buffer,
-                                uint32_t bufferLength,
-                                transfer_callback_t callbackFn,
-                                void *callbackParam,
-                                uint8_t direction,
-                                uint8_t byteValues[10]);
+usb_status_t USB_HostMsdCommand(usb_host_class_handle classHandle, uint8_t *buffer, uint32_t
+				bufferLength, transfer_callback_t callbackFn, void *callbackParam,
+				uint8_t direction, uint8_t
+				byteValues[10]);
 
 /*! @}*/
 

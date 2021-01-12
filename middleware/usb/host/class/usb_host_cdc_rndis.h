@@ -157,171 +157,155 @@
  * RNDS class public structure, enumeration, macro, function
  ******************************************************************************/
 /*! @brief Define message structure for REMOTE_NDIS_INITIALIZE_MSG. */
-typedef struct _rndis_init_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t majorVersion;
-    uint32_t minorVersion;
-    uint32_t maxTransferSize;
+typedef struct _rndis_init_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	majorVersion;
+	uint32_t	minorVersion;
+	uint32_t	maxTransferSize;
 } rndis_init_msg_struct_t;
 /*! @brief Define message structure for REMOTE_NDIS_HALT_MSG. */
-typedef struct _rndis_halt_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
+typedef struct _rndis_halt_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
 } rndis_halt_msg_struct_t;
 /*! @brief Define message structure for REMOTE_NDIS_QUERY_MSG. */
-typedef struct _rndis_query_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t oid;
-    uint32_t informationBufferLength;
-    uint32_t informationBufferOffset;
-    uint32_t deviceVcHandle;
+typedef struct _rndis_query_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	oid;
+	uint32_t	informationBufferLength;
+	uint32_t	informationBufferOffset;
+	uint32_t	deviceVcHandle;
 } rndis_query_msg_struct_t;
 /*! @brief Define message structure for REMOTE_NDIS_SET_MSG. */
-typedef struct _rndis_set_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t oid;
-    uint32_t informationBufferLength;
-    uint32_t informationBufferOffset;
-    uint32_t deviceVcHandle;
+typedef struct _rndis_set_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	oid;
+	uint32_t	informationBufferLength;
+	uint32_t	informationBufferOffset;
+	uint32_t	deviceVcHandle;
 } rndis_set_msg_struct_t;
 /*! @brief Define message structure for REMOTE_NDIS_RESET_MSG. */
-typedef struct _rndis_reset_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t Reserved;
+typedef struct _rndis_reset_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	Reserved;
 } rndis_reset_msg_struct_t;
 /*! @brief Define message structure for REMOTE_NDIS_INDICATE_STATUS_MSG. */
-typedef struct _rndis_indicate_status_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t status;
-    uint32_t statusBufferLength;
-    uint32_t statusBufferOffset;
+typedef struct _rndis_indicate_status_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	status;
+	uint32_t	statusBufferLength;
+	uint32_t	statusBufferOffset;
 } rndis_indicate_status_msg_struct_t;
 /*! @brief Define message structure for REMOTE_NDIS_DIAGNOSTIC_MSG. */
-typedef struct _rndis_diagnostic_msg_struct
-{
-    uint32_t DiagStatus;
-    uint32_t ErrorOffset;
+typedef struct _rndis_diagnostic_msg_struct {
+	uint32_t	DiagStatus;
+	uint32_t	ErrorOffset;
 } rndis_diagnostic_msg_struct_t;
 /*! @brief Define message structure for REMOTE_NDIS_KEEPALIVE_MSG. */
-typedef struct _rndis_keepalive_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
+typedef struct _rndis_keepalive_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
 } rndis_keepalive_msg_struct_t;
 /*! @brief Define message structure for REMOTE_NDIS_INITIALIZE_CMPLT. */
-typedef struct _rndis_init_cmplt_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t status;
-    uint32_t majorVersion;
-    uint32_t minorVersion;
-    uint32_t deviceFlags;
-    uint32_t medium;
-    uint32_t maxPacketsPerTransfer;
-    uint32_t maxTransferSize;
-    uint32_t packetAlignmentFactor;
-    uint32_t afListOffset;
-    uint32_t afListSize;
+typedef struct _rndis_init_cmplt_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	status;
+	uint32_t	majorVersion;
+	uint32_t	minorVersion;
+	uint32_t	deviceFlags;
+	uint32_t	medium;
+	uint32_t	maxPacketsPerTransfer;
+	uint32_t	maxTransferSize;
+	uint32_t	packetAlignmentFactor;
+	uint32_t	afListOffset;
+	uint32_t	afListSize;
 } rndis_init_cmplt_struct_t;
 /*! @brief Define message structure for REMOTE_NDIS_QUERY_CMPLT. */
-typedef struct _rndis_query_cmplt_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t status;
-    uint32_t informationBufferLength;
-    uint32_t informationBufferOffset;
+typedef struct _rndis_query_cmplt_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	status;
+	uint32_t	informationBufferLength;
+	uint32_t	informationBufferOffset;
 } rndis_query_cmplt_struct_t;
 /*! @brief Define message structure for REMOTE_NDIS_SET_CMPLT. */
-typedef struct _rndis_set_cmplt_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t status;
+typedef struct _rndis_set_cmplt_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	status;
 } rndis_set_cmplt_struct_t;
 /*! @brief Define message structure for REMOTE_NDIS_RESET_CMPLT. */
-typedef struct _rndis_reset_cmplt_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t status;
-    uint32_t addressingReset;
+typedef struct _rndis_reset_cmplt_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	status;
+	uint32_t	addressingReset;
 } rndis_reset_cmplt_struct_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_KEEPALIVE_CMPLT. */
-typedef struct _rndis_keepalive_cmplt_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t status;
+typedef struct _rndis_keepalive_cmplt_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	status;
 } rndis_keepalive_cmplt_struct_t;
 /*! @brief Define message structure for RNDIS_PACKET_MSG. */
-typedef struct _rndis_packet_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t dataOffset;
-    uint32_t dataLength;
-    uint32_t oobDataOffset;
-    uint32_t oobDataLength;
-    uint32_t numOOBDataElements;
-    uint32_t perPacketInfoOffset;
-    uint32_t perPacketInfoLength;
-    uint32_t vcHandle;
-    uint32_t reserved;
-    uint8_t dataBuffer[RNDIS_FRAME_MAX_FRAMELEN];
+typedef struct _rndis_packet_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	dataOffset;
+	uint32_t	dataLength;
+	uint32_t	oobDataOffset;
+	uint32_t	oobDataLength;
+	uint32_t	numOOBDataElements;
+	uint32_t	perPacketInfoOffset;
+	uint32_t	perPacketInfoLength;
+	uint32_t	vcHandle;
+	uint32_t	reserved;
+	uint8_t		dataBuffer[RNDIS_FRAME_MAX_FRAMELEN];
 } rndis_packet_msg_struct_t;
 /*! @brief Define RNDIS state. See MSDN for details. */
-typedef enum _rndis_state_enum
-{
-    /*! The host operating system is running, the device is connected to the host via the chosen
-     *bus transport, and the host is not yet configured to exchange any RNDIS messages.
-     */
-    RNDIS_UNINITIALIZED = 0,
-    /*! The host has successfully mapped and initialized the RNDIS protocol data and control channels
-     *on the bus transport
-     */
-    RNDIS_BUS_UNINITIALIZED,
-    /*!The host is configured to send and receive any of the RNDIS control messages for suitably
-     *configuring or querying the device, to receive status indications from the device, to reset
-     *the device, or to tear down the data and control channels.
-     */
-    RNDIS_INITIALIZED,
-    /*! This state is entered after the host has received REMOTE_NDIS_SET_CMPLT messages from the
-     *device in response to the REMOTE_NDIS_SET_MSG.
-     */
-    RNDIS_DATA_INITIALIZED,
+typedef enum _rndis_state_enum {
+	/*! The host operating system is running, the device is connected to the host via the chosen
+	 * bus transport, and the host is not yet configured to exchange any RNDIS messages.
+	 */
+	RNDIS_UNINITIALIZED = 0,
+	/*! The host has successfully mapped and initialized the RNDIS protocol data and control channels
+	 * on the bus transport
+	 */
+	RNDIS_BUS_UNINITIALIZED,
+	/*!The host is configured to send and receive any of the RNDIS control messages for suitably
+	 * configuring or querying the device, to receive status indications from the device, to reset
+	 * the device, or to tear down the data and control channels.
+	 */
+	RNDIS_INITIALIZED,
+	/*! This state is entered after the host has received REMOTE_NDIS_SET_CMPLT messages from the
+	 * device in response to the REMOTE_NDIS_SET_MSG.
+	 */
+	RNDIS_DATA_INITIALIZED,
 } rndis_state_enum_t;
-typedef struct _usb_host_rndis
-{
-    usb_host_handle hostHandle;     /*!< This instance's related host handle.*/
-    usb_device_handle deviceHandle; /*!< This instance's related device handle.*/
-    uint32_t effective_version; /*!< The highest matching MajorVersion and MinorVersion values of the RNDIS protocol.*/
-    uint32_t max_transfer_size; /*!< The maximum size of the RNDIS message that can be exchanged between the host and
-                                   the device.*/
-    uint32_t max_packet_per_transaction; /*!< The maximum number of network packets per bus transaction.*/
-    uint32_t byte_alignmnet;             /*!< The byte alignment requirements in multi-packet transfers.*/
+typedef struct _usb_host_rndis {
+	usb_host_handle		hostHandle;                     /*!< This instance's related host handle.*/
+	usb_device_handle	deviceHandle;                   /*!< This instance's related device handle.*/
+	uint32_t		effective_version;              /*!< The highest matching MajorVersion and MinorVersion values of the RNDIS protocol.*/
+	uint32_t		max_transfer_size;              /*!< The maximum size of the RNDIS message that can be exchanged between the host and
+	                                                         * the device.*/
+	uint32_t		max_packet_per_transaction;     /*!< The maximum number of network packets per bus transaction.*/
+	uint32_t		byte_alignmnet;                 /*!< The byte alignment requirements in multi-packet transfers.*/
 } usb_host_rndis_struct;
 #ifdef __cplusplus
 extern "C" {
@@ -335,59 +319,39 @@ extern "C" {
  * @name USB CDC host class driver
  * @{
  */
-extern usb_status_t USB_HostRndisInitMsg(usb_host_class_handle classHandle,
-                                         uint8_t *messageBuffer,
-                                         uint32_t messageBufferLength,
-                                         transfer_callback_t callbackFn,
-                                         void *callbackParam);
+extern usb_status_t USB_HostRndisInitMsg(usb_host_class_handle classHandle, uint8_t *messageBuffer,
+					 uint32_t messageBufferLength, transfer_callback_t
+					 callbackFn, void *callbackParam);
 
-extern usb_status_t USB_HostRndisQueryMsg(usb_host_class_handle classHandle,
-                                          uint32_t Oid,
-                                          uint8_t *messageBuffer,
-                                          uint32_t messageBufferLength,
-                                          uint32_t informationOffset,
-                                          uint32_t informationLength,
-                                          uint8_t *OIDInputBuffer,
-                                          transfer_callback_t callbackFn,
-                                          void *callbackParam);
-extern usb_status_t USB_HostRndisSetMsg(usb_host_class_handle classHandle,
-                                        uint32_t Oid,
-                                        uint8_t *messageBuffer,
-                                        uint32_t messageBufferLength,
-                                        uint32_t informationOffset,
-                                        uint32_t informationLength,
-                                        uint32_t *OIDInputBuffer,
-                                        transfer_callback_t callbackFn,
-                                        void *callbackParam);
+extern usb_status_t USB_HostRndisQueryMsg(usb_host_class_handle classHandle, uint32_t Oid,
+					  uint8_t *messageBuffer, uint32_t messageBufferLength,
+					  uint32_t informationOffset, uint32_t
+					  informationLength, uint8_t *OIDInputBuffer,
+					  transfer_callback_t callbackFn, void *callbackParam);
+extern usb_status_t USB_HostRndisSetMsg(usb_host_class_handle classHandle, uint32_t Oid,
+					uint8_t *messageBuffer, uint32_t messageBufferLength,
+					uint32_t informationOffset, uint32_t
+					informationLength, uint32_t *OIDInputBuffer,
+					transfer_callback_t callbackFn, void *callbackParam);
 
-extern usb_status_t USB_HostRndisHaltMsg(usb_host_class_handle classHandle,
-                                         uint8_t *messageBuffer,
-                                         uint32_t messageBufferLength,
-                                         transfer_callback_t callbackFn,
-                                         void *callbackParam);
+extern usb_status_t USB_HostRndisHaltMsg(usb_host_class_handle classHandle, uint8_t *messageBuffer,
+					 uint32_t messageBufferLength, transfer_callback_t
+					 callbackFn, void *callbackParam);
 
-extern usb_status_t USB_HostRndisResetMsg(usb_host_class_handle classHandle,
-                                          uint8_t *messageBuffer,
-                                          uint32_t messageBufferLength,
-                                          transfer_callback_t callbackFn,
-                                          void *callbackParam);
+extern usb_status_t USB_HostRndisResetMsg(usb_host_class_handle classHandle, uint8_t *messageBuffer,
+					  uint32_t messageBufferLength, transfer_callback_t
+					  callbackFn, void *callbackParam);
 extern usb_status_t USB_HostRndisSendDataMsg(usb_host_class_handle classHandle,
-                                             uint8_t *messageBuffer,
-                                             uint32_t messageBufferLength,
-                                             uint32_t oobDataOffset,
-                                             uint32_t oobDataLength,
-                                             uint32_t numOOBDataElements,
-                                             uint32_t perPacketInfoOffset,
-                                             uint32_t perPacketInfoLength,
-                                             uint8_t *dataBuffer,
-                                             uint32_t dataLength,
-                                             transfer_callback_t callbackFn,
-                                             void *callbackParam);
-extern usb_status_t USB_HostRndisRecvDataMsg(usb_host_class_handle classHandle,
-                                             uint8_t *buffer,
-                                             uint32_t bufferLength,
-                                             transfer_callback_t callbackFn,
-                                             void *callbackParam);
+					     uint8_t *messageBuffer, uint32_t messageBufferLength,
+					     uint32_t oobDataOffset, uint32_t
+					     oobDataLength, uint32_t numOOBDataElements, uint32_t
+					     perPacketInfoOffset, uint32_t
+					     perPacketInfoLength, uint8_t *dataBuffer, uint32_t
+					     dataLength, transfer_callback_t callbackFn,
+					     void *callbackParam);
+extern usb_status_t USB_HostRndisRecvDataMsg(usb_host_class_handle classHandle, uint8_t *buffer,
+					     uint32_t bufferLength, transfer_callback_t callbackFn,
+					     void *callbackParam);
 /*@}*/
 
 #ifdef __cplusplus

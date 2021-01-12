@@ -36,44 +36,41 @@
 #define USB_DEVICE_PRINTER_PORT_STATUS_NOT_ERROR_MASK (0x08U)
 
 #define USB_DEVICE_PRINTER_PORT_STATUS_DEFAULT_VALUE \
-    (USB_DEVICE_PRINTER_PORT_STATUS_SELECT_MASK | USB_DEVICE_PRINTER_PORT_STATUS_NOT_ERROR_MASK)
+	(USB_DEVICE_PRINTER_PORT_STATUS_SELECT_MASK | USB_DEVICE_PRINTER_PORT_STATUS_NOT_ERROR_MASK)
 
 /*! @brief Available common EVENT types in printer class callback */
-typedef enum _usb_device_printer_event
-{
-    kUSB_DevicePrinterEventRecvResponse = 0x01U, /*!< Data received or cancelled etc*/
-    kUSB_DevicePrinterEventSendResponse,         /*!< Data send done or cancelled etc */
-    kUSB_DevicePrinterEventGetDeviceId,          /*!< Get device ID request */
-    kUSB_DevicePrinterEventGetPortStatus,        /*!< Get port status request */
-    kUSB_DevicePrinterEventSoftReset,            /*!< Soft reset request */
+typedef enum _usb_device_printer_event {
+	kUSB_DevicePrinterEventRecvResponse = 0x01U,    /*!< Data received or cancelled etc*/
+	kUSB_DevicePrinterEventSendResponse,            /*!< Data send done or cancelled etc */
+	kUSB_DevicePrinterEventGetDeviceId,             /*!< Get device ID request */
+	kUSB_DevicePrinterEventGetPortStatus,           /*!< Get port status request */
+	kUSB_DevicePrinterEventSoftReset,               /*!< Soft reset request */
 } usb_device_printer_event_t;
 
-typedef struct _usb_device_printer_class_request
-{
-    uint8_t *buffer;          /*!< The class specific request buffer address */
-    uint32_t length;          /*!< The class specific request buffer length */
-    uint8_t interface;        /*!< The class specific request interface index */
-    uint8_t alternateSetting; /*!< GET_DEVICE_ID request alternate setting */
-    uint8_t configIndex;      /*!< GET_DEVICE_ID request config index */
+typedef struct _usb_device_printer_class_request {
+	uint8_t *	buffer;                 /*!< The class specific request buffer address */
+	uint32_t	length;                 /*!< The class specific request buffer length */
+	uint8_t		interface;              /*!< The class specific request interface index */
+	uint8_t		alternateSetting;       /*!< GET_DEVICE_ID request alternate setting */
+	uint8_t		configIndex;            /*!< GET_DEVICE_ID request config index */
 } usb_device_printer_class_request_t;
 
 /*! @brief The printer device class instance structure */
-typedef struct _usb_device_printer_struct
-{
-    usb_device_handle deviceHandle;                 /*!< The device handle */
-    usb_device_class_config_struct_t *classConfig;  /*!< The configuration of the class. */
-    usb_device_interface_struct_t *interfaceHandle; /*!< Current interface handle */
-    uint8_t *bulkInPipeDataBuffer;                  /*!< IN pipe data buffer backup when stall */
-    uint32_t bulkInPipeDataLen;                     /*!< IN pipe data length backup when stall  */
-    uint8_t *bulkOutPipeDataBuffer;                 /*!< OUT pipe data buffer backup when stall */
-    uint32_t bulkOutPipeDataLen;                    /*!< OUT pipe data length backup when stall  */
-    uint8_t configuration;                          /*!< Current configuration */
-    uint8_t interfaceNumber;                        /*!< Interface number in the device descriptor */
-    uint8_t alternate;                              /*!< Interface alternate value */
-    uint8_t bulkInBusy;                             /*!< BULK IN pipe busy flag */
-    uint8_t bulkOutBusy;                            /*!< BULK OUT pipe busy flag */
-    uint8_t bulkInPipeStall;                        /*!< bulk IN pipe stall flag */
-    uint8_t bulkOutPipeStall;                       /*!< bulk OUT pipe stall flag */
+typedef struct _usb_device_printer_struct {
+	usb_device_handle			deviceHandle;           /*!< The device handle */
+	usb_device_class_config_struct_t *	classConfig;            /*!< The configuration of the class. */
+	usb_device_interface_struct_t *		interfaceHandle;        /*!< Current interface handle */
+	uint8_t *				bulkInPipeDataBuffer;   /*!< IN pipe data buffer backup when stall */
+	uint32_t				bulkInPipeDataLen;      /*!< IN pipe data length backup when stall  */
+	uint8_t *				bulkOutPipeDataBuffer;  /*!< OUT pipe data buffer backup when stall */
+	uint32_t				bulkOutPipeDataLen;     /*!< OUT pipe data length backup when stall  */
+	uint8_t					configuration;          /*!< Current configuration */
+	uint8_t					interfaceNumber;        /*!< Interface number in the device descriptor */
+	uint8_t					alternate;              /*!< Interface alternate value */
+	uint8_t					bulkInBusy;             /*!< BULK IN pipe busy flag */
+	uint8_t					bulkOutBusy;            /*!< BULK OUT pipe busy flag */
+	uint8_t					bulkInPipeStall;        /*!< bulk IN pipe stall flag */
+	uint8_t					bulkOutPipeStall;       /*!< bulk OUT pipe stall flag */
 } usb_device_printer_struct_t;
 
 /*******************************************************************************
@@ -95,9 +92,9 @@ extern "C" {
  *
  * @return A USB error code or kStatus_USB_Success.
  */
-extern usb_status_t USB_DevicePrinterInit(uint8_t controllerId,
-                                          usb_device_class_config_struct_t *config,
-                                          class_handle_t *handle);
+extern usb_status_t USB_DevicePrinterInit(uint8_t				controllerId,
+					  usb_device_class_config_struct_t *	config,
+					  class_handle_t *			handle);
 
 /*!
  * @brief De-initializes the device printer class.
@@ -154,7 +151,8 @@ extern usb_status_t USB_DevicePrinterEvent(void *handle, uint32_t event, void *p
  * The subsequent transfer can begin only when the previous transfer is done (a notification is received through the
  * callback).
  */
-extern usb_status_t USB_DevicePrinterSend(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t length);
+extern usb_status_t USB_DevicePrinterSend(class_handle_t handle, uint8_t ep, uint8_t *buffer,
+					  uint32_t length);
 
 /*!
  * @brief Receives data through a specified endpoint.
@@ -178,7 +176,8 @@ extern usb_status_t USB_DevicePrinterSend(class_handle_t handle, uint8_t ep, uin
  * The subsequent transfer can begin only when the previous transfer is done (a notification is received through the
  * callback).
  */
-extern usb_status_t USB_DevicePrinterRecv(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t length);
+extern usb_status_t USB_DevicePrinterRecv(class_handle_t handle, uint8_t ep, uint8_t *buffer,
+					  uint32_t length);
 
 /*! @}*/
 

@@ -23,14 +23,14 @@ struct _usb_device_msc_struct;
 /*! @brief Indicates that the UFI device cannot be accessed*/
 #define USB_DEVICE_MSC_UFI_NOT_READY 0x02U
 /*! @brief Indicates that the command terminated with a non-recovered
-error condition that was probably caused by a flaw in the medium or an error in the
-recorded data*/
+ * error condition that was probably caused by a flaw in the medium or an error in the
+ * recorded data*/
 #define USB_DEVICE_MSC_UFI_MEDIUM_ERROR 0x03U
 /*! @brief Indicates that the UFI device detected a non-recoverable hardware failure while performing the command or
  * during a self test*/
 #define USB_DEVICE_MSC_UFI_HARDWARE_ERROR 0x04U
 /*! @brief Indicates that there was an illegal parameter in the Command
-Packet or in the additional parameters supplied as data for some commands*/
+ * Packet or in the additional parameters supplied as data for some commands*/
 #define USB_DEVICE_MSC_UFI_ILLEGAL_REQUEST 0x05U
 /*! @brief Indicates that the removable medium may have been changed or the UFI device has been reset*/
 #define USB_DEVICE_MSC_UFI_UNIT_ATTENTION 0x06U
@@ -38,16 +38,16 @@ Packet or in the additional parameters supplied as data for some commands*/
  * operation*/
 #define USB_DEVICE_MSC_UFI_DATA_PROTECT 0x07U
 /*! @brief Indicates that a write-once device or a sequential-access device
-encountered blank medium or format-defined end-of-data indication while reading or
-a write-once device encountered a non-blank medium while writing*/
+ * encountered blank medium or format-defined end-of-data indication while reading or
+ * a write-once device encountered a non-blank medium while writing*/
 #define USB_DEVICE_MSC_UFI_BLANK_CHECK 0x08U
 /*! @brief This sense key is available for reporting vendor-specific conditions*/
 #define USB_DEVICE_MSC_UFI_VENDOR_SPECIFIC_ERROR 0x09U
 /*! @brief Indicates that the UFI device has aborted the command
-The host may be able to recover by trying the command again*/
+ * The host may be able to recover by trying the command again*/
 #define USB_DEVICE_MSC_UFI_ABORTED_COMMAND 0x0BU
 /*! @brief Indicates that a buffered peripheral device has reached the
-end-of-partition and data may remain in the buffer that has not been written to the medium*/
+ * end-of-partition and data may remain in the buffer that has not been written to the medium*/
 #define USB_DEVICE_MSC_UFI_VOLUME_OVERFLOW 0x0DU
 /*! @brief Indicates that the source data did not match the data read from the medium*/
 #define USB_DEVICE_MSC_UFI_MISCOMPARE 0x0EU
@@ -113,147 +113,135 @@ end-of-partition and data may remain in the buffer that has not been written to 
 #define USB_DEVICE_MSC_UFI_ADDITIONAL_LENGTH 0x20U
 
 /*! @brief  UFI inquiry command structure*/
-typedef struct _usb_device_inquiry_command_struct
-{
-    uint8_t operationCode;     /*!< Operation Code*/
-    uint8_t logicalUnitNumber; /*!< Specifies the logical unit (0~7) for which Inquiry data should be returned*/
-    uint8_t pageCode;          /*!< Page Code*/
-    uint8_t reserved;          /*!< Reserved*/
-    uint8_t allocationLength;  /*!< Specifies the maximum number of bytes of inquiry data to be returned*/
-    uint8_t reserved1[7];      /*!< Reserved*/
+typedef struct _usb_device_inquiry_command_struct {
+	uint8_t operationCode;          /*!< Operation Code*/
+	uint8_t logicalUnitNumber;      /*!< Specifies the logical unit (0~7) for which Inquiry data should be returned*/
+	uint8_t pageCode;               /*!< Page Code*/
+	uint8_t reserved;               /*!< Reserved*/
+	uint8_t allocationLength;       /*!< Specifies the maximum number of bytes of inquiry data to be returned*/
+	uint8_t reserved1[7];           /*!< Reserved*/
 } usb_device_inquiry_command_struct_t;
 
 /*! @brief  UFI request sense command structure*/
-typedef struct _usb_device_request_sense_command_struct
-{
-    uint8_t operationCode;     /*!< Operation Code*/
-    uint8_t logicalUnitNumber; /*!< Logical Unit Number*/
-    uint8_t reserved[2];       /*!< reserved*/
-    uint8_t allocationLength;  /*!< Allocation Length*/
-    uint8_t reserved1[7];      /*!< reserved*/
+typedef struct _usb_device_request_sense_command_struct {
+	uint8_t operationCode;          /*!< Operation Code*/
+	uint8_t logicalUnitNumber;      /*!< Logical Unit Number*/
+	uint8_t reserved[2];            /*!< reserved*/
+	uint8_t allocationLength;       /*!< Allocation Length*/
+	uint8_t reserved1[7];           /*!< reserved*/
 } usb_device_request_sense_command_struct_t;
 
 /*! @brief  UFI read format capacities command structure*/
-typedef struct _usb_device_read_format_capacities_command_struct
-{
-    uint8_t operationCode;     /*!< Operation Code*/
-    uint8_t logicalUnitNumber; /*!< Logical Unit Number*/
-    uint8_t reserved[5];       /*!< reserved*/
-    uint16_t allocationLength; /*!< Allocation Length*/
-    uint8_t reserved1[3];      /*!< reserved*/
+typedef struct _usb_device_read_format_capacities_command_struct {
+	uint8_t		operationCode;          /*!< Operation Code*/
+	uint8_t		logicalUnitNumber;      /*!< Logical Unit Number*/
+	uint8_t		reserved[5];            /*!< reserved*/
+	uint16_t	allocationLength;       /*!< Allocation Length*/
+	uint8_t		reserved1[3];           /*!< reserved*/
 } usb_device_read_format_capacities_command_struct_t;
 
 /*! @brief  UFI read capacities command structure*/
-typedef struct _usb_device_read_capacities_command_struct
-{
-    uint8_t operationCode;     /*!< Operation Code*/
-    uint8_t logicalUnitNumber; /*!< Logical Unit Number*/
-    uint32_t lba;              /*!< Logical Block Address*/
-    uint8_t reserved[2];       /*!< Reserved*/
-    uint8_t pmi;               /*!< This bit should be set to zero for UFI*/
-    uint8_t reserved1[3];      /*!< Reserved*/
+typedef struct _usb_device_read_capacities_command_struct {
+	uint8_t		operationCode;          /*!< Operation Code*/
+	uint8_t		logicalUnitNumber;      /*!< Logical Unit Number*/
+	uint32_t	lba;                    /*!< Logical Block Address*/
+	uint8_t		reserved[2];            /*!< Reserved*/
+	uint8_t		pmi;                    /*!< This bit should be set to zero for UFI*/
+	uint8_t		reserved1[3];           /*!< Reserved*/
 } usb_device_read_capacities_command_struct_t;
 
 /*! @brief  UFI read write 10 structure*/
-typedef struct _usb_device_read_write_10_command_struct
-{
-    uint8_t operationCode;     /*!< Operation Code*/
-    uint8_t lunDpoFuaReladr;   /*!< Logical Unit Number DPO FUA RelAdr*/
-    uint32_t lba;              /*!< Logical Block Address*/
-    uint8_t reserved;          /*!< Reserved*/
-    uint8_t transferLengthMsb; /*!< Transfer Length (MSB)*/
-    uint8_t transferLengthLsb; /*!< Transfer Length (LSB)*/
-    uint8_t reserved1[3];      /*!< Reserved*/
+typedef struct _usb_device_read_write_10_command_struct {
+	uint8_t		operationCode;          /*!< Operation Code*/
+	uint8_t		lunDpoFuaReladr;        /*!< Logical Unit Number DPO FUA RelAdr*/
+	uint32_t	lba;                    /*!< Logical Block Address*/
+	uint8_t		reserved;               /*!< Reserved*/
+	uint8_t		transferLengthMsb;      /*!< Transfer Length (MSB)*/
+	uint8_t		transferLengthLsb;      /*!< Transfer Length (LSB)*/
+	uint8_t		reserved1[3];           /*!< Reserved*/
 } usb_device_read_write_10_command_struct_t;
 /*! @brief  UFI Test Unit Ready structure*/
-typedef struct _usb_device_test_unit_ready
-{
-    uint8_t operationCode;     /*!< Operation Code*/
-    uint8_t logicalUnitNumber; /*!< Logical Unit Number*/
-    uint8_t reserved1[10];     /*!< Reserved*/
+typedef struct _usb_device_test_unit_ready {
+	uint8_t operationCode;          /*!< Operation Code*/
+	uint8_t logicalUnitNumber;      /*!< Logical Unit Number*/
+	uint8_t reserved1[10];          /*!< Reserved*/
 } usb_device_test_unit_ready_struct_t;
 
 /*! @brief  UFI inquiry data format structure*/
-typedef struct _usb_device_inquiry_data_fromat_struct
-{
-    uint8_t peripheralDeviceType; /*!< Peripheral Device Type*/
-    uint8_t rmb;                  /*!< Removable Media Bit*/
-    uint8_t versions;             /*!< ISO Version, ECMA Version, ANSI Version*/
-    uint8_t responseDataFormat;   /*!< Response Data Format*/
-    uint8_t additionalLength;     /*!< The Additional Length field shall specify the length in bytes of the parameters*/
-    uint8_t reserved[3];          /*!< reserved*/
-    uint8_t vendorInformatin[8];  /*!< Vendor Identification*/
-    uint8_t productId[16];        /*!< Product Identification*/
-    uint8_t productVersionLevel[4]; /*!< Product Revision Level*/
+typedef struct _usb_device_inquiry_data_fromat_struct {
+	uint8_t peripheralDeviceType;   /*!< Peripheral Device Type*/
+	uint8_t rmb;                    /*!< Removable Media Bit*/
+	uint8_t versions;               /*!< ISO Version, ECMA Version, ANSI Version*/
+	uint8_t responseDataFormat;     /*!< Response Data Format*/
+	uint8_t additionalLength;       /*!< The Additional Length field shall specify the length in bytes of the parameters*/
+	uint8_t reserved[3];            /*!< reserved*/
+	uint8_t vendorInformatin[8];    /*!< Vendor Identification*/
+	uint8_t productId[16];          /*!< Product Identification*/
+	uint8_t productVersionLevel[4]; /*!< Product Revision Level*/
 } usb_device_inquiry_data_fromat_struct_t;
 
 /*! @brief  UFI request sense data structure*/
-typedef struct _usb_device_request_sense_data_struct
-{
-    uint8_t validErrorCode;          /*!< Error Code*/
-    uint8_t reserved;                /*!< reserved*/
-    uint8_t senseKey;                /*!< Sense Key*/
-    uint8_t information[4];          /*!< Information*/
-    uint8_t additionalSenseLength;   /*!< Additional Sense Length*/
-    uint8_t reserved1[4];            /*!< reserved*/
-    uint8_t additionalSenseCode;     /*!< Additional Sense Code*/
-    uint8_t additionalSenseQualifer; /*!< Additional Sense Code Qualifier*/
-    uint8_t reserved2[4];            /*!< reserved*/
+typedef struct _usb_device_request_sense_data_struct {
+	uint8_t validErrorCode;                 /*!< Error Code*/
+	uint8_t reserved;                       /*!< reserved*/
+	uint8_t senseKey;                       /*!< Sense Key*/
+	uint8_t information[4];                 /*!< Information*/
+	uint8_t additionalSenseLength;          /*!< Additional Sense Length*/
+	uint8_t reserved1[4];                   /*!< reserved*/
+	uint8_t additionalSenseCode;            /*!< Additional Sense Code*/
+	uint8_t additionalSenseQualifer;        /*!< Additional Sense Code Qualifier*/
+	uint8_t reserved2[4];                   /*!< reserved*/
 } usb_device_request_sense_data_struct_t;
 
 /*! @brief  UFI read capacity data structure*/
-typedef struct _usb_device_read_capacity_struct
-{
-    uint32_t lastLogicalBlockAddress; /*!< Last Logical Block Address*/
-    uint32_t blockSize;               /*!< Block Length In Bytes*/
+typedef struct _usb_device_read_capacity_struct {
+	uint32_t	lastLogicalBlockAddress;        /*!< Last Logical Block Address*/
+	uint32_t	blockSize;                      /*!< Block Length In Bytes*/
 } usb_device_read_capacity_struct_t;
 
 /*! @brief  UFI read capacity data structure*/
-typedef struct _usb_device_read_capacity16_data_struct
-{
-    uint32_t lastLogicalBlockAddress0; /*!<  Last Logical Block Address*/
-    uint32_t lastLogicalBlockAddress1; /*!<  Last Logical Block Address*/
-    uint32_t blockSize;                /*!< Block Length In Bytes*/
+typedef struct _usb_device_read_capacity16_data_struct {
+	uint32_t	lastLogicalBlockAddress0;       /*!<  Last Logical Block Address*/
+	uint32_t	lastLogicalBlockAddress1;       /*!<  Last Logical Block Address*/
+	uint32_t	blockSize;                      /*!< Block Length In Bytes*/
 } usb_device_read_capacity16_data_struct_t;
 
 /*! @brief  UFI capacity list header structure*/
-typedef struct _usb_device_capacity_list_header_struct
-{
-    uint8_t reserverd[3];       /*!< reserved*/
-    uint8_t capacityListLength; /*!< Capacity List Length*/
+typedef struct _usb_device_capacity_list_header_struct {
+	uint8_t reserverd[3];           /*!< reserved*/
+	uint8_t capacityListLength;     /*!< Capacity List Length*/
 } usb_device_capacity_list_header_struct_t;
 
 /*! @brief  UFI current maximum capacity structure*/
-typedef struct _usb_device_current_max_capacity_descriptor_struct
-{
-    uint32_t blockNumber;               /*!< Number of Blocks*/
-    uint32_t descriptorCodeBlockLength; /*!< Byte 4 Descriptor Code , byte 5-7 Block Length*/
+typedef struct _usb_device_current_max_capacity_descriptor_struct {
+	uint32_t	blockNumber;                    /*!< Number of Blocks*/
+	uint32_t	descriptorCodeBlockLength;      /*!< Byte 4 Descriptor Code , byte 5-7 Block Length*/
 } usb_device_current_max_capacity_descriptor_struct_t;
 
 /*! @brief  UFI formatting capacity structure*/
-typedef struct _usb_device_formattable_capacity_descriptor_struct
-{
-    uint32_t blockNumber; /*!< Number of Blocks*/
-    uint32_t blockLength; /*!< Block Length*/
+typedef struct _usb_device_formattable_capacity_descriptor_struct {
+	uint32_t	blockNumber;    /*!< Number of Blocks*/
+	uint32_t	blockLength;    /*!< Block Length*/
 } usb_device_formattable_capacity_descriptor_struct_t;
 
 /*! @brief  UFI mode parameters header structure*/
-typedef struct _usb_device_mode_parameters_header_struct
-{
-    uint16_t modeDataLength; /*!< Mode Data Length*/
-    uint8_t mediumTypeCode;  /*!< The Medium Type Code field specifies the inserted medium type*/
-    uint8_t wpDpfua;         /*!< WP and DPOFUA bit*/
-    uint8_t reserved[4];     /*!< Reserved*/
+typedef struct _usb_device_mode_parameters_header_struct {
+	uint16_t	modeDataLength; /*!< Mode Data Length*/
+	uint8_t		mediumTypeCode; /*!< The Medium Type Code field specifies the inserted medium type*/
+	uint8_t		wpDpfua;        /*!< WP and DPOFUA bit*/
+	uint8_t		reserved[4];    /*!< Reserved*/
 } usb_device_mode_parameters_header_struct_t;
 
 /*! @brief  UFI Capacity List structure*/
-typedef struct _usb_device_format_capacity_response_data_struct
-{
-    uint8_t capacityListHead[sizeof(usb_device_capacity_list_header_struct_t)]; /*!<Capacity List Header*/
-    uint8_t currentMaxCapacityDesccriptor[sizeof(
-        usb_device_current_max_capacity_descriptor_struct_t)]; /*!<Current/Maximum Capacity Header*/
-    uint8_t formattableCapacityDesccriptor[sizeof(usb_device_formattable_capacity_descriptor_struct_t) *
-                                           3]; /*!<Formatting Capacity Descriptor*/
+typedef struct _usb_device_format_capacity_response_data_struct {
+	uint8_t capacityListHead[sizeof(usb_device_capacity_list_header_struct_t)]; /*!<Capacity List Header*/
+	uint8_t currentMaxCapacityDesccriptor[sizeof(
+						      usb_device_current_max_capacity_descriptor_struct_t)
+	];                                                     /*!<Current/Maximum Capacity Header*/
+	uint8_t formattableCapacityDesccriptor[sizeof(
+						       usb_device_formattable_capacity_descriptor_struct_t)
+					       *
+					       3]; /*!<Formatting Capacity Descriptor*/
 } usb_device_format_capacity_response_data_struct_t;
 
 extern usb_status_t USB_DeviceMscUfiThirteenCasesCheck(struct _usb_device_msc_struct *mscHandle);
@@ -267,9 +255,11 @@ extern usb_status_t USB_DeviceMscUfiVerifyCommand(struct _usb_device_msc_struct 
 extern usb_status_t USB_DeviceMscUfiModeSenseCommand(struct _usb_device_msc_struct *mscHandle);
 extern usb_status_t USB_DeviceMscUfiModeSelectCommand(struct _usb_device_msc_struct *mscHandle);
 extern usb_status_t USB_DeviceMscUfiReadCapacityCommand(struct _usb_device_msc_struct *mscHandle);
-extern usb_status_t USB_DeviceMscUfiReadFormatCapacityCommand(struct _usb_device_msc_struct *mscHandle);
+extern usb_status_t USB_DeviceMscUfiReadFormatCapacityCommand(struct
+							      _usb_device_msc_struct *mscHandle);
 extern usb_status_t USB_DeviceMscUfiFormatUnitCommand(struct _usb_device_msc_struct *mscHandle);
-extern usb_status_t USB_DeviceMscUfiPreventAllowMediumCommand(struct _usb_device_msc_struct *mscHandle);
+extern usb_status_t USB_DeviceMscUfiPreventAllowMediumCommand(struct
+							      _usb_device_msc_struct *mscHandle);
 extern usb_status_t USB_DeviceMscUfiSendDiagnosticCommand(struct _usb_device_msc_struct *mscHandle);
 extern usb_status_t USB_DeviceMscUfiStartStopUnitCommand(struct _usb_device_msc_struct *mscHandle);
 extern usb_status_t USB_DeviceMscUfiUnsupportCommand(struct _usb_device_msc_struct *mscHandle);

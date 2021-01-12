@@ -44,28 +44,27 @@
 #define USB_HOST_PRINTER_PORT_STATUS_NOT_ERROR_MASK (0x08U)
 
 /*! @brief Printer instance structure and printer usb_host_class_handle pointer to this structure */
-typedef struct _usb_host_printer_instance
-{
-    usb_host_handle hostHandle;                /*!< This instance's related host handle*/
-    usb_device_handle deviceHandle;            /*!< This instance's related device handle*/
-    usb_host_interface_handle interfaceHandle; /*!< This instance's related interface handle*/
-    usb_host_pipe_handle controlPipe;          /*!< This instance's related device control pipe*/
-    usb_host_pipe_handle inPipe;               /*!< Printer bulk in pipe*/
-    usb_host_pipe_handle outPipe;              /*!< Printer bulk out pipe*/
-    transfer_callback_t inCallbackFn;          /*!< Printer bulk in transfer callback function pointer*/
-    void *inCallbackParam;                     /*!< Printer bulk in transfer callback parameter*/
-    transfer_callback_t outCallbackFn;         /*!< Printer bulk out transfer callback function pointer*/
-    void *outCallbackParam;                    /*!< Printer bulk out transfer callback parameter*/
-    transfer_callback_t controlCallbackFn;     /*!< Printer control transfer callback function pointer*/
-    void *controlCallbackParam;                /*!< Printer control transfer callback parameter*/
-    usb_host_transfer_t *controlTransfer;      /*!< Ongoing control transfer*/
+typedef struct _usb_host_printer_instance {
+	usb_host_handle			hostHandle;             /*!< This instance's related host handle*/
+	usb_device_handle		deviceHandle;           /*!< This instance's related device handle*/
+	usb_host_interface_handle	interfaceHandle;        /*!< This instance's related interface handle*/
+	usb_host_pipe_handle		controlPipe;            /*!< This instance's related device control pipe*/
+	usb_host_pipe_handle		inPipe;                 /*!< Printer bulk in pipe*/
+	usb_host_pipe_handle		outPipe;                /*!< Printer bulk out pipe*/
+	transfer_callback_t		inCallbackFn;           /*!< Printer bulk in transfer callback function pointer*/
+	void *				inCallbackParam;        /*!< Printer bulk in transfer callback parameter*/
+	transfer_callback_t		outCallbackFn;          /*!< Printer bulk out transfer callback function pointer*/
+	void *				outCallbackParam;       /*!< Printer bulk out transfer callback parameter*/
+	transfer_callback_t		controlCallbackFn;      /*!< Printer control transfer callback function pointer*/
+	void *				controlCallbackParam;   /*!< Printer control transfer callback parameter*/
+	usb_host_transfer_t *		controlTransfer;        /*!< Ongoing control transfer*/
 #if ((defined USB_HOST_CONFIG_CLASS_AUTO_CLEAR_STALL) && USB_HOST_CONFIG_CLASS_AUTO_CLEAR_STALL)
-    uint8_t *stallDataBuffer;
-    uint32_t stallDataLength;
+	uint8_t *			stallDataBuffer;
+	uint32_t			stallDataLength;
 #endif
 
-    uint16_t inPacketSize;  /*!< Printer bulk in maximum packet size*/
-    uint16_t outPacketSize; /*!< Printer bulk out maximum packet size*/
+	uint16_t			inPacketSize;   /*!< Printer bulk in maximum packet size*/
+	uint16_t			outPacketSize;  /*!< Printer bulk out maximum packet size*/
 } usb_host_printer_instance_t;
 
 /*******************************************************************************
@@ -92,7 +91,8 @@ extern "C" {
  * @retval kStatus_USB_Success        The device is initialized successfully.
  * @retval kStatus_USB_AllocFail      Allocate memory fail.
  */
-extern usb_status_t USB_HostPrinterInit(usb_device_handle deviceHandle, usb_host_class_handle *classHandle);
+extern usb_status_t USB_HostPrinterInit(usb_device_handle	deviceHandle,
+					usb_host_class_handle * classHandle);
 
 /*!
  * @brief Sets the interface.
@@ -114,10 +114,9 @@ extern usb_status_t USB_HostPrinterInit(usb_device_handle deviceHandle, usb_host
  * @retval kStatus_USB_Error          Callback return status, open pipe fail. See the USB_HostOpenPipe.
  */
 extern usb_status_t USB_HostPrinterSetInterface(usb_host_class_handle classHandle,
-                                                usb_host_interface_handle interfaceHandle,
-                                                uint8_t alternateSetting,
-                                                transfer_callback_t callbackFn,
-                                                void *callbackParam);
+						usb_host_interface_handle interfaceHandle, uint8_t
+						alternateSetting, transfer_callback_t callbackFn,
+						void *callbackParam);
 
 /*!
  * @brief De-initializes the printer instance.
@@ -129,7 +128,8 @@ extern usb_status_t USB_HostPrinterSetInterface(usb_host_class_handle classHandl
  *
  * @retval kStatus_USB_Success        The device is de-initialized successfully.
  */
-extern usb_status_t USB_HostPrinterDeinit(usb_device_handle deviceHandle, usb_host_class_handle classHandle);
+extern usb_status_t USB_HostPrinterDeinit(usb_device_handle deviceHandle, usb_host_class_handle
+					  classHandle);
 
 /*!
  * @brief Receives data.
@@ -148,11 +148,9 @@ extern usb_status_t USB_HostPrinterDeinit(usb_device_handle deviceHandle, usb_ho
  * @retval kStatus_USB_Error          Pipe is not initialized.
  *                                    Or, send transfer fail. See the USB_HostRecv.
  */
-extern usb_status_t USB_HostPrinterRecv(usb_host_class_handle classHandle,
-                                        uint8_t *buffer,
-                                        uint32_t bufferLength,
-                                        transfer_callback_t callbackFn,
-                                        void *callbackParam);
+extern usb_status_t USB_HostPrinterRecv(usb_host_class_handle classHandle, uint8_t *buffer, uint32_t
+					bufferLength, transfer_callback_t callbackFn,
+					void *callbackParam);
 
 /*!
  * @brief Sends data.
@@ -171,11 +169,9 @@ extern usb_status_t USB_HostPrinterRecv(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Error          Pipe is not initialized.
  *                                    Or, send transfer fail. See the USB_HostSend.
  */
-extern usb_status_t USB_HostPrinterSend(usb_host_class_handle classHandle,
-                                        uint8_t *buffer,
-                                        uint32_t bufferLength,
-                                        transfer_callback_t callbackFn,
-                                        void *callbackParam);
+extern usb_status_t USB_HostPrinterSend(usb_host_class_handle classHandle, uint8_t *buffer, uint32_t
+					bufferLength, transfer_callback_t callbackFn,
+					void *callbackParam);
 
 /*!
  * @brief Gets the pipe maximum packet size.
@@ -188,7 +184,8 @@ extern usb_status_t USB_HostPrinterSend(usb_host_class_handle classHandle,
  * @retval 0        The classHandle is NULL.
  * @retval          Maximum Packet size.
  */
-extern uint16_t USB_HostPrinterGetPacketsize(usb_host_class_handle classHandle, uint8_t pipeType, uint8_t direction);
+extern uint16_t USB_HostPrinterGetPacketsize(usb_host_class_handle classHandle, uint8_t pipeType,
+					     uint8_t direction);
 
 /*!
  * @brief Printer get device ID.
@@ -208,13 +205,10 @@ extern uint16_t USB_HostPrinterGetPacketsize(usb_host_class_handle classHandle, 
  * @retval kStatus_USB_Busy           There is no idle transfer.
  * @retval kStatus_USB_Error          Send transfer fail. See the USB_HostSendSetup.
  */
-extern usb_status_t USB_HostPrinterGetDeviceId(usb_host_class_handle classHandle,
-                                               uint8_t interfaceIndex,
-                                               uint8_t alternateSetting,
-                                               uint8_t *buffer,
-                                               uint32_t length,
-                                               transfer_callback_t callbackFn,
-                                               void *callbackParam);
+extern usb_status_t USB_HostPrinterGetDeviceId(usb_host_class_handle classHandle, uint8_t
+					       interfaceIndex, uint8_t alternateSetting,
+					       uint8_t *buffer, uint32_t length, transfer_callback_t
+					       callbackFn, void *callbackParam);
 
 /*!
  * @brief Printer get port status.
@@ -232,9 +226,8 @@ extern usb_status_t USB_HostPrinterGetDeviceId(usb_host_class_handle classHandle
  * @retval kStatus_USB_Error          Send transfer fail. See the USB_HostSendSetup.
  */
 extern usb_status_t USB_HostPrinterGetPortStatus(usb_host_class_handle classHandle,
-                                                 uint8_t *portStatus,
-                                                 transfer_callback_t callbackFn,
-                                                 void *callbackParam);
+						 uint8_t *portStatus, transfer_callback_t
+						 callbackFn, void *callbackParam);
 
 /*!
  * @brief Printer soft reset.
@@ -251,9 +244,8 @@ extern usb_status_t USB_HostPrinterGetPortStatus(usb_host_class_handle classHand
  * @retval kStatus_USB_Busy           There is no idle transfer.
  * @retval kStatus_USB_Error          Send transfer fail. See the USB_HostSendSetup.
  */
-extern usb_status_t USB_HostPrinterSoftReset(usb_host_class_handle classHandle,
-                                             transfer_callback_t callbackFn,
-                                             void *callbackParam);
+extern usb_status_t USB_HostPrinterSoftReset(usb_host_class_handle classHandle, transfer_callback_t
+					     callbackFn, void *callbackParam);
 /*! @}*/
 
 #ifdef __cplusplus

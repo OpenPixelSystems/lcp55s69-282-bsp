@@ -51,83 +51,77 @@
 #define USB_HOST_PHDC_METADATA_DESCRIPTOR (0x22U)
 
 /*! @brief PHDC class function descriptor structure as defined by the PHDC class specification */
-typedef struct _usb_host_phdc_class_function_desciptor
-{
-    uint8_t bLength;         /*!< Class function descriptor length */
-    uint8_t bDescriptortype; /*!< PHDC_CLASSFUNCTION_DESCRIPTOR type */
-    uint8_t bPhdcDataCode;   /*!< Data/Messaging format code */
-    uint8_t bmCapability;    /*!< If bit 0 is 1 the meta-data message preamble is implemented and 0 if it is not */
+typedef struct _usb_host_phdc_class_function_desciptor {
+	uint8_t bLength;                /*!< Class function descriptor length */
+	uint8_t bDescriptortype;        /*!< PHDC_CLASSFUNCTION_DESCRIPTOR type */
+	uint8_t bPhdcDataCode;          /*!< Data/Messaging format code */
+	uint8_t bmCapability;           /*!< If bit 0 is 1 the meta-data message preamble is implemented and 0 if it is not */
 } usb_host_phdc_class_function_desciptor_t;
 
 /*! @brief Function extension descriptor (device specialization) structure as defined by the PHDC class specification.
  */
-typedef struct _usb_host_phdc_function_extension_descriptor
-{
-    uint8_t bLength;               /*!< Function extension descriptor length */
-    uint8_t bDescriptortype;       /*!< PHDC_CLASSFUNCTION_DESCRIPTOR type */
-    uint8_t bReserved;             /*!< Reserved for future use */
-    uint8_t bNumDevSpecs;          /*!< Number of wDevSpecializations */
-    uint16_t *wDevSpecializations; /*!< Variable length list that defines the device specialization */
+typedef struct _usb_host_phdc_function_extension_descriptor {
+	uint8_t		bLength;                /*!< Function extension descriptor length */
+	uint8_t		bDescriptortype;        /*!< PHDC_CLASSFUNCTION_DESCRIPTOR type */
+	uint8_t		bReserved;              /*!< Reserved for future use */
+	uint8_t		bNumDevSpecs;           /*!< Number of wDevSpecializations */
+	uint16_t *	wDevSpecializations;    /*!< Variable length list that defines the device specialization */
 } usb_host_phdc_function_extension_descriptor_t;
 
 /*! @brief QoS descriptor structure as defined by the PHDC class specification. */
-typedef struct _usb_host_phdc_qos_descriptor
-{
-    uint8_t bLength;              /*!< QoS descriptor length */
-    uint8_t bDescriptortype;      /*!< PHDC_QOS_DESCRIPTOR type */
-    uint8_t bQosEncodingVersion;  /*!< Version of QoS information encoding */
-    uint8_t bmLatencyReliability; /*!< Latency/reliability bin for the QoS data */
+typedef struct _usb_host_phdc_qos_descriptor {
+	uint8_t bLength;                /*!< QoS descriptor length */
+	uint8_t bDescriptortype;        /*!< PHDC_QOS_DESCRIPTOR type */
+	uint8_t bQosEncodingVersion;    /*!< Version of QoS information encoding */
+	uint8_t bmLatencyReliability;   /*!< Latency/reliability bin for the QoS data */
 } usb_host_phdc_qos_descriptor_t;
 
 /*! @brief Metadata descriptor structure as defined by the PHDC class specification. */
-typedef struct _usb_host_phdc_metadata_descriptor
-{
-    uint8_t bLength;         /*!< Metadata descriptor length */
-    uint8_t bDescriptortype; /*!< Descriptor type */
-    uint8_t *bOpaqueData;    /*!< Opaque metadata */
+typedef struct _usb_host_phdc_metadata_descriptor {
+	uint8_t		bLength;                /*!< Metadata descriptor length */
+	uint8_t		bDescriptortype;        /*!< Descriptor type */
+	uint8_t *	bOpaqueData;            /*!< Opaque metadata */
 } usb_host_phdc_metadata_descriptor_t;
 
 /*! @brief Metadata message preamble structure as defined by the PHDC class specification. */
-typedef struct _usb_host_phdc_metadata_preamble
-{
-    uint8_t
-        aSignature[USB_HOST_PHDC_MESSAGE_PREAMBLE_SIGNATURE_SIZE]; /*!< Constant used to give preamble verifiability */
-    uint8_t bNumberTransfers;     /*!< Count of following transfer to which the QoS setting applies */
-    uint8_t bQosEncodingVersion;  /*!< Version of QoS information encoding */
-    uint8_t bmLatencyReliability; /*!< See latency/reliability bin for the QoS data */
-    uint8_t bOpaqueDataSize;      /*!< Opaque QoS data or meta-data size */
-    uint8_t *bOpaqueData;         /*!< Opaque metadata */
+typedef struct _usb_host_phdc_metadata_preamble {
+	uint8_t
+			aSignature[USB_HOST_PHDC_MESSAGE_PREAMBLE_SIGNATURE_SIZE];      /*!< Constant used to give preamble verifiability */
+	uint8_t		bNumberTransfers;                                               /*!< Count of following transfer to which the QoS setting applies */
+	uint8_t		bQosEncodingVersion;                                            /*!< Version of QoS information encoding */
+	uint8_t		bmLatencyReliability;                                           /*!< See latency/reliability bin for the QoS data */
+	uint8_t		bOpaqueDataSize;                                                /*!< Opaque QoS data or meta-data size */
+	uint8_t *	bOpaqueData;                                                    /*!< Opaque metadata */
 } usb_host_phdc_metadata_preamble_t;
 
 /*! @brief PHDC instance structure */
-typedef struct _usb_host_phdc_instance
-{
-    usb_host_handle hostHandle;                /*!< The host handle */
-    usb_device_handle deviceHandle;            /*!< The device handle */
-    usb_host_interface_handle interfaceHandle; /*!< The interface handle */
-    usb_host_pipe_handle controlPipe;          /*!< The control pipe */
-    usb_host_pipe_handle interruptPipe;        /*!< The interrupt pipe */
-    usb_host_pipe_handle bulkInPipe;           /*!< The bulk in pipe */
-    usb_host_pipe_handle bulkOutPipe;          /*!< The bulk out pipe */
-    transfer_callback_t inCallbackFn;          /*!< The callback function is called when the PHDC receives complete */
-    void *inCallbackParam;                     /*!< The first parameter of the in callback function */
-    transfer_callback_t outCallbackFn;         /*!< The callback function is called when the PHDC sends complete */
-    void *outCallbackParam;                    /*!< The first parameter of the out callback function */
-    transfer_callback_t controlCallbackFn;     /*!< The control callback function */
-    void *controlCallbackParam;                /*!< The first parameter of the control callback function */
-    usb_host_transfer_t *controlTransfer;      /*!< The control transfer pointer */
+typedef struct _usb_host_phdc_instance {
+	usb_host_handle			hostHandle;             /*!< The host handle */
+	usb_device_handle		deviceHandle;           /*!< The device handle */
+	usb_host_interface_handle	interfaceHandle;        /*!< The interface handle */
+	usb_host_pipe_handle		controlPipe;            /*!< The control pipe */
+	usb_host_pipe_handle		interruptPipe;          /*!< The interrupt pipe */
+	usb_host_pipe_handle		bulkInPipe;             /*!< The bulk in pipe */
+	usb_host_pipe_handle		bulkOutPipe;            /*!< The bulk out pipe */
+	transfer_callback_t		inCallbackFn;           /*!< The callback function is called when the PHDC receives complete */
+	void *				inCallbackParam;        /*!< The first parameter of the in callback function */
+	transfer_callback_t		outCallbackFn;          /*!< The callback function is called when the PHDC sends complete */
+	void *				outCallbackParam;       /*!< The first parameter of the out callback function */
+	transfer_callback_t		controlCallbackFn;      /*!< The control callback function */
+	void *				controlCallbackParam;   /*!< The first parameter of the control callback function */
+	usb_host_transfer_t *		controlTransfer;        /*!< The control transfer pointer */
 
 #if ((defined USB_HOST_CONFIG_CLASS_AUTO_CLEAR_STALL) && USB_HOST_CONFIG_CLASS_AUTO_CLEAR_STALL)
-    uint8_t *stallDataBuffer; /*!< keep the data buffer for stall transfer's data*/
-    uint32_t stallDataLength; /*!< keep the data length for stall transfer's data*/
+	uint8_t *			stallDataBuffer;        /*!< keep the data buffer for stall transfer's data*/
+	uint32_t			stallDataLength;        /*!< keep the data length for stall transfer's data*/
 #endif
 
-    usb_host_ep_t interruptInEndpointInformation; /*!< The interrupt in information */
-    usb_host_ep_t bulkInEndpointInformation;      /*!< The bulk in information */
-    usb_host_ep_t bulkOutEndpointInformation;     /*!< The bulk out information */
-    uint8_t isMessagePreambleEnabled; /*!< The flag is used to check the message preamble feature is enabled or not */
-    uint8_t numberTransferBulkOut;    /*!< The number of transfer that follow Meta-data Message Preamble */
-    uint8_t numberTransferBulkIn;     /*!< The number of transfer that follow Meta-data Message Preamble */
+	usb_host_ep_t			interruptInEndpointInformation; /*!< The interrupt in information */
+	usb_host_ep_t			bulkInEndpointInformation;      /*!< The bulk in information */
+	usb_host_ep_t			bulkOutEndpointInformation;     /*!< The bulk out information */
+	uint8_t				isMessagePreambleEnabled;       /*!< The flag is used to check the message preamble feature is enabled or not */
+	uint8_t				numberTransferBulkOut;          /*!< The number of transfer that follow Meta-data Message Preamble */
+	uint8_t				numberTransferBulkIn;           /*!< The number of transfer that follow Meta-data Message Preamble */
 } usb_host_phdc_instance_t;
 
 /*******************************************************************************
@@ -153,7 +147,8 @@ extern "C" {
  * @retval kStatus_USB_Success        The device is initialized successfully.
  * @retval kStatus_USB_AllocFail      Allocate memory fail.
  */
-extern usb_status_t USB_HostPhdcInit(usb_host_handle deviceHandle, usb_host_class_handle *classHandle);
+extern usb_status_t USB_HostPhdcInit(usb_host_handle		deviceHandle,
+				     usb_host_class_handle *	classHandle);
 
 /*!
  * @brief Sets an interface.
@@ -175,10 +170,9 @@ extern usb_status_t USB_HostPhdcInit(usb_host_handle deviceHandle, usb_host_clas
  * @retval kStatus_USB_Error          Callback return status, open pipe fail. See the USB_HostOpenPipe.
  */
 extern usb_status_t USB_HostPhdcSetInterface(usb_host_class_handle classHandle,
-                                             usb_host_interface_handle interfaceHandle,
-                                             uint8_t alternateSetting,
-                                             transfer_callback_t callbackFn,
-                                             void *callbackParam);
+					     usb_host_interface_handle interfaceHandle, uint8_t
+					     alternateSetting, transfer_callback_t callbackFn,
+					     void *callbackParam);
 
 /*!
  * @brief Deinitializes the PHDC instance.
@@ -190,7 +184,8 @@ extern usb_status_t USB_HostPhdcSetInterface(usb_host_class_handle classHandle,
  *
  * @retval kStatus_USB_Success        The device is deinitialized successfully.
  */
-extern usb_status_t USB_HostPhdcDeinit(usb_host_handle deviceHandle, usb_host_class_handle classHandle);
+extern usb_status_t USB_HostPhdcDeinit(usb_host_handle deviceHandle, usb_host_class_handle
+				       classHandle);
 
 /*!
  * @brief Receives data.
@@ -210,12 +205,9 @@ extern usb_status_t USB_HostPhdcDeinit(usb_host_handle deviceHandle, usb_host_cl
  * @retval kStatus_USB_Error          Pipe is not initialized.
  *                                    Or, send transfer fail. See the USB_HostRecv.
  */
-extern usb_status_t USB_HostPhdcRecv(usb_host_class_handle classHandle,
-                                     uint8_t qos,
-                                     uint8_t *buffer,
-                                     uint32_t bufferLength,
-                                     transfer_callback_t callbackFn,
-                                     void *callbackParam);
+extern usb_status_t USB_HostPhdcRecv(usb_host_class_handle classHandle, uint8_t qos,
+				     uint8_t *buffer, uint32_t bufferLength, transfer_callback_t
+				     callbackFn, void *callbackParam);
 
 /*!
  * @brief Sends data.
@@ -234,11 +226,9 @@ extern usb_status_t USB_HostPhdcRecv(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Error          Pipe is not initialized.
  *                                    Or, send transfer fail. See the USB_HostSend.
  */
-extern usb_status_t USB_HostPhdcSend(usb_host_class_handle classHandle,
-                                     uint8_t *buffer,
-                                     uint32_t bufferLength,
-                                     transfer_callback_t callbackFn,
-                                     void *callbackParam);
+extern usb_status_t USB_HostPhdcSend(usb_host_class_handle classHandle, uint8_t *buffer, uint32_t
+				     bufferLength, transfer_callback_t callbackFn,
+				     void *callbackParam);
 
 /*!
  * @brief PHDC sends the control request.
@@ -254,10 +244,9 @@ extern usb_status_t USB_HostPhdcSend(usb_host_class_handle classHandle,
  * @retval kStatus_USB_Error          Pipe is not initialized.
  *                                    Or, send transfer fail. See the USB_HostSend.
  */
-extern usb_status_t USB_HostPhdcSendControlRequest(usb_host_class_handle classHandle,
-                                                   uint8_t request,
-                                                   transfer_callback_t callbackFn,
-                                                   void *callbackParam);
+extern usb_status_t USB_HostPhdcSendControlRequest(usb_host_class_handle classHandle, uint8_t
+						   request, transfer_callback_t callbackFn,
+						   void *callbackParam);
 
 /*!
  * @brief PHDC set and clear feature endpoint halt request.
@@ -275,10 +264,9 @@ extern usb_status_t USB_HostPhdcSendControlRequest(usb_host_class_handle classHa
  *                                    Or, send transfer fail. See the USB_HostSend.
  */
 extern usb_status_t USB_HostPhdcSetClearFeatureEndpointHalt(usb_host_class_handle classHandle,
-                                                            uint8_t request,
-                                                            void *param,
-                                                            transfer_callback_t callbackFn,
-                                                            void *callbackParam);
+							    uint8_t request, void *param,
+							    transfer_callback_t callbackFn,
+							    void *callbackParam);
 
 /*!
  * @brief USB_HostPhdcGetEndpointInformation.
@@ -292,9 +280,8 @@ extern usb_status_t USB_HostPhdcSetClearFeatureEndpointHalt(usb_host_class_handl
  * @retval endpointReturn   All input parameters are valid.
  * @retval NULL             One or more input parameters are invalid.
  */
-usb_host_ep_t *USB_HostPhdcGetEndpointInformation(usb_host_class_handle classHandle,
-                                                  uint8_t pipeType,
-                                                  uint8_t direction);
+usb_host_ep_t *USB_HostPhdcGetEndpointInformation(usb_host_class_handle classHandle, uint8_t
+						  pipeType, uint8_t direction);
 
 /*! @}*/
 

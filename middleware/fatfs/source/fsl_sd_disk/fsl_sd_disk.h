@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
  * Copyright 2016-2020 NXP
  * All rights reserved.
@@ -72,7 +72,7 @@ DSTATUS sd_disk_status(BYTE pdrv);
  * @retval RES_PARERR Failed.
  * @retval RES_OK Success.
  */
-DRESULT sd_disk_read(BYTE pdrv, BYTE* buff, LBA_t sector, UINT count);
+DRESULT sd_disk_read(BYTE pdrv, BYTE *buff, LBA_t sector, UINT count);
 
 /*!
  * @brief Writes SD disk.
@@ -84,7 +84,7 @@ DRESULT sd_disk_read(BYTE pdrv, BYTE* buff, LBA_t sector, UINT count);
  * @retval RES_PARERR Failed.
  * @retval RES_OK Success.
  */
-DRESULT sd_disk_write(BYTE pdrv, const BYTE* buff, LBA_t sector, UINT count);
+DRESULT sd_disk_write(BYTE pdrv, const BYTE *buff, LBA_t sector, UINT count);
 
 /*!
  * @brief SD disk IO operation.
@@ -95,7 +95,7 @@ DRESULT sd_disk_write(BYTE pdrv, const BYTE* buff, LBA_t sector, UINT count);
  * @retval RES_PARERR Failed.
  * @retval RES_OK Success.
  */
-DRESULT sd_disk_ioctl(BYTE pdrv, BYTE cmd, void* buff);
+DRESULT sd_disk_ioctl(BYTE pdrv, BYTE cmd, void *buff);
 
 /* @} */
 #if defined(__cplusplus)

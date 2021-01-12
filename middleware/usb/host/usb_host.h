@@ -40,110 +40,101 @@ typedef void *usb_host_interface_handle;
 typedef void *usb_host_pipe_handle;
 
 /*! @brief Event codes for device attach/detach */
-typedef enum _usb_host_event
-{
-    kUSB_HostEventAttach = 1U,     /*!< Device is attached */
-    kUSB_HostEventDetach,          /*!< Device is detached */
-    kUSB_HostEventEnumerationDone, /*!< Device's enumeration is done and the device is supported */
-    kUSB_HostEventNotSupported,    /*!< Device's enumeration is done and the device is not supported */
-    /*! Device's enumeration failed due to errors
-     * fail reason is put in the high 2 bytes of callback event code.
-     * kStatus_USB_TransferFailed - the transfer failed.
-     * kStatus_USB_TransferCancel - transfer is canceled by application.
-     * kStatus_USB_Error - parsing descriptor failed, the power cannot satisfy device's requirement,
-     *                     device addresss allocation failed, transfer is not enough
-     *                     or the transfer API failed.
-     * kStatus_USB_AllocFail - malloc failed.
-     */
-    kUSB_HostEventEnumerationFail,
+typedef enum _usb_host_event {
+	kUSB_HostEventAttach = 1U,      /*!< Device is attached */
+	kUSB_HostEventDetach,           /*!< Device is detached */
+	kUSB_HostEventEnumerationDone,  /*!< Device's enumeration is done and the device is supported */
+	kUSB_HostEventNotSupported,     /*!< Device's enumeration is done and the device is not supported */
+	/*! Device's enumeration failed due to errors
+	 * fail reason is put in the high 2 bytes of callback event code.
+	 * kStatus_USB_TransferFailed - the transfer failed.
+	 * kStatus_USB_TransferCancel - transfer is canceled by application.
+	 * kStatus_USB_Error - parsing descriptor failed, the power cannot satisfy device's requirement,
+	 *                     device addresss allocation failed, transfer is not enough
+	 *                     or the transfer API failed.
+	 * kStatus_USB_AllocFail - malloc failed.
+	 */
+	kUSB_HostEventEnumerationFail,
 #if ((defined(USB_HOST_CONFIG_LOW_POWER_MODE)) && (USB_HOST_CONFIG_LOW_POWER_MODE > 0U))
-    kUSB_HostEventNotSuspended,      /*!< Suspend failed */
-    kUSB_HostEventSuspended,         /*!< Suspend successful */
-    kUSB_HostEventNotResumed,        /*!< Resume failed */
-    kUSB_HostEventDetectResume,      /*!< Detect resume signal */
-    kUSB_HostEventResumed,           /*!< Resume successful */
-    kUSB_HostEventL1Sleeped,         /*!< L1 Sleep successful,state transition was successful (ACK) */
-    kUSB_HostEventL1SleepNYET,       /*!< Device was unable to enter the L1 state at this time (NYET)  */
-    kUSB_HostEventL1SleepNotSupport, /*!< Device does not support the L1 state (STALL)  */
-    kUSB_HostEventL1SleepError,      /*!< Device failed to respond or an error occurred  */
-    kUSB_HostEventL1NotResumed,      /*!< Resume failed */
-    kUSB_HostEventL1DetectResume,    /*!< Detect resume signal */
-    kUSB_HostEventL1Resumed,         /*!< Resume successful */
+	kUSB_HostEventNotSuspended,             /*!< Suspend failed */
+	kUSB_HostEventSuspended,                /*!< Suspend successful */
+	kUSB_HostEventNotResumed,               /*!< Resume failed */
+	kUSB_HostEventDetectResume,             /*!< Detect resume signal */
+	kUSB_HostEventResumed,                  /*!< Resume successful */
+	kUSB_HostEventL1Sleeped,                /*!< L1 Sleep successful,state transition was successful (ACK) */
+	kUSB_HostEventL1SleepNYET,              /*!< Device was unable to enter the L1 state at this time (NYET)  */
+	kUSB_HostEventL1SleepNotSupport,        /*!< Device does not support the L1 state (STALL)  */
+	kUSB_HostEventL1SleepError,             /*!< Device failed to respond or an error occurred  */
+	kUSB_HostEventL1NotResumed,             /*!< Resume failed */
+	kUSB_HostEventL1DetectResume,           /*!< Detect resume signal */
+	kUSB_HostEventL1Resumed,                /*!< Resume successful */
 #endif
 } usb_host_event_t;
 
 /*! @brief USB host device information code */
-typedef enum _usb_host_dev_info
-{
-    kUSB_HostGetDeviceAddress = 1U,  /*!< Device's address */
-    kUSB_HostGetDeviceHubNumber,     /*!< Device's first hub address */
-    kUSB_HostGetDevicePortNumber,    /*!< Device's first hub port number */
-    kUSB_HostGetDeviceSpeed,         /*!< Device's speed */
-    kUSB_HostGetDeviceHSHubNumber,   /*!< Device's first high-speed hub address */
-    kUSB_HostGetDeviceHSHubPort,     /*!< Device's first high-speed hub number */
-    kUSB_HostGetDeviceLevel,         /*!< Device's hub level */
-    kUSB_HostGetHostHandle,          /*!< Device's host handle */
-    kUSB_HostGetDeviceControlPipe,   /*!< Device's control pipe handle */
-    kUSB_HostGetDevicePID,           /*!< Device's PID */
-    kUSB_HostGetDeviceVID,           /*!< Device's VID */
-    kUSB_HostGetHubThinkTime,        /*!< Device's hub total think time */
-    kUSB_HostGetDeviceConfigIndex,   /*!< Device's running zero-based config index */
-    kUSB_HostGetConfigurationDes,    /*!< Device's configuration descriptor pointer */
-    kUSB_HostGetConfigurationLength, /*!< Device's configuration descriptor pointer */
+typedef enum _usb_host_dev_info {
+	kUSB_HostGetDeviceAddress = 1U,         /*!< Device's address */
+	kUSB_HostGetDeviceHubNumber,            /*!< Device's first hub address */
+	kUSB_HostGetDevicePortNumber,           /*!< Device's first hub port number */
+	kUSB_HostGetDeviceSpeed,                /*!< Device's speed */
+	kUSB_HostGetDeviceHSHubNumber,          /*!< Device's first high-speed hub address */
+	kUSB_HostGetDeviceHSHubPort,            /*!< Device's first high-speed hub number */
+	kUSB_HostGetDeviceLevel,                /*!< Device's hub level */
+	kUSB_HostGetHostHandle,                 /*!< Device's host handle */
+	kUSB_HostGetDeviceControlPipe,          /*!< Device's control pipe handle */
+	kUSB_HostGetDevicePID,                  /*!< Device's PID */
+	kUSB_HostGetDeviceVID,                  /*!< Device's VID */
+	kUSB_HostGetHubThinkTime,               /*!< Device's hub total think time */
+	kUSB_HostGetDeviceConfigIndex,          /*!< Device's running zero-based config index */
+	kUSB_HostGetConfigurationDes,           /*!< Device's configuration descriptor pointer */
+	kUSB_HostGetConfigurationLength,        /*!< Device's configuration descriptor pointer */
 } usb_host_dev_info_t;
 /*! @brief Request type */
-typedef enum _usb_host_request_type
-{
-    kRequestDevice = 1U, /*!< Control request object is device */
-    kRequestInterface,   /*!< Control request object is interface */
-    kRequestEndpoint,    /*!< Control request object is endpoint */
+typedef enum _usb_host_request_type {
+	kRequestDevice = 1U,    /*!< Control request object is device */
+	kRequestInterface,      /*!< Control request object is interface */
+	kRequestEndpoint,       /*!< Control request object is endpoint */
 } usb_host_request_type_t;
 /*! @brief For USB_REQUEST_STANDARD_GET_DESCRIPTOR and USB_REQUEST_STANDARD_SET_DESCRIPTOR */
-typedef struct _usb_host_process_descriptor_param
-{
-    uint8_t descriptorType;    /*!< See the usb_spec.h, such as the USB_DESCRIPTOR_TYPE_DEVICE */
-    uint8_t descriptorIndex;   /*!< The descriptor index is used to select a specific descriptor (only for configuration
-                                  and string descriptors) when several descriptors of the same type are implemented in a
-                                  device */
-    uint8_t languageId;        /*!< It specifies the language ID for string descriptors or is reset to zero for other
-                                  descriptors */
-    uint8_t *descriptorBuffer; /*!< Buffer pointer */
-    uint16_t descriptorLength; /*!< Buffer data length */
+typedef struct _usb_host_process_descriptor_param {
+	uint8_t		descriptorType;         /*!< See the usb_spec.h, such as the USB_DESCRIPTOR_TYPE_DEVICE */
+	uint8_t		descriptorIndex;        /*!< The descriptor index is used to select a specific descriptor (only for configuration
+	                                         * and string descriptors) when several descriptors of the same type are implemented in a
+	                                         * device */
+	uint8_t		languageId;             /*!< It specifies the language ID for string descriptors or is reset to zero for other
+	                                         * descriptors */
+	uint8_t *	descriptorBuffer;       /*!< Buffer pointer */
+	uint16_t	descriptorLength;       /*!< Buffer data length */
 } usb_host_process_descriptor_param_t;
 /*! @brief For USB_REQUEST_STANDARD_CLEAR_FEATURE and USB_REQUEST_STANDARD_SET_FEATURE */
-typedef struct _usb_host_process_feature_param
-{
-    uint8_t requestType;         /*!< See the #usb_host_request_type_t */
-    uint8_t featureSelector;     /*!< Set/cleared feature */
-    uint8_t interfaceOrEndpoint; /*!< Interface or end pointer */
+typedef struct _usb_host_process_feature_param {
+	uint8_t requestType;            /*!< See the #usb_host_request_type_t */
+	uint8_t featureSelector;        /*!< Set/cleared feature */
+	uint8_t interfaceOrEndpoint;    /*!< Interface or end pointer */
 } usb_host_process_feature_param_t;
 /*! @brief For USB_REQUEST_STANDARD_GET_INTERFACE */
-typedef struct _usb_host_get_interface_param
-{
-    uint8_t interface;                 /*!< Interface number */
-    uint8_t *alternateInterfaceBuffer; /*!< Save the transfer result */
+typedef struct _usb_host_get_interface_param {
+	uint8_t		interface;                      /*!< Interface number */
+	uint8_t *	alternateInterfaceBuffer;       /*!< Save the transfer result */
 } usb_host_get_interface_param_t;
 
 /*! @brief For USB_REQUEST_STANDARD_GET_STATUS */
-typedef struct _usb_host_get_status_param
-{
-    uint16_t statusSelector; /*!< Interface number, the end pointer number or OTG status selector */
-    uint8_t requestType;     /*!< See the #usb_host_request_type_t */
-    uint8_t *statusBuffer;   /*!< Save the transfer result */
+typedef struct _usb_host_get_status_param {
+	uint16_t	statusSelector; /*!< Interface number, the end pointer number or OTG status selector */
+	uint8_t		requestType;    /*!< See the #usb_host_request_type_t */
+	uint8_t *	statusBuffer;   /*!< Save the transfer result */
 } usb_host_get_status_param_t;
 
 /*! @brief For USB_REQUEST_STANDARD_SET_INTERFACE */
-typedef struct _usb_host_set_interface_param
-{
-    uint8_t alternateSetting; /*!< Alternate setting value */
-    uint8_t interface;        /*!< Interface number */
+typedef struct _usb_host_set_interface_param {
+	uint8_t alternateSetting;       /*!< Alternate setting value */
+	uint8_t interface;              /*!< Interface number */
 } usb_host_set_interface_param_t;
 
 /*! @brief For USB_REQUEST_STANDARD_SYNCH_FRAME */
-typedef struct _usb_host_synch_frame_param
-{
-    uint8_t endpoint;           /*!< Endpoint number */
-    uint8_t *frameNumberBuffer; /*!< Frame number data buffer */
+typedef struct _usb_host_synch_frame_param {
+	uint8_t		endpoint;               /*!< Endpoint number */
+	uint8_t *	frameNumberBuffer;      /*!< Frame number data buffer */
 } usb_host_synch_frame_param_t;
 /*!
  * @brief Host callback function typedef.
@@ -161,8 +152,8 @@ typedef struct _usb_host_synch_frame_param
  * @retval kStatus_USB_Error         Application handles the attached device falsely.
  */
 typedef usb_status_t (*host_callback_t)(usb_device_handle deviceHandle,
-                                        usb_host_configuration_handle configurationHandle,
-                                        uint32_t eventCode);
+					usb_host_configuration_handle configurationHandle, uint32_t
+					eventCode);
 
 /*!
  * @brief Transfer callback function typedef.
@@ -175,7 +166,8 @@ typedef usb_status_t (*host_callback_t)(usb_device_handle deviceHandle,
  * @param data_len  The result data length.
  * @param status    A USB error code or kStatus_USB_Success.
  */
-typedef void (*transfer_callback_t)(void *param, uint8_t *data, uint32_t dataLen, usb_status_t status);
+typedef void (*transfer_callback_t)(void *param, uint8_t *data, uint32_t dataLen, usb_status_t
+				    status);
 
 /*!
  * @brief Host stack inner transfer callback function typedef.
@@ -187,105 +179,97 @@ typedef void (*transfer_callback_t)(void *param, uint8_t *data, uint32_t dataLen
  * @param transfer  The transfer information; See the structure usb_host_transfer_t.
  * @param status    A USB error code or kStatus_USB_Success.
  */
-typedef void (*host_inner_transfer_callback_t)(void *param, struct _usb_host_transfer *transfer, usb_status_t status);
+typedef void (*host_inner_transfer_callback_t)(void *param, struct _usb_host_transfer *transfer,
+					       usb_status_t status);
 
 /*! @brief USB host endpoint information structure */
-typedef struct _usb_host_ep
-{
-    usb_descriptor_endpoint_t *epDesc; /*!< Endpoint descriptor pointer*/
-    uint8_t *epExtension;              /*!< Endpoint extended descriptor pointer*/
-    uint16_t epExtensionLength;        /*!< Extended descriptor length*/
+typedef struct _usb_host_ep {
+	usb_descriptor_endpoint_t *	epDesc;                 /*!< Endpoint descriptor pointer*/
+	uint8_t *			epExtension;            /*!< Endpoint extended descriptor pointer*/
+	uint16_t			epExtensionLength;      /*!< Extended descriptor length*/
 } usb_host_ep_t;
 
 /*! @brief USB host interface information structure */
-typedef struct _usb_host_interface
-{
-    usb_host_ep_t epList[USB_HOST_CONFIG_INTERFACE_MAX_EP]; /*!< Endpoint array*/
-    usb_descriptor_interface_t *interfaceDesc;              /*!< Interface descriptor pointer*/
-    uint8_t *interfaceExtension;                            /*!< Interface extended descriptor pointer*/
-    uint16_t interfaceExtensionLength;                      /*!< Extended descriptor length*/
-    uint8_t interfaceIndex;                                 /*!< The interface index*/
-    uint8_t alternateSettingNumber;                         /*!< The interface alternate setting value*/
-    uint8_t epCount;                                        /*!< Interface's endpoint number*/
+typedef struct _usb_host_interface {
+	usb_host_ep_t			epList[USB_HOST_CONFIG_INTERFACE_MAX_EP];       /*!< Endpoint array*/
+	usb_descriptor_interface_t *	interfaceDesc;                                  /*!< Interface descriptor pointer*/
+	uint8_t *			interfaceExtension;                             /*!< Interface extended descriptor pointer*/
+	uint16_t			interfaceExtensionLength;                       /*!< Extended descriptor length*/
+	uint8_t				interfaceIndex;                                 /*!< The interface index*/
+	uint8_t				alternateSettingNumber;                         /*!< The interface alternate setting value*/
+	uint8_t				epCount;                                        /*!< Interface's endpoint number*/
 } usb_host_interface_t;
 
 /*! @brief USB host configuration information structure */
-typedef struct _usb_host_configuration
-{
-    usb_host_interface_t interfaceList[USB_HOST_CONFIG_CONFIGURATION_MAX_INTERFACE]; /*!< Interface array*/
-    usb_descriptor_configuration_t *configurationDesc; /*!< Configuration descriptor pointer*/
-    uint8_t *configurationExtension;                   /*!< Configuration extended descriptor pointer*/
-    uint16_t configurationExtensionLength;             /*!< Extended descriptor length*/
-    uint8_t interfaceCount;                            /*!< The configuration's interface number*/
+typedef struct _usb_host_configuration {
+	usb_host_interface_t		interfaceList[USB_HOST_CONFIG_CONFIGURATION_MAX_INTERFACE];     /*!< Interface array*/
+	usb_descriptor_configuration_t *configurationDesc;                                              /*!< Configuration descriptor pointer*/
+	uint8_t *			configurationExtension;                                         /*!< Configuration extended descriptor pointer*/
+	uint16_t			configurationExtensionLength;                                   /*!< Extended descriptor length*/
+	uint8_t				interfaceCount;                                                 /*!< The configuration's interface number*/
 } usb_host_configuration_t;
 
 /*! @brief USB host pipe common structure */
-typedef struct _usb_host_pipe
-{
-    struct _usb_host_pipe *next;    /*!< Link the idle pipes*/
-    usb_device_handle deviceHandle; /*!< This pipe's device's handle*/
-    uint16_t currentCount;          /*!< For KHCI transfer*/
-    uint16_t nakCount;              /*!< Maximum NAK count*/
-    uint16_t maxPacketSize;         /*!< Maximum packet size*/
-    uint16_t interval;              /*!< FS/LS: frame unit; HS: micro-frame unit*/
-    uint8_t open;                   /*!< 0 - closed, 1 - open*/
-    uint8_t nextdata01;             /*!< Data toggle*/
-    uint8_t endpointAddress;        /*!< Endpoint address*/
-    uint8_t direction;              /*!< Pipe direction*/
-    uint8_t pipeType;               /*!< Pipe type, for example USB_ENDPOINT_BULK*/
-    uint8_t numberPerUframe;        /*!< Transaction number per micro-frame*/
+typedef struct _usb_host_pipe {
+	struct _usb_host_pipe * next;                   /*!< Link the idle pipes*/
+	usb_device_handle	deviceHandle;           /*!< This pipe's device's handle*/
+	uint16_t		currentCount;           /*!< For KHCI transfer*/
+	uint16_t		nakCount;               /*!< Maximum NAK count*/
+	uint16_t		maxPacketSize;          /*!< Maximum packet size*/
+	uint16_t		interval;               /*!< FS/LS: frame unit; HS: micro-frame unit*/
+	uint8_t			open;                   /*!< 0 - closed, 1 - open*/
+	uint8_t			nextdata01;             /*!< Data toggle*/
+	uint8_t			endpointAddress;        /*!< Endpoint address*/
+	uint8_t			direction;              /*!< Pipe direction*/
+	uint8_t			pipeType;               /*!< Pipe type, for example USB_ENDPOINT_BULK*/
+	uint8_t			numberPerUframe;        /*!< Transaction number per micro-frame*/
 } usb_host_pipe_t;
 
 /*! @brief USB host transfer structure */
-typedef struct _usb_host_transfer
-{
-    struct _usb_host_transfer *next;           /*!< The next transfer structure*/
-    uint8_t *transferBuffer;                   /*!< Transfer data buffer*/
-    uint32_t transferLength;                   /*!< Transfer data length*/
-    uint32_t transferSofar;                    /*!< Length transferred so far*/
-    host_inner_transfer_callback_t callbackFn; /*!< Transfer callback function*/
-    void *callbackParam;                       /*!< Transfer callback parameter*/
-    usb_host_pipe_t *transferPipe;             /*!< Transfer pipe pointer*/
-    usb_setup_struct_t *setupPacket;           /*!< Set up packet buffer*/
-    uint8_t direction;                         /*!< Transfer direction; it's values are USB_OUT or USB_IN*/
-    uint8_t setupStatus;                       /*!< Set up the transfer status*/
-    union
-    {
-        uint32_t unitHead;      /*!< xTD head for this transfer*/
-        int32_t transferResult; /*!< KHCI transfer result */
-    } union1;
+typedef struct _usb_host_transfer {
+	struct _usb_host_transfer *	next;           /*!< The next transfer structure*/
+	uint8_t *			transferBuffer; /*!< Transfer data buffer*/
+	uint32_t			transferLength; /*!< Transfer data length*/
+	uint32_t			transferSofar;  /*!< Length transferred so far*/
+	host_inner_transfer_callback_t	callbackFn;     /*!< Transfer callback function*/
+	void *				callbackParam;  /*!< Transfer callback parameter*/
+	usb_host_pipe_t *		transferPipe;   /*!< Transfer pipe pointer*/
+	usb_setup_struct_t *		setupPacket;    /*!< Set up packet buffer*/
+	uint8_t				direction;      /*!< Transfer direction; it's values are USB_OUT or USB_IN*/
+	uint8_t				setupStatus;    /*!< Set up the transfer status*/
+	union {
+		uint32_t	unitHead;               /*!< xTD head for this transfer*/
+		int32_t		transferResult;         /*!< KHCI transfer result */
+	} union1;
 
-    union
-    {
-        uint32_t unitTail; /*!<xTD tail for this transfer*/
-        uint32_t frame;    /*!< KHCI transfer frame number */
-    } union2;
+	union {
+		uint32_t	unitTail;       /*!<xTD tail for this transfer*/
+		uint32_t	frame;          /*!< KHCI transfer frame number */
+	} union2;
 
 #if USB_HOST_CONFIG_KHCI
-    uint16_t nakTimeout; /*!< KHCI transfer NAK timeout */
-    uint16_t retry;      /*!< KHCI transfer retry */
+	uint16_t	nakTimeout;     /*!< KHCI transfer NAK timeout */
+	uint16_t	retry;          /*!< KHCI transfer retry */
 #endif
 } usb_host_transfer_t;
 
 /*! @brief USB host pipe information structure for opening pipe */
-typedef struct _usb_host_pipe_init
-{
-    void *devInstance;       /*!< Device instance handle*/
-    uint16_t nakCount;       /*!< Maximum NAK retry count. MUST be zero for interrupt*/
-    uint16_t maxPacketSize;  /*!< Pipe's maximum packet size*/
-    uint8_t interval;        /*!< Pipe's interval*/
-    uint8_t endpointAddress; /*!< Endpoint address*/
-    uint8_t direction;       /*!< Endpoint direction*/
-    uint8_t pipeType;        /*!< Endpoint type, the value is USB_ENDPOINT_INTERRUPT, USB_ENDPOINT_CONTROL,
-                                USB_ENDPOINT_ISOCHRONOUS, USB_ENDPOINT_BULK*/
-    uint8_t numberPerUframe; /*!< Transaction number for each micro-frame*/
+typedef struct _usb_host_pipe_init {
+	void *		devInstance;            /*!< Device instance handle*/
+	uint16_t	nakCount;               /*!< Maximum NAK retry count. MUST be zero for interrupt*/
+	uint16_t	maxPacketSize;          /*!< Pipe's maximum packet size*/
+	uint8_t		interval;               /*!< Pipe's interval*/
+	uint8_t		endpointAddress;        /*!< Endpoint address*/
+	uint8_t		direction;              /*!< Endpoint direction*/
+	uint8_t		pipeType;               /*!< Endpoint type, the value is USB_ENDPOINT_INTERRUPT, USB_ENDPOINT_CONTROL,
+	                                         * USB_ENDPOINT_ISOCHRONOUS, USB_ENDPOINT_BULK*/
+	uint8_t		numberPerUframe;        /*!< Transaction number for each micro-frame*/
 } usb_host_pipe_init_t;
 
 /*! @brief Cancel transfer parameter structure */
-typedef struct _usb_host_cancel_param
-{
-    usb_host_pipe_handle pipeHandle; /*!< Canceling pipe handle*/
-    usb_host_transfer_t *transfer;   /*!< Canceling transfer*/
+typedef struct _usb_host_cancel_param {
+	usb_host_pipe_handle	pipeHandle;     /*!< Canceling pipe handle*/
+	usb_host_transfer_t *	transfer;       /*!< Canceling transfer*/
 } usb_host_cancel_param_t;
 
 /*******************************************************************************
@@ -318,7 +302,8 @@ extern "C" {
  * @retval kStatus_USB_Error                Host mutex create fail; KHCI/EHCI mutex or KHCI/EHCI event create fail,
  *                                          or, KHCI/EHCI IP initialize fail.
  */
-extern usb_status_t USB_HostInit(uint8_t controllerId, usb_host_handle *hostHandle, host_callback_t callbackFn);
+extern usb_status_t USB_HostInit(uint8_t controllerId, usb_host_handle *hostHandle, host_callback_t
+				 callbackFn);
 
 /*!
  * @brief Deinitializes the USB host stack.
@@ -346,9 +331,8 @@ extern usb_status_t USB_HostDeinit(usb_host_handle hostHandle);
  * @retval kStatus_USB_InvalidParameter     The deviceHandle or info_value is a NULL pointer.
  * @retval kStatus_USB_Error                The info_code is not the host_dev_info_t value.
  */
-extern usb_status_t USB_HostHelperGetPeripheralInformation(usb_device_handle deviceHandle,
-                                                           uint32_t infoCode,
-                                                           uint32_t *infoValue);
+extern usb_status_t USB_HostHelperGetPeripheralInformation(usb_device_handle deviceHandle, uint32_t
+							   infoCode, uint32_t *infoValue);
 
 /*!
  * @brief Parses the alternate interface descriptor.
@@ -365,9 +349,10 @@ extern usb_status_t USB_HostHelperGetPeripheralInformation(usb_device_handle dev
  * @retval kStatus_USB_InvalidParameter     The alternateSetting is 0.
  * @retval kStatus_USB_Error                The interface descriptor is wrong.
  */
-extern usb_status_t USB_HostHelperParseAlternateSetting(usb_host_interface_handle interfaceHandle,
-                                                        uint8_t alternateSetting,
-                                                        usb_host_interface_t *interface);
+extern usb_status_t USB_HostHelperParseAlternateSetting(usb_host_interface_handle
+							interfaceHandle, uint8_t
+							alternateSetting,
+							usb_host_interface_t *interface);
 
 /*!
  * @brief Removes the attached device.
@@ -382,7 +367,8 @@ extern usb_status_t USB_HostHelperParseAlternateSetting(usb_host_interface_handl
  * @retval kStatus_USB_InvalidHandle        The hostHandle or deviceHandle is a NULL pointer.
  * @retval kStatus_USB_InvalidParameter     The deviceHandle instance don't belong to hostHandle instance.
  */
-extern usb_status_t USB_HostRemoveDevice(usb_host_handle hostHandle, usb_device_handle deviceHandle);
+extern usb_status_t USB_HostRemoveDevice(usb_host_handle hostHandle, usb_device_handle
+					 deviceHandle);
 #if (defined(USB_HOST_CONFIG_KHCI) && (USB_HOST_CONFIG_KHCI > 0U))
 /*!
  * @brief KHCI task function.
@@ -494,9 +480,8 @@ extern void USB_HostIp3516HsIsrFunction(void *hostHandle);
  *                                          Or, there is no idle QH for EHCI.
  *                                          Or, bandwidth allocate fail for EHCI.
  */
-extern usb_status_t USB_HostOpenPipe(usb_host_handle hostHandle,
-                                     usb_host_pipe_handle *pipeHandle,
-                                     usb_host_pipe_init_t *pipeInit);
+extern usb_status_t USB_HostOpenPipe(usb_host_handle hostHandle, usb_host_pipe_handle *pipeHandle,
+				     usb_host_pipe_init_t *pipeInit);
 
 /*!
  * @brief Closes the USB host pipe.
@@ -525,9 +510,8 @@ extern usb_status_t USB_HostClosePipe(usb_host_handle hostHandle, usb_host_pipe_
  * @retval kStatus_USB_LackSwapBuffer       There is no swap buffer for KHCI.
  * @retval kStatus_USB_Error                There is no idle QTD/ITD/SITD for EHCI.
  */
-extern usb_status_t USB_HostSend(usb_host_handle hostHandle,
-                                 usb_host_pipe_handle pipeHandle,
-                                 usb_host_transfer_t *transfer);
+extern usb_status_t USB_HostSend(usb_host_handle hostHandle, usb_host_pipe_handle pipeHandle,
+				 usb_host_transfer_t *transfer);
 
 /*!
  * @brief Sends a setup transfer to the pipe.
@@ -543,9 +527,8 @@ extern usb_status_t USB_HostSend(usb_host_handle hostHandle,
  * @retval kStatus_USB_LackSwapBuffer       There is no swap buffer for KHCI.
  * @retval kStatus_USB_Error                There is no idle QTD/ITD/SITD for EHCI.
  */
-extern usb_status_t USB_HostSendSetup(usb_host_handle hostHandle,
-                                      usb_host_pipe_handle pipeHandle,
-                                      usb_host_transfer_t *transfer);
+extern usb_status_t USB_HostSendSetup(usb_host_handle hostHandle, usb_host_pipe_handle pipeHandle,
+				      usb_host_transfer_t *transfer);
 
 /*!
  * @brief Receives the data from the pipe.
@@ -561,9 +544,8 @@ extern usb_status_t USB_HostSendSetup(usb_host_handle hostHandle,
  * @retval kStatus_USB_LackSwapBuffer       There is no swap buffer for KHCI.
  * @retval kStatus_USB_Error                There is no idle QTD/ITD/SITD for EHCI.
  */
-extern usb_status_t USB_HostRecv(usb_host_handle hostHandle,
-                                 usb_host_pipe_handle pipeHandle,
-                                 usb_host_transfer_t *transfer);
+extern usb_status_t USB_HostRecv(usb_host_handle hostHandle, usb_host_pipe_handle pipeHandle,
+				 usb_host_transfer_t *transfer);
 
 /*!
  * @brief Cancel the pipe's transfers.
@@ -577,9 +559,8 @@ extern usb_status_t USB_HostRecv(usb_host_handle hostHandle,
  * @retval kStatus_USB_Success              Cancel successfully.
  * @retval kStatus_USB_InvalidHandle        The hostHandle or pipeHandle is a NULL pointer.
  */
-extern usb_status_t USB_HostCancelTransfer(usb_host_handle hostHandle,
-                                           usb_host_pipe_handle pipeHandle,
-                                           usb_host_transfer_t *transfer);
+extern usb_status_t USB_HostCancelTransfer(usb_host_handle hostHandle, usb_host_pipe_handle
+					   pipeHandle, usb_host_transfer_t *transfer);
 
 /*!
  * @brief Allocates a transfer resource.
@@ -593,7 +574,8 @@ extern usb_status_t USB_HostCancelTransfer(usb_host_handle hostHandle,
  * @retval kStatus_USB_InvalidHandle        The hostHandle or transfer is a NULL pointer.
  * @retval kStatus_USB_Error                There is no idle transfer.
  */
-extern usb_status_t USB_HostMallocTransfer(usb_host_handle hostHandle, usb_host_transfer_t **transfer);
+extern usb_status_t USB_HostMallocTransfer(usb_host_handle		hostHandle,
+					   usb_host_transfer_t **	transfer);
 
 /*!
  * @brief Frees a transfer resource.
@@ -625,10 +607,8 @@ extern usb_status_t USB_HostFreeTransfer(usb_host_handle hostHandle, usb_host_tr
  * @retval kStatus_USB_Error                There is no idle QTD/ITD/SITD for EHCI,
  *                                          Or, the request is not standard request.
  */
-extern usb_status_t USB_HostRequestControl(usb_device_handle deviceHandle,
-                                           uint8_t usbRequest,
-                                           usb_host_transfer_t *transfer,
-                                           void *param);
+extern usb_status_t USB_HostRequestControl(usb_device_handle deviceHandle, uint8_t usbRequest,
+					   usb_host_transfer_t *transfer, void *param);
 
 /*!
  * @brief Opens the interface.
@@ -641,8 +621,8 @@ extern usb_status_t USB_HostRequestControl(usb_device_handle deviceHandle,
  * @retval kStatus_USB_Success              Open successfully.
  * @retval kStatus_USB_InvalidHandle        The deviceHandle or interfaceHandle is a NULL pointer.
  */
-extern usb_status_t USB_HostOpenDeviceInterface(usb_device_handle deviceHandle,
-                                                usb_host_interface_handle interfaceHandle);
+extern usb_status_t USB_HostOpenDeviceInterface(usb_device_handle		deviceHandle,
+						usb_host_interface_handle	interfaceHandle);
 
 /*!
  * @brief Closes an interface.
@@ -656,8 +636,8 @@ extern usb_status_t USB_HostOpenDeviceInterface(usb_device_handle deviceHandle,
  * @retval kStatus_USB_Success              Close successfully.
  * @retval kStatus_USB_InvalidHandle        The deviceHandle is a NULL pointer.
  */
-extern usb_status_t USB_HostCloseDeviceInterface(usb_device_handle deviceHandle,
-                                                 usb_host_interface_handle interfaceHandle);
+extern usb_status_t USB_HostCloseDeviceInterface(usb_device_handle		deviceHandle,
+						 usb_host_interface_handle	interfaceHandle);
 
 /*!
  * @brief Gets a host stack version function.
@@ -684,7 +664,8 @@ extern void USB_HostGetVersion(uint32_t *version);
  *                                          Or, the deviceHandle is invalid.
  *                                          Or, the request is invalid.
  */
-extern usb_status_t USB_HostSuspendDeviceResquest(usb_host_handle hostHandle, usb_device_handle deviceHandle);
+extern usb_status_t USB_HostSuspendDeviceResquest(usb_host_handle hostHandle, usb_device_handle
+						  deviceHandle);
 
 /*!
  * @brief Send a bus or device resume request.
@@ -700,7 +681,8 @@ extern usb_status_t USB_HostSuspendDeviceResquest(usb_host_handle hostHandle, us
  *                                          Or, the deviceHandle is invalid.
  *                                          Or, the request is invalid.
  */
-extern usb_status_t USB_HostResumeDeviceResquest(usb_host_handle hostHandle, usb_device_handle deviceHandle);
+extern usb_status_t USB_HostResumeDeviceResquest(usb_host_handle hostHandle, usb_device_handle
+						 deviceHandle);
 #if ((defined(USB_HOST_CONFIG_LPM_L1)) && (USB_HOST_CONFIG_LPM_L1 > 0U))
 /*!
  * @brief Send a bus or device suspend request.
@@ -717,9 +699,8 @@ extern usb_status_t USB_HostResumeDeviceResquest(usb_host_handle hostHandle, usb
  *                                          Or, the deviceHandle is invalid.
  *                                          Or, the request is invalid.
  */
-extern usb_status_t USB_HostL1SleepDeviceResquest(usb_host_handle hostHandle,
-                                                  usb_device_handle deviceHandle,
-                                                  uint8_t sleeptype);
+extern usb_status_t USB_HostL1SleepDeviceResquest(usb_host_handle hostHandle, usb_device_handle
+						  deviceHandle, uint8_t sleeptype);
 
 /*!
  * @brief Send a bus or device resume request.
@@ -736,9 +717,8 @@ extern usb_status_t USB_HostL1SleepDeviceResquest(usb_host_handle hostHandle,
  *                                          Or, the deviceHandle is invalid.
  *                                          Or, the request is invalid.
  */
-extern usb_status_t USB_HostL1ResumeDeviceResquest(usb_host_handle hostHandle,
-                                                   usb_device_handle deviceHandle,
-                                                   uint8_t sleepType);
+extern usb_status_t USB_HostL1ResumeDeviceResquest(usb_host_handle hostHandle, usb_device_handle
+						   deviceHandle, uint8_t sleepType);
 /*!
  * @brief Update the lpm param.
  *
@@ -748,7 +728,8 @@ extern usb_status_t USB_HostL1ResumeDeviceResquest(usb_host_handle hostHandle,
  * @param[in] lpmParam HIRD value and whether enable remotewakeup.
  *
  */
-extern usb_status_t USB_HostL1SleepDeviceResquestConfig(usb_host_handle hostHandle, uint8_t *lpmParam);
+extern usb_status_t USB_HostL1SleepDeviceResquestConfig(usb_host_handle hostHandle,
+							uint8_t *	lpmParam);
 #endif
 /*!
  * @brief Update the hardware tick.

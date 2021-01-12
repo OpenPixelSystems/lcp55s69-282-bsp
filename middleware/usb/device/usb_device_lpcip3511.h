@@ -21,12 +21,14 @@
  ******************************************************************************/
 
 /*! @brief The reserved buffer size, the buffer is for the memory copy if the application transfer buffer is
-     ((not 64 bytes alignment) || (not in the same 64K ram) || (HS && OUT && not multiple of 4)) */
+ *   ((not 64 bytes alignment) || (not in the same 64K ram) || (HS && OUT && not multiple of 4)) */
 #define USB_DEVICE_IP3511_ENDPOINT_RESERVED_BUFFER_SIZE (5U * 1024U)
 /*! @brief Use one bit to represent one reserved 64 bytes to allocate the buffer by uint of 64 bytes. */
-#define USB_DEVICE_IP3511_BITS_FOR_RESERVED_BUFFER ((USB_DEVICE_IP3511_ENDPOINT_RESERVED_BUFFER_SIZE + 63U) / 64U)
+#define USB_DEVICE_IP3511_BITS_FOR_RESERVED_BUFFER ((USB_DEVICE_IP3511_ENDPOINT_RESERVED_BUFFER_SIZE \
+						     + 63U) / 64U)
 /*! @brief How many IPs support the reserved buffer */
-#define USB_DEVICE_IP3511_RESERVED_BUFFER_FOR_COPY (USB_DEVICE_CONFIG_LPCIP3511FS + USB_DEVICE_CONFIG_LPCIP3511HS)
+#define USB_DEVICE_IP3511_RESERVED_BUFFER_FOR_COPY (USB_DEVICE_CONFIG_LPCIP3511FS + \
+						    USB_DEVICE_CONFIG_LPCIP3511HS)
 /*! @brief Prime all the double endpoint buffer at the same time, if the transfer length is larger than max packet size.
  */
 #define USB_DEVICE_IP3511_DOUBLE_BUFFER_ENABLE (1u)
@@ -58,86 +60,85 @@
 #define USB_DEVICE_IP3511HS_FORCE_EXIT_HS_MODE_ENABLE (0u)
 
 /*! @brief Endpoint state structure */
-typedef struct _usb_device_lpc3511ip_endpoint_state_struct
-{
-    uint8_t *transferBuffer;       /*!< Address of buffer containing the data to be transmitted */
-    uint32_t transferLength;       /*!< Length of data to transmit. */
-    uint32_t transferDone;         /*!< The data length has been transferred*/
-    uint32_t transferPrimedLength; /*!< it may larger than transferLength, because the primed length may larger than the
-                                      transaction length. */
-    uint8_t *epPacketBuffer;       /*!< The max packet buffer for copying*/
-    union
-    {
-        uint32_t state; /*!< The state of the endpoint */
-        struct
-        {
-            uint32_t maxPacketSize : 11U; /*!< The maximum packet size of the endpoint */
-            uint32_t stalled : 1U;        /*!< The endpoint is stalled or not */
-            uint32_t transferring : 1U;   /*!< The endpoint is transferring */
-            uint32_t zlt : 1U;            /*!< zlt flag */
-            uint32_t stallPrimed : 1U;
-            uint32_t epPacketCopyed : 1U;   /*!< whether use the copy buffer */
-            uint32_t epControlDefault : 5u; /*!< The EP command/status 26~30 bits */
-            uint32_t doubleBufferBusy : 2U; /*!< How many buffers are primed, for control endpoint it is not used */
-            uint32_t producerOdd : 1U;      /*!< When priming one transaction, prime to this endpoint buffer */
-            uint32_t consumerOdd : 1U;      /*!< When transaction is done, read result from this endpoint buffer */
-            uint32_t endpointType : 2U;
-            uint32_t reserved1 : 5U;
-        } stateBitField;
-    } stateUnion;
-    union
-    {
-        uint16_t epBufferStatus;
-        /* If double buff is disable, only epBufferStatusUnion[0] is used;
-           For control endpoint, only epBufferStatusUnion[0] is used. */
-        struct
-        {
-            uint16_t transactionLength : 11U;
-            uint16_t epPacketCopyed : 1U;
-        } epBufferStatusField;
-    } epBufferStatusUnion[2];
+typedef struct _usb_device_lpc3511ip_endpoint_state_struct {
+	uint8_t *	transferBuffer;                         /*!< Address of buffer containing the data to be transmitted */
+	uint32_t	transferLength;                         /*!< Length of data to transmit. */
+	uint32_t	transferDone;                           /*!< The data length has been transferred*/
+	uint32_t	transferPrimedLength;                   /*!< it may larger than transferLength, because the primed length may larger than the
+	                                                         * transaction length. */
+	uint8_t *	epPacketBuffer;                         /*!< The max packet buffer for copying*/
+	union {
+		uint32_t state;                                 /*!< The state of the endpoint */
+		struct {
+			uint32_t	maxPacketSize : 11U;    /*!< The maximum packet size of the endpoint */
+			uint32_t	stalled : 1U;           /*!< The endpoint is stalled or not */
+			uint32_t	transferring : 1U;      /*!< The endpoint is transferring */
+			uint32_t	zlt : 1U;               /*!< zlt flag */
+			uint32_t	stallPrimed : 1U;
+			uint32_t	epPacketCopyed : 1U;    /*!< whether use the copy buffer */
+			uint32_t	epControlDefault : 5u;  /*!< The EP command/status 26~30 bits */
+			uint32_t	doubleBufferBusy : 2U;  /*!< How many buffers are primed, for control endpoint it is not used */
+			uint32_t	producerOdd : 1U;       /*!< When priming one transaction, prime to this endpoint buffer */
+			uint32_t	consumerOdd : 1U;       /*!< When transaction is done, read result from this endpoint buffer */
+			uint32_t	endpointType : 2U;
+			uint32_t	reserved1 : 5U;
+		} stateBitField;
+	} stateUnion;
+	union {
+		uint16_t epBufferStatus;
+		/* If double buff is disable, only epBufferStatusUnion[0] is used;
+		 * For control endpoint, only epBufferStatusUnion[0] is used. */
+		struct {
+			uint16_t	transactionLength : 11U;
+			uint16_t	epPacketCopyed : 1U;
+		} epBufferStatusField;
+	} epBufferStatusUnion[2];
 } usb_device_lpc3511ip_endpoint_state_struct_t;
 
 /*! @brief LPC USB controller (IP3511) state structure */
-typedef struct _usb_device_lpc3511ip_state_struct
-{
-    /*!< control data buffer, must align with 64 */
-    uint8_t *controlData;
-    /*!< 8 bytes' setup data, must align with 64 */
-    uint8_t *setupData;
-    /*!< 4 bytes for zero length transaction, must align with 64 */
-    uint8_t *zeroTransactionData;
-    /* Endpoint state structures */
-    usb_device_lpc3511ip_endpoint_state_struct_t endpointState[(USB_DEVICE_IP3511_ENDPOINTS_NUM * 2)];
-    usb_device_handle deviceHandle;   /*!< (4 bytes) Device handle used to identify the device object belongs to */
-    USB_LPC3511IP_Type *registerBase; /*!< (4 bytes) ip base address */
-    volatile uint32_t *epCommandStatusList; /* endpoint list */
+typedef struct _usb_device_lpc3511ip_state_struct {
+	/*!< control data buffer, must align with 64 */
+	uint8_t *					controlData;
+	/*!< 8 bytes' setup data, must align with 64 */
+	uint8_t *					setupData;
+	/*!< 4 bytes for zero length transaction, must align with 64 */
+	uint8_t *					zeroTransactionData;
+	/* Endpoint state structures */
+	usb_device_lpc3511ip_endpoint_state_struct_t	endpointState[(
+									      USB_DEVICE_IP3511_ENDPOINTS_NUM
+									      * 2)];
+	usb_device_handle				deviceHandle;           /*!< (4 bytes) Device handle used to identify the device object belongs to */
+	USB_LPC3511IP_Type *				registerBase;           /*!< (4 bytes) ip base address */
+	volatile uint32_t *				epCommandStatusList;    /* endpoint list */
 #if (defined(USB_DEVICE_CONFIG_CHARGER_DETECT) && (USB_DEVICE_CONFIG_CHARGER_DETECT > 0U)) && \
-    (defined(FSL_FEATURE_SOC_USBHSDCD_COUNT) && (FSL_FEATURE_SOC_USBHSDCD_COUNT > 0U))
-    void *dcdHandle; /*!< Dcd handle used to identify the device object belongs to */
+	(defined(FSL_FEATURE_SOC_USBHSDCD_COUNT) && (FSL_FEATURE_SOC_USBHSDCD_COUNT > 0U))
+	void *						dcdHandle;      /*!< Dcd handle used to identify the device object belongs to */
 #endif
-    uint8_t controllerId; /*!< Controller ID */
-    uint8_t isResetting;  /*!< Is doing device reset or not */
-    uint8_t deviceSpeed;  /*!< some controller support the HS */
-#if ((defined(USB_DEVICE_IP3511_RESERVED_BUFFER_FOR_COPY)) && (USB_DEVICE_IP3511_RESERVED_BUFFER_FOR_COPY > 0U))
-    uint8_t *epReservedBuffer;
-    uint8_t epReservedBufferBits[(USB_DEVICE_IP3511_BITS_FOR_RESERVED_BUFFER + 7) / 8];
+	uint8_t						controllerId;   /*!< Controller ID */
+	uint8_t						isResetting;    /*!< Is doing device reset or not */
+	uint8_t						deviceSpeed;    /*!< some controller support the HS */
+#if ((defined(USB_DEVICE_IP3511_RESERVED_BUFFER_FOR_COPY)) && \
+	(USB_DEVICE_IP3511_RESERVED_BUFFER_FOR_COPY > 0U))
+	uint8_t *					epReservedBuffer;
+	uint8_t						epReservedBufferBits[(
+										     USB_DEVICE_IP3511_BITS_FOR_RESERVED_BUFFER
+										     + 7) / 8];
 #endif
 #if ((defined(USB_DEVICE_CONFIG_LPCIP3511HS)) && (USB_DEVICE_CONFIG_LPCIP3511HS > 0U))
-    uint8_t controllerSpeed;
+	uint8_t						controllerSpeed;
 #endif
 #if (defined(USB_DEVICE_CONFIG_DETACH_ENABLE) && (USB_DEVICE_CONFIG_DETACH_ENABLE))
-    uint8_t deviceState; /*!< Is device attached,1 attached,0 detached */
+	uint8_t						deviceState; /*!< Is device attached,1 attached,0 detached */
 #endif
 #if (defined(USB_DEVICE_CONFIG_LOW_POWER_MODE) && (USB_DEVICE_CONFIG_LOW_POWER_MODE > 0U))
 #if (defined(USB_DEVICE_CONFIG_LPM_L1) && (USB_DEVICE_CONFIG_LPM_L1 > 0U))
-    uint8_t lpmRemoteWakeUp;
+	uint8_t						lpmRemoteWakeUp;
 #endif
 #endif
 #if ((defined(USB_DEVICE_CONFIG_LPCIP3511HS)) && (USB_DEVICE_CONFIG_LPCIP3511HS > 0U))
 #if (defined(FSL_FEATURE_USBHSD_INTERRUPT_DATAX_ISSUE_VERSION_CHECK) && \
-     (FSL_FEATURE_USBHSD_INTERRUPT_DATAX_ISSUE_VERSION_CHECK))
-    uint8_t hsInterruptIssue;
+	(FSL_FEATURE_USBHSD_INTERRUPT_DATAX_ISSUE_VERSION_CHECK))
+	uint8_t						hsInterruptIssue;
 #endif
 #endif
 } usb_device_lpc3511ip_state_struct_t;
@@ -167,9 +168,8 @@ extern "C" {
  *
  * @return A USB error code or kStatus_USB_Success.
  */
-usb_status_t USB_DeviceLpc3511IpInit(uint8_t controllerId,
-                                     usb_device_handle handle,
-                                     usb_device_controller_handle *controllerHandle);
+usb_status_t USB_DeviceLpc3511IpInit(uint8_t controllerId, usb_device_handle handle,
+				     usb_device_controller_handle *controllerHandle);
 
 /*!
  * @brief Deinitializes the USB device controller instance.
@@ -204,10 +204,8 @@ usb_status_t USB_DeviceLpc3511IpDeinit(usb_device_controller_handle controllerHa
  * endpoint
  * callback).
  */
-usb_status_t USB_DeviceLpc3511IpSend(usb_device_controller_handle controllerHandle,
-                                     uint8_t endpointAddress,
-                                     uint8_t *buffer,
-                                     uint32_t length);
+usb_status_t USB_DeviceLpc3511IpSend(usb_device_controller_handle controllerHandle, uint8_t
+				     endpointAddress, uint8_t *buffer, uint32_t length);
 
 /*!
  * @brief Receives data through a specified endpoint.
@@ -231,10 +229,8 @@ usb_status_t USB_DeviceLpc3511IpSend(usb_device_controller_handle controllerHand
  * endpoint
  * callback).
  */
-usb_status_t USB_DeviceLpc3511IpRecv(usb_device_controller_handle controllerHandle,
-                                     uint8_t endpointAddress,
-                                     uint8_t *buffer,
-                                     uint32_t length);
+usb_status_t USB_DeviceLpc3511IpRecv(usb_device_controller_handle controllerHandle, uint8_t
+				     endpointAddress, uint8_t *buffer, uint32_t length);
 
 /*!
  * @brief Cancels the pending transfer in a specified endpoint.
@@ -260,8 +256,7 @@ usb_status_t USB_DeviceLpc3511IpCancel(usb_device_controller_handle controllerHa
  * @return A USB error code or kStatus_USB_Success.
  */
 usb_status_t USB_DeviceLpc3511IpControl(usb_device_controller_handle controllerHandle,
-                                        usb_device_control_type_t type,
-                                        void *param);
+					usb_device_control_type_t type, void *param);
 
 /*! @} */
 

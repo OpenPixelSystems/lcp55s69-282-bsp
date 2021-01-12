@@ -11,11 +11,10 @@
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
-typedef struct _usb_phy_config_struct
-{
-    uint8_t D_CAL;     /* Decode to trim the nominal 17.78mA current source */
-    uint8_t TXCAL45DP; /* Decode to trim the nominal 45-Ohm series termination resistance to the USB_DP output pin */
-    uint8_t TXCAL45DM; /* Decode to trim the nominal 45-Ohm series termination resistance to the USB_DM output pin */
+typedef struct _usb_phy_config_struct {
+	uint8_t D_CAL;          /* Decode to trim the nominal 17.78mA current source */
+	uint8_t TXCAL45DP;      /* Decode to trim the nominal 45-Ohm series termination resistance to the USB_DP output pin */
+	uint8_t TXCAL45DM;      /* Decode to trim the nominal 45-Ohm series termination resistance to the USB_DM output pin */
 } usb_phy_config_struct_t;
 
 #if defined(__cplusplus)
@@ -47,7 +46,8 @@ extern void *USB_EhciPhyGetBase(uint8_t controllerId);
  * @retval kStatus_USB_Success      Cancel successfully.
  * @retval kStatus_USB_Error        The freq value is incorrect.
  */
-extern uint32_t USB_EhciPhyInit(uint8_t controllerId, uint32_t freq, usb_phy_config_struct_t *phyConfig);
+extern uint32_t USB_EhciPhyInit(uint8_t controllerId, uint32_t freq,
+				usb_phy_config_struct_t *phyConfig);
 
 /*!
  * @brief ehci phy initialization for suspend and resume.
@@ -61,7 +61,8 @@ extern uint32_t USB_EhciPhyInit(uint8_t controllerId, uint32_t freq, usb_phy_con
  * @retval kStatus_USB_Success      cancel successfully.
  * @retval kStatus_USB_Error        the freq value is incorrect.
  */
-extern uint32_t USB_EhciLowPowerPhyInit(uint8_t controllerId, uint32_t freq, usb_phy_config_struct_t *phyConfig);
+extern uint32_t USB_EhciLowPowerPhyInit(uint8_t controllerId, uint32_t freq,
+					usb_phy_config_struct_t *phyConfig);
 
 /*!
  * @brief EHCI PHY deinitialization.

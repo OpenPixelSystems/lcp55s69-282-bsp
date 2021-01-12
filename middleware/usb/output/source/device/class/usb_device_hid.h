@@ -38,17 +38,16 @@
 #define USB_DEVICE_HID_REQUEST_SET_PROTOCOL (0x0BU)
 
 /*! @brief Available common EVENT types in HID class callback */
-typedef enum _usb_device_hid_event
-{
-    kUSB_DeviceHidEventSendResponse = 0x01U, /*!< Send data completed or cancelled etc*/
-    kUSB_DeviceHidEventRecvResponse,         /*!< Data received or cancelled etc*/
-    kUSB_DeviceHidEventGetReport,            /*!< Get report request */
-    kUSB_DeviceHidEventGetIdle,              /*!< Get idle request */
-    kUSB_DeviceHidEventGetProtocol,          /*!< Get protocol request */
-    kUSB_DeviceHidEventSetReport,            /*!< Set report request */
-    kUSB_DeviceHidEventSetIdle,              /*!< Set idle request */
-    kUSB_DeviceHidEventSetProtocol,          /*!< Set protocol request */
-    kUSB_DeviceHidEventRequestReportBuffer,  /*!< Get buffer to save the data of the set report request. */
+typedef enum _usb_device_hid_event {
+	kUSB_DeviceHidEventSendResponse = 0x01U,        /*!< Send data completed or cancelled etc*/
+	kUSB_DeviceHidEventRecvResponse,                /*!< Data received or cancelled etc*/
+	kUSB_DeviceHidEventGetReport,                   /*!< Get report request */
+	kUSB_DeviceHidEventGetIdle,                     /*!< Get idle request */
+	kUSB_DeviceHidEventGetProtocol,                 /*!< Get protocol request */
+	kUSB_DeviceHidEventSetReport,                   /*!< Set report request */
+	kUSB_DeviceHidEventSetIdle,                     /*!< Set idle request */
+	kUSB_DeviceHidEventSetProtocol,                 /*!< Set protocol request */
+	kUSB_DeviceHidEventRequestReportBuffer,         /*!< Get buffer to save the data of the set report request. */
 } usb_device_hid_event_t;
 
 /*!
@@ -77,33 +76,31 @@ typedef enum _usb_device_hid_event
  *    The reportType is the requested report type.
  *    The reportId is the requested report ID.
  */
-typedef struct _usb_device_hid_report_struct
-{
-    uint8_t *reportBuffer; /*!< The report buffer address */
-    uint32_t reportLength; /*!< The report data length */
-    uint8_t reportType;    /*!< The report type */
-    uint8_t reportId;      /*!< The report ID */
+typedef struct _usb_device_hid_report_struct {
+	uint8_t *	reportBuffer;   /*!< The report buffer address */
+	uint32_t	reportLength;   /*!< The report data length */
+	uint8_t		reportType;     /*!< The report type */
+	uint8_t		reportId;       /*!< The report ID */
 } usb_device_hid_report_struct_t;
 
 /*! @brief The HID device class status structure */
-typedef struct _usb_device_hid_struct
-{
-    usb_device_handle handle;                       /*!< The device handle */
-    usb_device_class_config_struct_t *configStruct; /*!< The configuration of the class. */
-    usb_device_interface_struct_t *interfaceHandle; /*!< Current interface handle */
-    uint8_t *interruptInPipeDataBuffer;             /*!< IN pipe data buffer backup when stall */
-    uint32_t interruptInPipeDataLen;                /*!< IN pipe data length backup when stall  */
-    uint8_t *interruptOutPipeDataBuffer;            /*!< OUT pipe data buffer backup when stall */
-    uint32_t interruptOutPipeDataLen;               /*!< OUT pipe data length backup when stall  */
-    uint8_t configuration;                          /*!< Current configuration */
-    uint8_t interfaceNumber;                        /*!< The interface number of the class */
-    uint8_t alternate;                              /*!< Current alternate setting of the interface */
-    uint8_t idleRate;                               /*!< The idle rate of the HID device */
-    uint8_t protocol;                               /*!< Current protocol */
-    uint8_t interruptInPipeBusy;                    /*!< Interrupt IN pipe busy flag */
-    uint8_t interruptOutPipeBusy;                   /*!< Interrupt OUT pipe busy flag */
-    uint8_t interruptInPipeStall;                   /*!< Interrupt IN pipe stall flag */
-    uint8_t interruptOutPipeStall;                  /*!< Interrupt OUT pipe stall flag */
+typedef struct _usb_device_hid_struct {
+	usb_device_handle			handle;                         /*!< The device handle */
+	usb_device_class_config_struct_t *	configStruct;                   /*!< The configuration of the class. */
+	usb_device_interface_struct_t *		interfaceHandle;                /*!< Current interface handle */
+	uint8_t *				interruptInPipeDataBuffer;      /*!< IN pipe data buffer backup when stall */
+	uint32_t				interruptInPipeDataLen;         /*!< IN pipe data length backup when stall  */
+	uint8_t *				interruptOutPipeDataBuffer;     /*!< OUT pipe data buffer backup when stall */
+	uint32_t				interruptOutPipeDataLen;        /*!< OUT pipe data length backup when stall  */
+	uint8_t					configuration;                  /*!< Current configuration */
+	uint8_t					interfaceNumber;                /*!< The interface number of the class */
+	uint8_t					alternate;                      /*!< Current alternate setting of the interface */
+	uint8_t					idleRate;                       /*!< The idle rate of the HID device */
+	uint8_t					protocol;                       /*!< Current protocol */
+	uint8_t					interruptInPipeBusy;            /*!< Interrupt IN pipe busy flag */
+	uint8_t					interruptOutPipeBusy;           /*!< Interrupt OUT pipe busy flag */
+	uint8_t					interruptInPipeStall;           /*!< Interrupt IN pipe stall flag */
+	uint8_t					interruptOutPipeStall;          /*!< Interrupt OUT pipe stall flag */
 } usb_device_hid_struct_t;
 
 /*******************************************************************************
@@ -125,9 +122,9 @@ extern "C" {
  *
  * @return A USB error code or kStatus_USB_Success.
  */
-extern usb_status_t USB_DeviceHidInit(uint8_t controllerId,
-                                      usb_device_class_config_struct_t *config,
-                                      class_handle_t *handle);
+extern usb_status_t USB_DeviceHidInit(uint8_t				controllerId,
+				      usb_device_class_config_struct_t *config,
+				      class_handle_t *			handle);
 
 /*!
  * @brief Deinitializes the device HID class.
@@ -185,7 +182,8 @@ extern usb_status_t USB_DeviceHidEvent(void *handle, uint32_t event, void *param
  * endpoint
  * callback).
  */
-extern usb_status_t USB_DeviceHidSend(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t length);
+extern usb_status_t USB_DeviceHidSend(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t
+				      length);
 
 /*!
  * @brief Receives data through a specified endpoint.
@@ -211,7 +209,8 @@ extern usb_status_t USB_DeviceHidSend(class_handle_t handle, uint8_t ep, uint8_t
  * endpoint
  * callback).
  */
-extern usb_status_t USB_DeviceHidRecv(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t length);
+extern usb_status_t USB_DeviceHidRecv(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t
+				      length);
 
 /*! @}*/
 

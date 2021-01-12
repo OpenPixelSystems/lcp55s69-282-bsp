@@ -202,11 +202,10 @@
 /*! @}*/
 
 /*! @brief Available common EVENT types in audio class callback */
-typedef enum
-{
-    kUSB_DeviceAudioEventStreamSendResponse = 0x01U, /*!< Send data completed or cancelled etc in stream pipe */
-    kUSB_DeviceAudioEventStreamRecvResponse,         /*!< Data received or cancelled etc in stream pipe */
-    kUSB_DeviceAudioEventControlSendResponse,        /*!< Send data completed or cancelled etc in audio control pipe */
+typedef enum {
+	kUSB_DeviceAudioEventStreamSendResponse = 0x01U,        /*!< Send data completed or cancelled etc in stream pipe */
+	kUSB_DeviceAudioEventStreamRecvResponse,                /*!< Data received or cancelled etc in stream pipe */
+	kUSB_DeviceAudioEventControlSendResponse,               /*!< Send data completed or cancelled etc in audio control pipe */
 } usb_device_audio_event_t;
 
 /*!
@@ -217,11 +216,10 @@ typedef enum
  *     entity type (unit or terminal type),
  *     and terminal type if the entity is a terminal.
  */
-typedef struct _usb_device_audio_entity_struct
-{
-    uint8_t entityId;
-    uint8_t entityType;
-    uint16_t terminalType;
+typedef struct _usb_device_audio_entity_struct {
+	uint8_t		entityId;
+	uint8_t		entityType;
+	uint16_t	terminalType;
 } usb_device_audio_entity_struct_t;
 
 /*!
@@ -232,45 +230,41 @@ typedef struct _usb_device_audio_entity_struct
  * such as, if there are three entities (an out terminal, camera terminal, and processing unit),
  * the value of the count field is 3 and the entity field saves the every entity information.
  */
-typedef struct _usb_device_audio_entities_struct
-{
-    usb_device_audio_entity_struct_t *entity;
-    uint8_t count;
+typedef struct _usb_device_audio_entities_struct {
+	usb_device_audio_entity_struct_t *	entity;
+	uint8_t					count;
 } usb_device_audio_entities_struct_t;
 
 /*! @brief The audio device class status structure */
-typedef struct _usb_device_audio_struct
-{
-    usb_device_handle handle;                              /*!< The device handle */
-    usb_device_class_config_struct_t *configStruct;        /*!< The configuration of the class. */
-    usb_device_interface_struct_t *controlInterfaceHandle; /*!< Current control interface handle */
-    usb_device_interface_struct_t *streamInterfaceHandle;  /*!< Current stream interface handle */
-    uint8_t configuration;                                 /*!< Current configuration */
-    uint8_t controlInterfaceNumber;                        /*!< The control interface number of the class */
-    uint8_t controlAlternate;                              /*!< Current alternate setting of the control interface */
-    uint8_t streamInterfaceNumber;                         /*!< The stream interface number of the class */
-    uint8_t streamAlternate;                               /*!< Current alternate setting of the stream interface */
-    uint8_t streamInPipeBusy;                              /*!< Stream IN pipe busy flag */
-    uint8_t streamOutPipeBusy;                             /*!< Stream OUT pipe busy flag */
+typedef struct _usb_device_audio_struct {
+	usb_device_handle			handle;                 /*!< The device handle */
+	usb_device_class_config_struct_t *	configStruct;           /*!< The configuration of the class. */
+	usb_device_interface_struct_t *		controlInterfaceHandle; /*!< Current control interface handle */
+	usb_device_interface_struct_t *		streamInterfaceHandle;  /*!< Current stream interface handle */
+	uint8_t					configuration;          /*!< Current configuration */
+	uint8_t					controlInterfaceNumber; /*!< The control interface number of the class */
+	uint8_t					controlAlternate;       /*!< Current alternate setting of the control interface */
+	uint8_t					streamInterfaceNumber;  /*!< The stream interface number of the class */
+	uint8_t					streamAlternate;        /*!< Current alternate setting of the stream interface */
+	uint8_t					streamInPipeBusy;       /*!< Stream IN pipe busy flag */
+	uint8_t					streamOutPipeBusy;      /*!< Stream OUT pipe busy flag */
 } usb_device_audio_struct_t;
 
 #if (USB_DEVICE_CONFIG_AUDIO_CLASS_2_0)
 STRUCT_PACKED
-struct _usb_device_control_range_layout3_struct
-{
-    uint16_t wNumSubRanges;
-    uint32_t wMIN;
-    uint32_t wMAX;
-    uint32_t wRES;
+struct _usb_device_control_range_layout3_struct {
+	uint16_t	wNumSubRanges;
+	uint32_t	wMIN;
+	uint32_t	wMAX;
+	uint32_t	wRES;
 } STRUCT_UNPACKED;
 typedef struct _usb_device_control_range_layout3_struct usb_device_control_range_layout3_struct_t;
 STRUCT_PACKED
-struct _usb_device_control_range_layout2_struct
-{
-    uint16_t wNumSubRanges;
-    uint16_t wMIN;
-    uint16_t wMAX;
-    uint16_t wRES;
+struct _usb_device_control_range_layout2_struct {
+	uint16_t	wNumSubRanges;
+	uint16_t	wMIN;
+	uint16_t	wMAX;
+	uint16_t	wRES;
 } STRUCT_UNPACKED;
 typedef struct _usb_device_control_range_layout2_struct usb_device_control_range_layout2_struct_t;
 #endif
@@ -301,9 +295,9 @@ typedef struct _usb_device_control_range_layout2_struct usb_device_control_range
  * @retval kStatus_USB_InvalidHandle The audio device handle allocation failure.
  * @retval kStatus_USB_InvalidParameter The USB device handle allocation failure.
  */
-extern usb_status_t USB_DeviceAudioInit(uint8_t controllerId,
-                                        usb_device_class_config_struct_t *config,
-                                        class_handle_t *handle);
+extern usb_status_t USB_DeviceAudioInit(uint8_t					controllerId,
+					usb_device_class_config_struct_t *	config,
+					class_handle_t *			handle);
 
 /*!
  * @brief Deinitializes the USB audio class.
@@ -358,7 +352,8 @@ extern usb_status_t USB_DeviceAudioEvent(void *handle, uint32_t event, void *par
  *
  * @note The function can only be called in the same context.
  */
-extern usb_status_t USB_DeviceAudioSend(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t length);
+extern usb_status_t USB_DeviceAudioSend(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t
+					length);
 
 /*!
  * @brief Primes the endpoint to receive a packet from the host.
@@ -379,7 +374,8 @@ extern usb_status_t USB_DeviceAudioSend(class_handle_t handle, uint8_t ep, uint8
  *
  * @note The function can only be called in the same context.
  */
-extern usb_status_t USB_DeviceAudioRecv(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t length);
+extern usb_status_t USB_DeviceAudioRecv(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t
+					length);
 
 /*! @}*/
 

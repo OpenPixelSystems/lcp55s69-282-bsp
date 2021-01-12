@@ -15,8 +15,8 @@
 /* storage control modules to the FatFs module with a defined API.       */
 /*-----------------------------------------------------------------------*/
 #include "ffconf.h"     /* FatFs configuration options */
-#include "ff.h"			/* Obtains integer types */
-#include "diskio.h"		/* Declarations of disk functions */
+#include "ff.h"         /* Obtains integer types */
+#include "diskio.h"     /* Declarations of disk functions */
 
 #ifdef RAM_DISK_ENABLE
 #include "fsl_ram_disk.h"
@@ -46,47 +46,46 @@
 /* Get Drive Status                                                      */
 /*-----------------------------------------------------------------------*/
 
-DSTATUS disk_status (
-	BYTE pdrv		/* Physical drive nmuber to identify the drive */
-)
+DSTATUS disk_status(
+	BYTE pdrv               /* Physical drive nmuber to identify the drive */
+	)
 {
 	DSTATUS stat;
-    switch (pdrv)
-    {
+	switch (pdrv) {
 #ifdef RAM_DISK_ENABLE
-        case RAMDISK:
-            stat = ram_disk_status(pdrv);
-            return stat;
+	case RAMDISK:
+		stat = ram_disk_status(pdrv);
+		return stat;
 #endif
 #ifdef USB_DISK_ENABLE
-        case USBDISK:
-            stat = USB_HostMsdGetDiskStatus(pdrv);
-            return stat;
+	case USBDISK:
+		stat = USB_HostMsdGetDiskStatus(pdrv);
+		return stat;
 #endif
 #ifdef SD_DISK_ENABLE
-        case SDDISK:
-            stat = sd_disk_status(pdrv);
-            return stat;
+	case SDDISK:
+		stat = sd_disk_status(pdrv);
+		return stat;
 #endif
 #ifdef MMC_DISK_ENABLE
-        case MMCDISK:
-            stat = mmc_disk_status(pdrv);
-            return stat;
+	case MMCDISK:
+		stat = mmc_disk_status(pdrv);
+		return stat;
 #endif
 #ifdef SDSPI_DISK_ENABLE
-        case SDSPIDISK:
-            stat = sdspi_disk_status(pdrv);
-            return stat;
+	case SDSPIDISK:
+		stat = sdspi_disk_status(pdrv);
+		return stat;
 #endif
 #ifdef NAND_DISK_ENABLE
-        case NANDDISK:
-            stat = nand_disk_status(pdrv);
-            return stat;
+	case NANDDISK:
+		stat = nand_disk_status(pdrv);
+		return stat;
 #endif
-        default:
-            break;
-    }
-    return STA_NOINIT;
+	default:
+		break;
+	}
+	return STA_NOINIT;
 }
 
 
@@ -95,48 +94,47 @@ DSTATUS disk_status (
 /* Inidialize a Drive                                                    */
 /*-----------------------------------------------------------------------*/
 
-DSTATUS disk_initialize (
-	BYTE pdrv				/* Physical drive nmuber to identify the drive */
-)
+DSTATUS disk_initialize(
+	BYTE pdrv                               /* Physical drive nmuber to identify the drive */
+	)
 {
 	DSTATUS stat;
-    switch (pdrv)
-    {
+	switch (pdrv) {
 #ifdef RAM_DISK_ENABLE
-        case RAMDISK:
-            stat = ram_disk_initialize(pdrv);
-            return stat;
+	case RAMDISK:
+		stat = ram_disk_initialize(pdrv);
+		return stat;
 #endif
 #ifdef USB_DISK_ENABLE
-        case USBDISK:
-            stat = USB_HostMsdInitializeDisk(pdrv);
-            return stat;
+	case USBDISK:
+		stat = USB_HostMsdInitializeDisk(pdrv);
+		return stat;
 #endif
 #ifdef SD_DISK_ENABLE
-        case SDDISK:
-            stat = sd_disk_initialize(pdrv);
-            return stat;
+	case SDDISK:
+		stat = sd_disk_initialize(pdrv);
+		return stat;
 #endif
 #ifdef MMC_DISK_ENABLE
-        case MMCDISK:
-            stat = mmc_disk_initialize(pdrv);
-            return stat;
+	case MMCDISK:
+		stat = mmc_disk_initialize(pdrv);
+		return stat;
 #endif
 #ifdef SDSPI_DISK_ENABLE
-        case SDSPIDISK:
-            stat = sdspi_disk_initialize(pdrv);
-            return stat;
+	case SDSPIDISK:
+		stat = sdspi_disk_initialize(pdrv);
+		return stat;
 #endif
 
 #ifdef NAND_DISK_ENABLE
-        case NANDDISK:
-            stat = nand_disk_initialize(pdrv);
-            return stat;
+	case NANDDISK:
+		stat = nand_disk_initialize(pdrv);
+		return stat;
 #endif
-        default:
-            break;
-    }
-    return STA_NOINIT;
+	default:
+		break;
+	}
+	return STA_NOINIT;
 }
 
 
@@ -145,50 +143,49 @@ DSTATUS disk_initialize (
 /* Read Sector(s)                                                        */
 /*-----------------------------------------------------------------------*/
 
-DRESULT disk_read (
-	BYTE pdrv,		/* Physical drive nmuber to identify the drive */
-	BYTE *buff,		/* Data buffer to store read data */
-	LBA_t sector,	/* Start sector in LBA */
-	UINT count		/* Number of sectors to read */
-)
+DRESULT disk_read(
+	BYTE	pdrv,   /* Physical drive nmuber to identify the drive */
+	BYTE *	buff,   /* Data buffer to store read data */
+	LBA_t	sector, /* Start sector in LBA */
+	UINT	count   /* Number of sectors to read */
+	)
 {
 	DRESULT res;
-    switch (pdrv)
-    {
+	switch (pdrv) {
 #ifdef RAM_DISK_ENABLE
-        case RAMDISK:
-            res = ram_disk_read(pdrv, buff, sector, count);
-            return res;
+	case RAMDISK:
+		res = ram_disk_read(pdrv, buff, sector, count);
+		return res;
 #endif
 #ifdef USB_DISK_ENABLE
-        case USBDISK:
-            res = USB_HostMsdReadDisk(pdrv, buff, sector, count);
-            return res;
+	case USBDISK:
+		res = USB_HostMsdReadDisk(pdrv, buff, sector, count);
+		return res;
 #endif
 #ifdef SD_DISK_ENABLE
-        case SDDISK:
-            res = sd_disk_read(pdrv, buff, sector, count);
-            return res;
+	case SDDISK:
+		res = sd_disk_read(pdrv, buff, sector, count);
+		return res;
 #endif
 #ifdef MMC_DISK_ENABLE
-        case MMCDISK:
-            res = mmc_disk_read(pdrv, buff, sector, count);
-            return res;
+	case MMCDISK:
+		res = mmc_disk_read(pdrv, buff, sector, count);
+		return res;
 #endif
 #ifdef SDSPI_DISK_ENABLE
-        case SDSPIDISK:
-            res = sdspi_disk_read(pdrv, buff, sector, count);
-            return res;
+	case SDSPIDISK:
+		res = sdspi_disk_read(pdrv, buff, sector, count);
+		return res;
 #endif
 
 #ifdef NAND_DISK_ENABLE
-        case NANDDISK:
-            res = nand_disk_read(pdrv, buff, sector, count);
-            return res;
+	case NANDDISK:
+		res = nand_disk_read(pdrv, buff, sector, count);
+		return res;
 #endif
-        default:
-            break;
-    }
+	default:
+		break;
+	}
 
 	return RES_PARERR;
 }
@@ -200,51 +197,50 @@ DRESULT disk_read (
 /*-----------------------------------------------------------------------*/
 
 #if FF_FS_READONLY == 0
-DRESULT disk_write (
-	BYTE pdrv,			/* Physical drive nmuber to identify the drive */
-	const BYTE *buff,	/* Data to be written */
-	LBA_t sector,		/* Start sector in LBA */
-	UINT count			/* Number of sectors to write */
-)
+DRESULT disk_write(
+	BYTE		pdrv,   /* Physical drive nmuber to identify the drive */
+	const BYTE *	buff,   /* Data to be written */
+	LBA_t		sector, /* Start sector in LBA */
+	UINT		count   /* Number of sectors to write */
+	)
 {
 	DRESULT res;
-    switch (pdrv)
-    {
+	switch (pdrv) {
 #ifdef RAM_DISK_ENABLE
-        case RAMDISK:
-            res = ram_disk_write(pdrv, buff, sector, count);
-            return res;
+	case RAMDISK:
+		res = ram_disk_write(pdrv, buff, sector, count);
+		return res;
 #endif
 #ifdef USB_DISK_ENABLE
-        case USBDISK:
-            res = USB_HostMsdWriteDisk(pdrv, buff, sector, count);
-            return res;
+	case USBDISK:
+		res = USB_HostMsdWriteDisk(pdrv, buff, sector, count);
+		return res;
 #endif
 #ifdef SD_DISK_ENABLE
-        case SDDISK:
-            res = sd_disk_write(pdrv, buff, sector, count);
-            return res;
+	case SDDISK:
+		res = sd_disk_write(pdrv, buff, sector, count);
+		return res;
 #endif
 #ifdef MMC_DISK_ENABLE
-        case MMCDISK:
-            res = mmc_disk_write(pdrv, buff, sector, count);
-            return res;
+	case MMCDISK:
+		res = mmc_disk_write(pdrv, buff, sector, count);
+		return res;
 #endif
 #ifdef SDSPI_DISK_ENABLE
-        case SDSPIDISK:
-            res = sdspi_disk_write(pdrv, buff, sector, count);
-            return res;
+	case SDSPIDISK:
+		res = sdspi_disk_write(pdrv, buff, sector, count);
+		return res;
 #endif
 
 #ifdef NAND_DISK_ENABLE
-        case NANDDISK:
-            res = nand_disk_write(pdrv, buff, sector, count);
-            return res;
+	case NANDDISK:
+		res = nand_disk_write(pdrv, buff, sector, count);
+		return res;
 #endif
-        default:
-            break;
-    }
-    return RES_PARERR;
+	default:
+		break;
+	}
+	return RES_PARERR;
 }
 #endif
 
@@ -253,49 +249,47 @@ DRESULT disk_write (
 /* Miscellaneous Functions                                               */
 /*-----------------------------------------------------------------------*/
 
-DRESULT disk_ioctl (
-	BYTE pdrv,		/* Physical drive nmuber (0..) */
-	BYTE cmd,		/* Control code */
-	void *buff		/* Buffer to send/receive control data */
-)
+DRESULT disk_ioctl(
+	BYTE	pdrv,           /* Physical drive nmuber (0..) */
+	BYTE	cmd,            /* Control code */
+	void *	buff            /* Buffer to send/receive control data */
+	)
 {
 	DRESULT res;
-    switch (pdrv)
-    {
+	switch (pdrv) {
 #ifdef RAM_DISK_ENABLE
-        case RAMDISK:
-            res = ram_disk_ioctl(pdrv, cmd, buff);
-            return res;
+	case RAMDISK:
+		res = ram_disk_ioctl(pdrv, cmd, buff);
+		return res;
 #endif
 #ifdef USB_DISK_ENABLE
-        case USBDISK:
-            res = USB_HostMsdIoctlDisk(pdrv, cmd, buff);
-            return res;
+	case USBDISK:
+		res = USB_HostMsdIoctlDisk(pdrv, cmd, buff);
+		return res;
 #endif
 #ifdef SD_DISK_ENABLE
-        case SDDISK:
-            res = sd_disk_ioctl(pdrv, cmd, buff);
-            return res;
+	case SDDISK:
+		res = sd_disk_ioctl(pdrv, cmd, buff);
+		return res;
 #endif
 #ifdef MMC_DISK_ENABLE
-        case MMCDISK:
-            res = mmc_disk_ioctl(pdrv, cmd, buff);
-            return res;
+	case MMCDISK:
+		res = mmc_disk_ioctl(pdrv, cmd, buff);
+		return res;
 #endif
 #ifdef SDSPI_DISK_ENABLE
-        case SDSPIDISK:
-            res = sdspi_disk_ioctl(pdrv, cmd, buff);
-            return res;
+	case SDSPIDISK:
+		res = sdspi_disk_ioctl(pdrv, cmd, buff);
+		return res;
 #endif
 
 #ifdef NAND_DISK_ENABLE
-        case NANDDISK:
-            res = nand_disk_ioctl(pdrv, cmd, buff);
-            return res;
+	case NANDDISK:
+		res = nand_disk_ioctl(pdrv, cmd, buff);
+		return res;
 #endif
-        default:
-            break;
-    }
-    return RES_PARERR;
+	default:
+		break;
+	}
+	return RES_PARERR;
 }
-

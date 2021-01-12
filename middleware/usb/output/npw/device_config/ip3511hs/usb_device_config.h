@@ -36,7 +36,8 @@
 
 /*! @brief Device instance count, the sum of KHCI and EHCI instance counts*/
 #define USB_DEVICE_CONFIG_NUM \
-    (USB_DEVICE_CONFIG_KHCI + USB_DEVICE_CONFIG_EHCI + USB_DEVICE_CONFIG_LPCIP3511FS + USB_DEVICE_CONFIG_LPCIP3511HS)
+	(USB_DEVICE_CONFIG_KHCI + USB_DEVICE_CONFIG_EHCI + USB_DEVICE_CONFIG_LPCIP3511FS + \
+	 USB_DEVICE_CONFIG_LPCIP3511HS)
 
 /* @} */
 
@@ -114,7 +115,7 @@
 #define USB_DEVICE_CONFIG_CV_TEST (0U)
 
 /*! @brief Whether device compliance test is enabled. If the macro is enabled,
-    the test mode and CV test macroes will be set.*/
+ *  the test mode and CV test macroes will be set.*/
 #define USB_DEVICE_CONFIG_COMPLIANCE_TEST (0U)
 
 #if ((defined(USB_DEVICE_CONFIG_COMPLIANCE_TEST)) && (USB_DEVICE_CONFIG_COMPLIANCE_TEST > 0U))

@@ -98,37 +98,38 @@ extern int DbgConsole_Printf(const char *fmt_s, ...);
 #define USB_MEM64_ALIGN(n) ((n + 63U) & (0xFFFFFFC0u))
 
 /* big/little endian */
-#define SWAP2BYTE_CONST(n) ((((n)&0x00FFU) << 8U) | (((n)&0xFF00U) >> 8U))
+#define SWAP2BYTE_CONST(n) ((((n) & 0x00FFU) << 8U) | (((n) & 0xFF00U) >> 8U))
 #define SWAP4BYTE_CONST(n) \
-    ((((n)&0x000000FFU) << 24U) | (((n)&0x0000FF00U) << 8U) | (((n)&0x00FF0000U) >> 8U) | (((n)&0xFF000000U) >> 24U))
+	((((n) & 0x000000FFU) << 24U) | (((n) & 0x0000FF00U) << 8U) | (((n) & 0x00FF0000U) >> 8U) | \
+	 (((n) & 0xFF000000U) >> 24U))
 
 #define USB_ASSIGN_VALUE_ADDRESS_LONG_BY_BYTE(n, m)      \
-    {                                                    \
-        *((uint8_t *)&(n))     = *((uint8_t *)&(m));     \
-        *((uint8_t *)&(n) + 1) = *((uint8_t *)&(m) + 1); \
-        *((uint8_t *)&(n) + 2) = *((uint8_t *)&(m) + 2); \
-        *((uint8_t *)&(n) + 3) = *((uint8_t *)&(m) + 3); \
-    }
+	{                                                    \
+		*((uint8_t *)&(n)) = *((uint8_t *)&(m));     \
+		*((uint8_t *)&(n) + 1) = *((uint8_t *)&(m) + 1); \
+		*((uint8_t *)&(n) + 2) = *((uint8_t *)&(m) + 2); \
+		*((uint8_t *)&(n) + 3) = *((uint8_t *)&(m) + 3); \
+	}
 
 #define USB_ASSIGN_VALUE_ADDRESS_SHORT_BY_BYTE(n, m)     \
-    {                                                    \
-        *((uint8_t *)&(n))     = *((uint8_t *)&(m));     \
-        *((uint8_t *)&(n) + 1) = *((uint8_t *)&(m) + 1); \
-    }
+	{                                                    \
+		*((uint8_t *)&(n)) = *((uint8_t *)&(m));     \
+		*((uint8_t *)&(n) + 1) = *((uint8_t *)&(m) + 1); \
+	}
 
 #define USB_ASSIGN_MACRO_VALUE_ADDRESS_LONG_BY_BYTE(n, m) \
-    {                                                     \
-        *((uint8_t *)&(n))     = (uint8_t)m;              \
-        *((uint8_t *)&(n) + 1) = (uint8_t)(m >> 8);       \
-        *((uint8_t *)&(n) + 2) = (uint8_t)(m >> 16);      \
-        *((uint8_t *)&(n) + 3) = (uint8_t)(m >> 24);      \
-    }
+	{                                                     \
+		*((uint8_t *)&(n)) = (uint8_t)m;              \
+		*((uint8_t *)&(n) + 1) = (uint8_t)(m >> 8);       \
+		*((uint8_t *)&(n) + 2) = (uint8_t)(m >> 16);      \
+		*((uint8_t *)&(n) + 3) = (uint8_t)(m >> 24);      \
+	}
 
 #define USB_ASSIGN_MACRO_VALUE_ADDRESS_SHORT_BY_BYTE(n, m) \
-    {                                                      \
-        *((uint8_t *)&(n))     = (uint8_t)m;               \
-        *((uint8_t *)&(n) + 1) = (uint8_t)(m >> 8);        \
-    }
+	{                                                      \
+		*((uint8_t *)&(n)) = (uint8_t)m;               \
+		*((uint8_t *)&(n) + 1) = (uint8_t)(m >> 8);        \
+	}
 
 #if (ENDIANNESS == USB_BIG_ENDIAN)
 
@@ -143,65 +144,71 @@ extern int DbgConsole_Printf(const char *fmt_s, ...);
 #define USB_LONG_FROM_BIG_ENDIAN(n) (n)
 
 #define USB_LONG_TO_LITTLE_ENDIAN_ADDRESS(n, m)             \
-    {                                                       \
-        m[3] = (uint8_t)((((uint32_t)(n)) >> 24U) & 0xFFU); \
-        m[2] = (uint8_t)((((uint32_t)(n)) >> 16U) & 0xFFU); \
-        m[1] = (uint8_t)((((uint32_t)(n)) >> 8U) & 0xFFU);  \
-        m[0] = (uint8_t)(((uint32_t)(n)) & 0xFFU);          \
-    }
+	{                                                       \
+		m[3] = (uint8_t)((((uint32_t)(n)) >> 24U) & 0xFFU); \
+		m[2] = (uint8_t)((((uint32_t)(n)) >> 16U) & 0xFFU); \
+		m[1] = (uint8_t)((((uint32_t)(n)) >> 8U) & 0xFFU);  \
+		m[0] = (uint8_t)(((uint32_t)(n)) & 0xFFU);          \
+	}
 
 #define USB_LONG_FROM_LITTLE_ENDIAN_ADDRESS(n)                                                     \
-    ((uint32_t)((((uint32_t)n[3]) << 24U) | (((uint32_t)n[2]) << 16U) | (((uint32_t)n[1]) << 8U) | \
-                (((uint32_t)n[0]) << 0U)))
+	((uint32_t)((((uint32_t)n[3]) << 24U) | (((uint32_t)n[2]) << 16U) | (((uint32_t)n[1]) << \
+									     8U) | \
+		    (((uint32_t)n[0]) << 0U)))
 
 #define USB_LONG_TO_BIG_ENDIAN_ADDRESS(n, m)       \
-    {                                              \
-        m[0] = ((((uint32_t)(n)) >> 24U) & 0xFFU); \
-        m[1] = ((((uint32_t)(n)) >> 16U) & 0xFFU); \
-        m[2] = ((((uint32_t)(n)) >> 8U) & 0xFFU);  \
-        m[3] = (((uint32_t)(n)) & 0xFFU);          \
-    }
+	{                                              \
+		m[0] = ((((uint32_t)(n)) >> 24U) & 0xFFU); \
+		m[1] = ((((uint32_t)(n)) >> 16U) & 0xFFU); \
+		m[2] = ((((uint32_t)(n)) >> 8U) & 0xFFU);  \
+		m[3] = (((uint32_t)(n)) & 0xFFU);          \
+	}
 
 #define USB_LONG_FROM_BIG_ENDIAN_ADDRESS(n)                                                        \
-    ((uint32_t)((((uint32_t)n[0]) << 24U) | (((uint32_t)n[1]) << 16U) | (((uint32_t)n[2]) << 8U) | \
-                (((uint32_t)n[3]) << 0U)))
+	((uint32_t)((((uint32_t)n[0]) << 24U) | (((uint32_t)n[1]) << 16U) | (((uint32_t)n[2]) << \
+									     8U) | \
+		    (((uint32_t)n[3]) << 0U)))
 
 #define USB_SHORT_TO_LITTLE_ENDIAN_ADDRESS(n, m)  \
-    {                                             \
-        m[1] = ((((uint16_t)(n)) >> 8U) & 0xFFU); \
-        m[0] = (((uint16_t)(n)) & 0xFFU);         \
-    }
+	{                                             \
+		m[1] = ((((uint16_t)(n)) >> 8U) & 0xFFU); \
+		m[0] = (((uint16_t)(n)) & 0xFFU);         \
+	}
 
-#define USB_SHORT_FROM_LITTLE_ENDIAN_ADDRESS(n) ((uint16_t)((((uint16_t)n[1]) << 8U) | (((uint16_t)n[0]) << 0U)))
+#define USB_SHORT_FROM_LITTLE_ENDIAN_ADDRESS(n) ((uint16_t)((((uint16_t)n[1]) << 8U) | \
+							    (((uint16_t)n[0]) << 0U)))
 
 #define USB_SHORT_TO_BIG_ENDIAN_ADDRESS(n, m)     \
-    {                                             \
-        m[0] = ((((uint16_t)(n)) >> 8U) & 0xFFU); \
-        m[1] = (((uint16_t)(n)) & 0xFFU);         \
-    }
+	{                                             \
+		m[0] = ((((uint16_t)(n)) >> 8U) & 0xFFU); \
+		m[1] = (((uint16_t)(n)) & 0xFFU);         \
+	}
 
-#define USB_SHORT_FROM_BIG_ENDIAN_ADDRESS(n) ((uint16_t)((((uint16_t)n[0]) << 8U) | (((uint16_t)n[1]) << 0U)))
+#define USB_SHORT_FROM_BIG_ENDIAN_ADDRESS(n) ((uint16_t)((((uint16_t)n[0]) << 8U) | \
+							 (((uint16_t)n[1]) << 0U)))
 
 #define USB_LONG_TO_LITTLE_ENDIAN_DATA(n, m)                         \
-    {                                                                \
-        *((uint8_t *)&(m) + 3) = ((((uint32_t)(n)) >> 24U) & 0xFFU); \
-        *((uint8_t *)&(m) + 2) = ((((uint32_t)(n)) >> 16U) & 0xFFU); \
-        *((uint8_t *)&(m) + 1) = ((((uint32_t)(n)) >> 8U) & 0xFFU);  \
-        *((uint8_t *)&(m) + 0) = (((uint32_t)(n)) & 0xFFU);          \
-    }
+	{                                                                \
+		*((uint8_t *)&(m) + 3) = ((((uint32_t)(n)) >> 24U) & 0xFFU); \
+		*((uint8_t *)&(m) + 2) = ((((uint32_t)(n)) >> 16U) & 0xFFU); \
+		*((uint8_t *)&(m) + 1) = ((((uint32_t)(n)) >> 8U) & 0xFFU);  \
+		*((uint8_t *)&(m) + 0) = (((uint32_t)(n)) & 0xFFU);          \
+	}
 
 #define USB_LONG_FROM_LITTLE_ENDIAN_DATA(n)                                                                 \
-    ((uint32_t)(((uint32_t)(*((uint8_t *)&(n) + 3)) << 24U) | ((uint32_t)(*((uint8_t *)&(n) + 2)) << 16U) | \
-                ((uint32_t)(*((uint8_t *)&(n) + 1)) << 8U) | ((uint32_t)(*((uint8_t *)&(n))) << 0U)))
+	((uint32_t)(((uint32_t)(*((uint8_t *)&(n) + 3)) << 24U) | ((uint32_t)(*((uint8_t *)&(n) + \
+										2)) << 16U) | \
+		    ((uint32_t)(*((uint8_t *)&(n) + 1)) << 8U) | ((uint32_t)(*((uint8_t *)&(n))) << \
+								  0U)))
 
 #define USB_SHORT_TO_LITTLE_ENDIAN_DATA(n, m)                       \
-    {                                                               \
-        *((uint8_t *)&(m) + 1) = ((((uint16_t)(n)) >> 8U) & 0xFFU); \
-        *((uint8_t *)&(m))     = ((((uint16_t)(n))) & 0xFFU);       \
-    }
+	{                                                               \
+		*((uint8_t *)&(m) + 1) = ((((uint16_t)(n)) >> 8U) & 0xFFU); \
+		*((uint8_t *)&(m)) = ((((uint16_t)(n))) & 0xFFU);       \
+	}
 
 #define USB_SHORT_FROM_LITTLE_ENDIAN_DATA(n) \
-    ((uint16_t)((uint16_t)(*((uint8_t *)&(n) + 1)) << 8U) | ((uint16_t)(*((uint8_t *)&(n)))))
+	((uint16_t)((uint16_t)(*((uint8_t *)&(n) + 1)) << 8U) | ((uint16_t)(*((uint8_t *)&(n)))))
 
 #else
 
@@ -216,65 +223,72 @@ extern int DbgConsole_Printf(const char *fmt_s, ...);
 #define USB_LONG_FROM_BIG_ENDIAN(n) SWAP4BYTE_CONST(n)
 
 #define USB_LONG_TO_LITTLE_ENDIAN_ADDRESS(n, m)             \
-    {                                                       \
-        m[3] = (uint8_t)((((uint32_t)(n)) >> 24U) & 0xFFU); \
-        m[2] = (uint8_t)((((uint32_t)(n)) >> 16U) & 0xFFU); \
-        m[1] = (uint8_t)((((uint32_t)(n)) >> 8U) & 0xFFU);  \
-        m[0] = (uint8_t)(((uint32_t)(n)) & 0xFFU);          \
-    }
+	{                                                       \
+		m[3] = (uint8_t)((((uint32_t)(n)) >> 24U) & 0xFFU); \
+		m[2] = (uint8_t)((((uint32_t)(n)) >> 16U) & 0xFFU); \
+		m[1] = (uint8_t)((((uint32_t)(n)) >> 8U) & 0xFFU);  \
+		m[0] = (uint8_t)(((uint32_t)(n)) & 0xFFU);          \
+	}
 
 #define USB_LONG_FROM_LITTLE_ENDIAN_ADDRESS(n)                                                     \
-    ((uint32_t)((((uint32_t)n[3]) << 24U) | (((uint32_t)n[2]) << 16U) | (((uint32_t)n[1]) << 8U) | \
-                (((uint32_t)n[0]) << 0U)))
+	((uint32_t)((((uint32_t)n[3]) << 24U) | (((uint32_t)n[2]) << 16U) | (((uint32_t)n[1]) << \
+									     8U) | \
+		    (((uint32_t)n[0]) << 0U)))
 
 #define USB_LONG_TO_BIG_ENDIAN_ADDRESS(n, m)       \
-    {                                              \
-        m[0] = ((((uint32_t)(n)) >> 24U) & 0xFFU); \
-        m[1] = ((((uint32_t)(n)) >> 16U) & 0xFFU); \
-        m[2] = ((((uint32_t)(n)) >> 8U) & 0xFFU);  \
-        m[3] = (((uint32_t)(n)) & 0xFFU);          \
-    }
+	{                                              \
+		m[0] = ((((uint32_t)(n)) >> 24U) & 0xFFU); \
+		m[1] = ((((uint32_t)(n)) >> 16U) & 0xFFU); \
+		m[2] = ((((uint32_t)(n)) >> 8U) & 0xFFU);  \
+		m[3] = (((uint32_t)(n)) & 0xFFU);          \
+	}
 
 #define USB_LONG_FROM_BIG_ENDIAN_ADDRESS(n)                                                        \
-    ((uint32_t)((((uint32_t)n[0]) << 24U) | (((uint32_t)n[1]) << 16U) | (((uint32_t)n[2]) << 8U) | \
-                (((uint32_t)n[3]) << 0U)))
+	((uint32_t)((((uint32_t)n[0]) << 24U) | (((uint32_t)n[1]) << 16U) | (((uint32_t)n[2]) << \
+									     8U) | \
+		    (((uint32_t)n[3]) << 0U)))
 
 #define USB_SHORT_TO_LITTLE_ENDIAN_ADDRESS(n, m)  \
-    {                                             \
-        m[1] = ((((uint16_t)(n)) >> 8U) & 0xFFU); \
-        m[0] = (((uint16_t)(n)) & 0xFFU);         \
-    }
+	{                                             \
+		m[1] = ((((uint16_t)(n)) >> 8U) & 0xFFU); \
+		m[0] = (((uint16_t)(n)) & 0xFFU);         \
+	}
 
-#define USB_SHORT_FROM_LITTLE_ENDIAN_ADDRESS(n) ((uint16_t)((((uint16_t)n[1]) << 8U) | (((uint16_t)n[0]) << 0U)))
+#define USB_SHORT_FROM_LITTLE_ENDIAN_ADDRESS(n) ((uint16_t)((((uint16_t)n[1]) << 8U) | \
+							    (((uint16_t)n[0]) << 0U)))
 
 #define USB_SHORT_TO_BIG_ENDIAN_ADDRESS(n, m)     \
-    {                                             \
-        m[0] = ((((uint16_t)(n)) >> 8U) & 0xFFU); \
-        m[1] = (((uint16_t)(n)) & 0xFFU);         \
-    }
+	{                                             \
+		m[0] = ((((uint16_t)(n)) >> 8U) & 0xFFU); \
+		m[1] = (((uint16_t)(n)) & 0xFFU);         \
+	}
 
-#define USB_SHORT_FROM_BIG_ENDIAN_ADDRESS(n) ((uint16_t)((((uint16_t)n[0]) << 8U) | (((uint16_t)n[1]) << 0U)))
+#define USB_SHORT_FROM_BIG_ENDIAN_ADDRESS(n) ((uint16_t)((((uint16_t)n[0]) << 8U) | \
+							 (((uint16_t)n[1]) << 0U)))
 
 #define USB_LONG_TO_LITTLE_ENDIAN_DATA(n, m)                         \
-    {                                                                \
-        *((uint8_t *)&(m) + 3) = ((((uint32_t)(n)) >> 24U) & 0xFFU); \
-        *((uint8_t *)&(m) + 2) = ((((uint32_t)(n)) >> 16U) & 0xFFU); \
-        *((uint8_t *)&(m) + 1) = ((((uint32_t)(n)) >> 8U) & 0xFFU);  \
-        *((uint8_t *)&(m) + 0) = (((uint32_t)(n)) & 0xFFU);          \
-    }
+	{                                                                \
+		*((uint8_t *)&(m) + 3) = ((((uint32_t)(n)) >> 24U) & 0xFFU); \
+		*((uint8_t *)&(m) + 2) = ((((uint32_t)(n)) >> 16U) & 0xFFU); \
+		*((uint8_t *)&(m) + 1) = ((((uint32_t)(n)) >> 8U) & 0xFFU);  \
+		*((uint8_t *)&(m) + 0) = (((uint32_t)(n)) & 0xFFU);          \
+	}
 
 #define USB_LONG_FROM_LITTLE_ENDIAN_DATA(n)                                                                 \
-    ((uint32_t)(((uint32_t)(*((uint8_t *)&(n) + 3)) << 24U) | ((uint32_t)(*((uint8_t *)&(n) + 2)) << 16U) | \
-                ((uint32_t)(*((uint8_t *)&(n) + 1)) << 8U) | ((uint32_t)(*((uint8_t *)&(n))) << 0U)))
+	((uint32_t)(((uint32_t)(*((uint8_t *)&(n) + 3)) << 24U) | ((uint32_t)(*((uint8_t *)&(n) + \
+										2)) << 16U) | \
+		    ((uint32_t)(*((uint8_t *)&(n) + 1)) << 8U) | ((uint32_t)(*((uint8_t *)&(n))) << \
+								  0U)))
 
 #define USB_SHORT_TO_LITTLE_ENDIAN_DATA(n, m)                       \
-    {                                                               \
-        *((uint8_t *)&(m) + 1) = ((((uint16_t)(n)) >> 8U) & 0xFFU); \
-        *((uint8_t *)&(m))     = ((((uint16_t)(n))) & 0xFFU);       \
-    }
+	{                                                               \
+		*((uint8_t *)&(m) + 1) = ((((uint16_t)(n)) >> 8U) & 0xFFU); \
+		*((uint8_t *)&(m)) = ((((uint16_t)(n))) & 0xFFU);       \
+	}
 
 #define USB_SHORT_FROM_LITTLE_ENDIAN_DATA(n) \
-    ((uint16_t)(((uint16_t)(*(((uint8_t *)&(n)) + 1)) << 8U) | ((uint16_t)(*((uint8_t *)&(n))))))
+	((uint16_t)(((uint16_t)(*(((uint8_t *)&(n)) + 1)) << 8U) | \
+		    ((uint16_t)(*((uint8_t *)&(n))))))
 
 #endif
 
@@ -302,17 +316,17 @@ extern int DbgConsole_Printf(const char *fmt_s, ...);
 /* disable misra 19.13 */
 _Pragma("diag_suppress=Pm120")
 #define USB_ALIGN_PRAGMA(x) _Pragma(#x)
-    _Pragma("diag_default=Pm120")
+_Pragma("diag_default=Pm120")
 
 #define USB_RAM_ADDRESS_ALIGNMENT(n) USB_ALIGN_PRAGMA(data_alignment = n)
-        _Pragma("diag_suppress=Pm120")
+_Pragma("diag_suppress=Pm120")
 #define USB_LINK_SECTION_PART(str) _Pragma(#str)
 #define USB_LINK_DMA_INIT_DATA(sec) USB_LINK_SECTION_PART(location = #sec)
 #define USB_LINK_USB_GLOBAL _Pragma("location = \"m_usb_global\"")
 #define USB_LINK_USB_BDT _Pragma("location = \"m_usb_bdt\"")
 #define USB_LINK_USB_GLOBAL_BSS
 #define USB_LINK_USB_BDT_BSS
-            _Pragma("diag_default=Pm120")
+_Pragma("diag_default=Pm120")
 #define USB_LINK_DMA_NONINIT_DATA _Pragma("location = \"m_usb_dma_noninit_data\"")
 #define USB_LINK_NONCACHE_NONINIT_DATA _Pragma("location = \"NonCacheable\"")
 #elif defined(__CC_ARM) || (defined(__ARMCC_VERSION))
@@ -334,12 +348,14 @@ _Pragma("diag_suppress=Pm120")
 #define USB_LINK_USB_GLOBAL_BSS
 #define USB_LINK_USB_BDT_BSS
 #if defined(__CC_ARM)
-#define USB_LINK_DMA_NONINIT_DATA __attribute__((section("m_usb_dma_noninit_data"))) __attribute__((zero_init))
+#define USB_LINK_DMA_NONINIT_DATA __attribute__((section("m_usb_dma_noninit_data"))) __attribute__( \
+		(zero_init))
 #else
 #define USB_LINK_DMA_NONINIT_DATA __attribute__((section(".bss.m_usb_dma_noninit_data")))
 #endif
 #if defined(__CC_ARM)
-#define USB_LINK_NONCACHE_NONINIT_DATA __attribute__((section("NonCacheable"))) __attribute__((zero_init))
+#define USB_LINK_NONCACHE_NONINIT_DATA __attribute__((section("NonCacheable"))) __attribute__( \
+		(zero_init))
 #else
 #define USB_LINK_NONCACHE_NONINIT_DATA __attribute__((section(".bss.NonCacheable")))
 #endif
@@ -354,7 +370,8 @@ _Pragma("diag_suppress=Pm120")
 #define USB_LINK_USB_BDT __attribute__((section("m_usb_bdt, \"aw\", %nobits @")))
 #define USB_LINK_USB_GLOBAL_BSS
 #define USB_LINK_USB_BDT_BSS
-#define USB_LINK_DMA_NONINIT_DATA __attribute__((section("m_usb_dma_noninit_data, \"aw\", %nobits @")))
+#define USB_LINK_DMA_NONINIT_DATA __attribute__((section( \
+							 "m_usb_dma_noninit_data, \"aw\", %nobits @")))
 #define USB_LINK_NONCACHE_NONINIT_DATA __attribute__((section("NonCacheable, \"aw\", %nobits @")))
 
 #elif (defined(__DSC__) && defined(__CW__))
@@ -368,11 +385,14 @@ _Pragma("diag_suppress=Pm120")
 #error The tool-chain is not supported.
 #endif
 
-#if (defined(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE) && (USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE)) || \
-    (defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE) && (USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE))
+#if (defined(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE) && \
+	(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE)) || \
+	(defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE) && \
+	(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE))
 
 #if ((defined(FSL_FEATURE_L2CACHE_LINESIZE_BYTE)) && (defined(FSL_FEATURE_L1DCACHE_LINESIZE_BYTE)))
-#define USB_CACHE_LINESIZE MAX(FSL_FEATURE_L2CACHE_LINESIZE_BYTE, FSL_FEATURE_L1DCACHE_LINESIZE_BYTE)
+#define USB_CACHE_LINESIZE MAX(FSL_FEATURE_L2CACHE_LINESIZE_BYTE, \
+			       FSL_FEATURE_L1DCACHE_LINESIZE_BYTE)
 #elif (defined(FSL_FEATURE_L2CACHE_LINESIZE_BYTE))
 #define USB_CACHE_LINESIZE MAX(FSL_FEATURE_L2CACHE_LINESIZE_BYTE, 0)
 #elif (defined(FSL_FEATURE_L1DCACHE_LINESIZE_BYTE))
@@ -386,7 +406,7 @@ _Pragma("diag_suppress=Pm120")
 #endif
 
 #if (((defined(USB_DEVICE_CONFIG_LPCIP3511FS)) && (USB_DEVICE_CONFIG_LPCIP3511FS > 0U)) || \
-     ((defined(USB_DEVICE_CONFIG_LPCIP3511HS)) && (USB_DEVICE_CONFIG_LPCIP3511HS > 0U)))
+	((defined(USB_DEVICE_CONFIG_LPCIP3511HS)) && (USB_DEVICE_CONFIG_LPCIP3511HS > 0U)))
 #define USB_DATA_ALIGN 64U
 #else
 #define USB_DATA_ALIGN 4U
@@ -398,15 +418,19 @@ _Pragma("diag_suppress=Pm120")
 #define USB_DATA_ALIGN_SIZE USB_DATA_ALIGN
 #endif
 
-#define USB_DATA_ALIGN_SIZE_MULTIPLE(n) (((n) + USB_DATA_ALIGN_SIZE - 1U) & (~(USB_DATA_ALIGN_SIZE - 1U)))
+#define USB_DATA_ALIGN_SIZE_MULTIPLE(n) (((n) + USB_DATA_ALIGN_SIZE - 1U) & (~(USB_DATA_ALIGN_SIZE - \
+									       1U)))
 
-#if defined(USB_STACK_USE_DEDICATED_RAM) && (USB_STACK_USE_DEDICATED_RAM == USB_STACK_DEDICATED_RAM_TYPE_BDT_GLOBAL)
+#if defined(USB_STACK_USE_DEDICATED_RAM) && (USB_STACK_USE_DEDICATED_RAM == \
+					     USB_STACK_DEDICATED_RAM_TYPE_BDT_GLOBAL)
 
 #define USB_GLOBAL USB_LINK_USB_GLOBAL
 #define USB_BDT USB_LINK_USB_BDT
 
-#if (defined(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE) && (USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE)) || \
-    (defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE) && (USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE))
+#if (defined(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE) && \
+	(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE)) || \
+	(defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE) && \
+	(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE))
 #define USB_DMA_DATA_NONINIT_SUB USB_LINK_DMA_NONINIT_DATA
 #define USB_DMA_DATA_INIT_SUB USB_LINK_DMA_INIT_DATA(m_usb_dma_init_data)
 #define USB_CONTROLLER_DATA USB_LINK_NONCACHE_NONINIT_DATA
@@ -422,12 +446,15 @@ _Pragma("diag_suppress=Pm120")
 #endif
 #endif
 
-#elif defined(USB_STACK_USE_DEDICATED_RAM) && (USB_STACK_USE_DEDICATED_RAM == USB_STACK_DEDICATED_RAM_TYPE_BDT)
+#elif defined(USB_STACK_USE_DEDICATED_RAM) && (USB_STACK_USE_DEDICATED_RAM == \
+					       USB_STACK_DEDICATED_RAM_TYPE_BDT)
 
 #define USB_BDT USB_LINK_USB_BDT
 
-#if (defined(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE) && (USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE)) || \
-    (defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE) && (USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE))
+#if (defined(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE) && \
+	(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE)) || \
+	(defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE) && \
+	(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE))
 #define USB_GLOBAL USB_LINK_DMA_NONINIT_DATA
 #define USB_DMA_DATA_NONINIT_SUB USB_LINK_DMA_NONINIT_DATA
 #define USB_DMA_DATA_INIT_SUB USB_LINK_DMA_INIT_DATA(m_usb_dma_init_data)
@@ -448,8 +475,10 @@ _Pragma("diag_suppress=Pm120")
 
 #else
 
-#if (defined(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE) && (USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE)) || \
-    (defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE) && (USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE))
+#if (defined(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE) && \
+	(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE)) || \
+	(defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE) && \
+	(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE))
 
 #define USB_GLOBAL USB_LINK_DMA_NONINIT_DATA
 #define USB_BDT USB_LINK_NONCACHE_NONINIT_DATA
@@ -480,8 +509,10 @@ _Pragma("diag_suppress=Pm120")
 #define USB_DMA_NONINIT_DATA_ALIGN(n) USB_RAM_ADDRESS_ALIGNMENT(n) USB_DMA_DATA_NONINIT_SUB
 #define USB_DMA_INIT_DATA_ALIGN(n) USB_RAM_ADDRESS_ALIGNMENT(n) USB_DMA_DATA_INIT_SUB
 
-#if (defined(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE) && (USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE)) || \
-    (defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE) && (USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE))
+#if (defined(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE) && \
+	(USB_DEVICE_CONFIG_BUFFER_PROPERTY_CACHEABLE)) || \
+	(defined(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE) && \
+	(USB_HOST_CONFIG_BUFFER_PROPERTY_CACHEABLE))
 #define USB_DMA_DATA_NONCACHEABLE USB_LINK_NONCACHE_NONINIT_DATA
 
 #else

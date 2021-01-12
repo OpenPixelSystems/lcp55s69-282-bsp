@@ -32,22 +32,20 @@
 #define USB_DEVICE_DFU_ABORT (0x06U)
 
 /*! @brief Available common EVENT types in dfu class callback */
-typedef enum _usb_device_dfu_event
-{
-    kUSB_DeviceDfuEventDetach = 0x01U, /*!< Detach request */
-    kUSB_DeviceDfuEventDownLoad,       /*!< Download request */
-    kUSB_DeviceDfuEventUpLoad,         /*!< Upload request */
-    kUSB_DeviceDfuEventGetStatus,      /*!< Get status request */
-    kUSB_DeviceDfuEventClearStatus,    /*!< Clear status request */
-    kUSB_DeviceDfuEventGetState,       /*!< Get state request */
-    kUSB_DeviceDfuEventAbort,          /*!< Abort request */
+typedef enum _usb_device_dfu_event {
+	kUSB_DeviceDfuEventDetach = 0x01U,      /*!< Detach request */
+	kUSB_DeviceDfuEventDownLoad,            /*!< Download request */
+	kUSB_DeviceDfuEventUpLoad,              /*!< Upload request */
+	kUSB_DeviceDfuEventGetStatus,           /*!< Get status request */
+	kUSB_DeviceDfuEventClearStatus,         /*!< Clear status request */
+	kUSB_DeviceDfuEventGetState,            /*!< Get state request */
+	kUSB_DeviceDfuEventAbort,               /*!< Abort request */
 } usb_device_dfu_event_t;
 
 /*! @brief The DFU device class status structure */
-typedef struct _usb_device_dfu_struct
-{
-    usb_device_handle handle;                       /*!< The device handle */
-    usb_device_class_config_struct_t *configStruct; /*!< The configuration of the class. */
+typedef struct _usb_device_dfu_struct {
+	usb_device_handle			handle;         /*!< The device handle */
+	usb_device_class_config_struct_t *	configStruct;   /*!< The configuration of the class. */
 } usb_device_dfu_struct_t;
 
 /*******************************************************************************
@@ -69,9 +67,9 @@ extern "C" {
  *
  * @return A USB error code or kStatus_USB_Success.
  */
-extern usb_status_t USB_DeviceDfuInit(uint8_t controllerId,
-                                      usb_device_class_config_struct_t *config,
-                                      class_handle_t *handle);
+extern usb_status_t USB_DeviceDfuInit(uint8_t				controllerId,
+				      usb_device_class_config_struct_t *config,
+				      class_handle_t *			handle);
 
 /*!
  * @brief De-initialize the device dfu class.

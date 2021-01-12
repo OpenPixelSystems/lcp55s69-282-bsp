@@ -27,38 +27,35 @@
 /*! @brief The PHDC class get data status request */
 #define USB_DEVICE_PHDC_REQUEST_GET_STATUS (0x00U)
 /*! @brief Available common EVENT types in PHDC class callback */
-typedef enum
-{
-    kUSB_DevicePhdcEventInterruptInSendComplete = 0x01, /*!< Send data completed or cancelled etc*/
-    kUSB_DevicePhdcEventBulkInSendComplete,             /*!< Send data completed or cancelled etc*/
-    kUSB_DevicePhdcEventDataReceived,                   /*!< Data received or cancelled etc*/
-    kUSB_DevicePhdcEventSetFeature,                     /*!< Set feature request */
-    kUSB_DevicePhdcEventClearFeature,                   /*!< Clear feature request */
-    kUSB_DevicePhdcEventGetStatus,                      /*!< Get status request */
+typedef enum {
+	kUSB_DevicePhdcEventInterruptInSendComplete = 0x01,     /*!< Send data completed or cancelled etc*/
+	kUSB_DevicePhdcEventBulkInSendComplete,                 /*!< Send data completed or cancelled etc*/
+	kUSB_DevicePhdcEventDataReceived,                       /*!< Data received or cancelled etc*/
+	kUSB_DevicePhdcEventSetFeature,                         /*!< Set feature request */
+	kUSB_DevicePhdcEventClearFeature,                       /*!< Clear feature request */
+	kUSB_DevicePhdcEventGetStatus,                          /*!< Get status request */
 } usb_device_phdc_event_t;
 
 /*! @brief Definition of pipe structure. */
-typedef struct _usb_device_phdc_pipe
-{
-    uint8_t *pipeDataBuffer; /*!< pipe data buffer backup when stall */
-    uint32_t pipeDataLen;    /*!< pipe data length backup when stall  */
-    uint8_t pipeStall;       /*!< pipe is stall  */
-    uint8_t ep;              /*!< The endpoint number of the pipe. */
-    uint8_t isBusy;          /*!< 1: The pipe is transferring packet, 0: The pipe is idle. */
+typedef struct _usb_device_phdc_pipe {
+	uint8_t *	pipeDataBuffer; /*!< pipe data buffer backup when stall */
+	uint32_t	pipeDataLen;    /*!< pipe data length backup when stall  */
+	uint8_t		pipeStall;      /*!< pipe is stall  */
+	uint8_t		ep;             /*!< The endpoint number of the pipe. */
+	uint8_t		isBusy;         /*!< 1: The pipe is transferring packet, 0: The pipe is idle. */
 } usb_device_phdc_pipe_t;
 
 /*! @brief The PHDC device class status structure */
-typedef struct _usb_device_phdc_struct
-{
-    usb_device_handle handle;                       /*!< The device handle */
-    usb_device_class_config_struct_t *configStruct; /*!< The configuration of the class. */
-    usb_device_interface_struct_t *interfaceHandle; /*!< Current interface handle */
-    usb_device_phdc_pipe_t bulkIn;                  /*!< The bulk in pipe for sending data */
-    usb_device_phdc_pipe_t bulkOut;                 /*!< The bulk out pipe for receiving data */
-    usb_device_phdc_pipe_t interruptIn;             /*!< The interrupt in pipe for sending data */
-    uint8_t configuration;                          /*!< Current configuration */
-    uint8_t interfaceNumber;                        /*!< The interface number of the class */
-    uint8_t alternate;                              /*!< Current alternate setting of the interface */
+typedef struct _usb_device_phdc_struct {
+	usb_device_handle			handle;                 /*!< The device handle */
+	usb_device_class_config_struct_t *	configStruct;           /*!< The configuration of the class. */
+	usb_device_interface_struct_t *		interfaceHandle;        /*!< Current interface handle */
+	usb_device_phdc_pipe_t			bulkIn;                 /*!< The bulk in pipe for sending data */
+	usb_device_phdc_pipe_t			bulkOut;                /*!< The bulk out pipe for receiving data */
+	usb_device_phdc_pipe_t			interruptIn;            /*!< The interrupt in pipe for sending data */
+	uint8_t					configuration;          /*!< Current configuration */
+	uint8_t					interfaceNumber;        /*!< The interface number of the class */
+	uint8_t					alternate;              /*!< Current alternate setting of the interface */
 } usb_device_phdc_struct_t;
 
 /*******************************************************************************
@@ -82,9 +79,9 @@ extern "C" {
  * @retval kStatus_USB_InvalidHandle    The PHDC device handle allocation failure.
  * @retval kStatus_USB_InvalidParameter The USB device handle allocation failure.
  */
-extern usb_status_t USB_DevicePhdcInit(uint8_t controllerId,
-                                       usb_device_class_config_struct_t *config,
-                                       class_handle_t *handle);
+extern usb_status_t USB_DevicePhdcInit(uint8_t					controllerId,
+				       usb_device_class_config_struct_t *	config,
+				       class_handle_t *				handle);
 
 /*!
  * @brief Deinitializes the device PHDC class.
@@ -135,7 +132,8 @@ extern usb_status_t USB_DevicePhdcEvent(void *handle, uint32_t event, void *para
  *
  * @note The function can only be called in the same context.
  */
-extern usb_status_t USB_DevicePhdcSend(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t length);
+extern usb_status_t USB_DevicePhdcSend(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t
+				       length);
 
 /*!
  * @brief Receives data through a specified endpoint.
@@ -154,7 +152,8 @@ extern usb_status_t USB_DevicePhdcSend(class_handle_t handle, uint8_t ep, uint8_
  *
  * @note The function can only be called in the same context.
  */
-extern usb_status_t USB_DevicePhdcRecv(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t length);
+extern usb_status_t USB_DevicePhdcRecv(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t
+				       length);
 
 #if defined(__cplusplus)
 }

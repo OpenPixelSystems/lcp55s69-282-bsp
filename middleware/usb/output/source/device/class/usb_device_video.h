@@ -718,129 +718,120 @@
 
 /*! @brief The payload header structure for MJPEG payload format. */
 STRUCT_PACKED
-struct _usb_device_video_mjpeg_payload_header_struct
-{
-    uint8_t bHeaderLength; /*!< The payload header length. */
-    union
-    {
-        uint8_t bmheaderInfo; /*!< The payload header bitmap field. */
-        struct
-        {
-            uint8_t frameIdentifier : 1U; /*!< Frame Identifier. This bit toggles at each frame start boundary and stays
-                                             constant for the rest of the frame.*/
-            uint8_t endOfFrame : 1U; /*!< End of Frame. This bit indicates the end of a video frame and is set in the
-                                        last video sample that belongs to a frame.*/
-            uint8_t presentationTimeStamp : 1U; /*!< Presentation Time Stamp. This bit, when set, indicates the presence
-                                                   of a PTS field.*/
-            uint8_t sourceClockReference : 1U;  /*!< Source Clock Reference. This bit, when set, indicates the presence
-                                                   of a SCR field.*/
-            uint8_t reserved : 1U;              /*!< Reserved. Set to 0. */
-            uint8_t stillImage : 1U;  /*!< Still Image. This bit, when set, identifies a video sample that belongs to a
-                                         still image.*/
-            uint8_t errorBit : 1U;    /*!< Error Bit. This bit, when set, indicates an error in the device streaming.*/
-            uint8_t endOfHeader : 1U; /*!< End of Header. This bit, when set, indicates the end of the BFH fields.*/
-        } headerInfoBits;
-        struct
-        {
-            uint8_t FID : 1U; /*!< Frame Identifier. This bit toggles at each frame start boundary and stays constant
-                                 for the rest of the frame.*/
-            uint8_t EOI : 1U; /*!< End of Frame. This bit indicates the end of a video frame and is set in the last
-                                 video sample that belongs to a frame.*/
-            uint8_t PTS : 1U; /*!< Presentation Time Stamp. This bit, when set, indicates the presence of a PTS field.*/
-            uint8_t SCR : 1U; /*!< Source Clock Reference. This bit, when set, indicates the presence of a SCR field.*/
-            uint8_t RES : 1U; /*!< Reserved. Set to 0. */
-            uint8_t STI : 1U; /*!< Still Image. This bit, when set, identifies a video sample that belongs to a still
-                                 image.*/
-            uint8_t ERR : 1U; /*!< Error Bit. This bit, when set, indicates an error in the device streaming.*/
-            uint8_t EOH : 1U; /*!< End of Header. This bit, when set, indicates the end of the BFH fields.*/
-        } headerInfoBitmap;
-    } headerInfoUnion;
-    uint32_t dwPresentationTime;      /*!< Presentation time stamp (PTS) field.*/
-    uint8_t bSourceClockReference[6]; /*!< Source clock reference (SCR) field.*/
+struct _usb_device_video_mjpeg_payload_header_struct {
+	uint8_t bHeaderLength;                                  /*!< The payload header length. */
+	union {
+		uint8_t bmheaderInfo;                           /*!< The payload header bitmap field. */
+		struct {
+			uint8_t frameIdentifier : 1U;           /*!< Frame Identifier. This bit toggles at each frame start boundary and stays
+			                                         * constant for the rest of the frame.*/
+			uint8_t endOfFrame : 1U;                /*!< End of Frame. This bit indicates the end of a video frame and is set in the
+			                                         * last video sample that belongs to a frame.*/
+			uint8_t presentationTimeStamp : 1U;     /*!< Presentation Time Stamp. This bit, when set, indicates the presence
+			                                         * of a PTS field.*/
+			uint8_t sourceClockReference : 1U;      /*!< Source Clock Reference. This bit, when set, indicates the presence
+			                                         * of a SCR field.*/
+			uint8_t reserved : 1U;                  /*!< Reserved. Set to 0. */
+			uint8_t stillImage : 1U;                /*!< Still Image. This bit, when set, identifies a video sample that belongs to a
+			                                         * still image.*/
+			uint8_t errorBit : 1U;                  /*!< Error Bit. This bit, when set, indicates an error in the device streaming.*/
+			uint8_t endOfHeader : 1U;               /*!< End of Header. This bit, when set, indicates the end of the BFH fields.*/
+		} headerInfoBits;
+		struct {
+			uint8_t FID : 1U;       /*!< Frame Identifier. This bit toggles at each frame start boundary and stays constant
+			                         * for the rest of the frame.*/
+			uint8_t EOI : 1U;       /*!< End of Frame. This bit indicates the end of a video frame and is set in the last
+			                         * video sample that belongs to a frame.*/
+			uint8_t PTS : 1U;       /*!< Presentation Time Stamp. This bit, when set, indicates the presence of a PTS field.*/
+			uint8_t SCR : 1U;       /*!< Source Clock Reference. This bit, when set, indicates the presence of a SCR field.*/
+			uint8_t RES : 1U;       /*!< Reserved. Set to 0. */
+			uint8_t STI : 1U;       /*!< Still Image. This bit, when set, identifies a video sample that belongs to a still
+			                         * image.*/
+			uint8_t ERR : 1U;       /*!< Error Bit. This bit, when set, indicates an error in the device streaming.*/
+			uint8_t EOH : 1U;       /*!< End of Header. This bit, when set, indicates the end of the BFH fields.*/
+		} headerInfoBitmap;
+	} headerInfoUnion;
+	uint32_t	dwPresentationTime;             /*!< Presentation time stamp (PTS) field.*/
+	uint8_t		bSourceClockReference[6];       /*!< Source clock reference (SCR) field.*/
 } STRUCT_UNPACKED;
-typedef struct _usb_device_video_mjpeg_payload_header_struct usb_device_video_mjpeg_payload_header_struct_t;
+typedef struct _usb_device_video_mjpeg_payload_header_struct
+	usb_device_video_mjpeg_payload_header_struct_t;
 
 /*! @brief The Video probe and commit controls structure.*/
 STRUCT_PACKED
-struct _usb_device_video_probe_and_commit_controls_struct
-{
-    union
-    {
-        uint8_t bmHint; /*!< Bit-field control indicating to the function what fields shall be kept fixed. */
-        struct
-        {
-            uint8_t dwFrameInterval : 1U; /*!< dwFrameInterval field.*/
-            uint8_t wKeyFrameRate : 1U;   /*!< wKeyFrameRate field.*/
-            uint8_t wPFrameRate : 1U;     /*!< wPFrameRate field.*/
-            uint8_t wCompQuality : 1U;    /*!< wCompQuality field.*/
-            uint8_t wCompWindowSize : 1U; /*!< wCompWindowSize field.*/
-            uint8_t reserved : 3U;        /*!< Reserved field.*/
-        } hintBitmap;
-    } hintUnion;
-    union
-    {
-        uint8_t bmHint; /*!< Bit-field control indicating to the function what fields shall be kept fixed. */
-        struct
-        {
-            uint8_t reserved : 8U; /*!< Reserved field.*/
-        } hintBitmap;
-    } hintUnion1;
-    uint8_t bFormatIndex;     /*!< Video format index from a format descriptor.*/
-    uint8_t bFrameIndex;      /*!< Video frame index from a frame descriptor.*/
-    uint32_t dwFrameInterval; /*!< Frame interval in 100ns units.*/
-    uint16_t wKeyFrameRate;   /*!< Key frame rate in key-frame per video-frame units.*/
-    uint16_t wPFrameRate;     /*!< PFrame rate in PFrame/key frame units.*/
-    uint16_t wCompQuality;    /*!< Compression quality control in abstract units 0U (lowest) to 10000U (highest).*/
-    uint16_t wCompWindowSize; /*!< Window size for average bit rate control.*/
-    uint16_t wDelay; /*!< Internal video streaming interface latency in ms from video data capture to presentation on
-                        the USB.*/
-    uint32_t dwMaxVideoFrameSize;      /*!< Maximum video frame or codec-specific segment size in bytes.*/
-    uint32_t dwMaxPayloadTransferSize; /*!< Specifies the maximum number of bytes that the device can transmit or
-                                          receive in a single payload transfer.*/
-    uint32_t dwClockFrequency; /*!< The device clock frequency in Hz for the specified format. This specifies the
-                                  units used for the time information fields in the Video Payload Headers in the data
-                                  stream.*/
-    uint8_t bmFramingInfo;     /*!< Bit-field control supporting the following values: D0 Frame ID, D1 EOF.*/
-    uint8_t bPreferedVersion;  /*!< The preferred payload format version supported by the host or device for the
-                                  specified bFormatIndex value.*/
-    uint8_t bMinVersion; /*!< The minimum payload format version supported by the device for the specified bFormatIndex
-                            value.*/
-    uint8_t bMaxVersion; /*!< The maximum payload format version supported by the device for the specified bFormatIndex
-                            value.*/
+struct _usb_device_video_probe_and_commit_controls_struct {
+	union {
+		uint8_t bmHint;                         /*!< Bit-field control indicating to the function what fields shall be kept fixed. */
+		struct {
+			uint8_t dwFrameInterval : 1U;   /*!< dwFrameInterval field.*/
+			uint8_t wKeyFrameRate : 1U;     /*!< wKeyFrameRate field.*/
+			uint8_t wPFrameRate : 1U;       /*!< wPFrameRate field.*/
+			uint8_t wCompQuality : 1U;      /*!< wCompQuality field.*/
+			uint8_t wCompWindowSize : 1U;   /*!< wCompWindowSize field.*/
+			uint8_t reserved : 3U;          /*!< Reserved field.*/
+		} hintBitmap;
+	} hintUnion;
+	union {
+		uint8_t bmHint;                 /*!< Bit-field control indicating to the function what fields shall be kept fixed. */
+		struct {
+			uint8_t reserved : 8U;  /*!< Reserved field.*/
+		} hintBitmap;
+	} hintUnion1;
+	uint8_t		bFormatIndex;                   /*!< Video format index from a format descriptor.*/
+	uint8_t		bFrameIndex;                    /*!< Video frame index from a frame descriptor.*/
+	uint32_t	dwFrameInterval;                /*!< Frame interval in 100ns units.*/
+	uint16_t	wKeyFrameRate;                  /*!< Key frame rate in key-frame per video-frame units.*/
+	uint16_t	wPFrameRate;                    /*!< PFrame rate in PFrame/key frame units.*/
+	uint16_t	wCompQuality;                   /*!< Compression quality control in abstract units 0U (lowest) to 10000U (highest).*/
+	uint16_t	wCompWindowSize;                /*!< Window size for average bit rate control.*/
+	uint16_t	wDelay;                         /*!< Internal video streaming interface latency in ms from video data capture to presentation on
+	                                                 * the USB.*/
+	uint32_t	dwMaxVideoFrameSize;            /*!< Maximum video frame or codec-specific segment size in bytes.*/
+	uint32_t	dwMaxPayloadTransferSize;       /*!< Specifies the maximum number of bytes that the device can transmit or
+	                                                 * receive in a single payload transfer.*/
+	uint32_t	dwClockFrequency;               /*!< The device clock frequency in Hz for the specified format. This specifies the
+	                                                 * units used for the time information fields in the Video Payload Headers in the data
+	                                                 * stream.*/
+	uint8_t		bmFramingInfo;                  /*!< Bit-field control supporting the following values: D0 Frame ID, D1 EOF.*/
+	uint8_t		bPreferedVersion;               /*!< The preferred payload format version supported by the host or device for the
+	                                                 * specified bFormatIndex value.*/
+	uint8_t		bMinVersion;                    /*!< The minimum payload format version supported by the device for the specified bFormatIndex
+	                                                 * value.*/
+	uint8_t		bMaxVersion;                    /*!< The maximum payload format version supported by the device for the specified bFormatIndex
+	                                                 * value.*/
 #if defined(USB_DEVICE_VIDEO_CLASS_VERSION_1_5) && USB_DEVICE_VIDEO_CLASS_VERSION_1_5
-    uint8_t bUsage; /*!< This bitmap enables features reported by the bmUsages field of the Video Frame Descriptor.*/
-    uint8_t bBitDepthLuma; /*!< Represents bit_depth_luma_minus8 + 8U, which must be the same as bit_depth_chroma_minus8
-                              + 8.*/
-    uint8_t bmSettings;    /*!< A bitmap of flags that is used to discover and control specific features of a temporally
-                              encoded video stream.*/
-    uint8_t bMaxNumberOfRefFramesPlus1; /*!< Host indicates the maximum number of frames stored for use as references.*/
-    uint16_t bmRateControlModes;        /*!< This field contains 4U sub-fields, each of which is a 4U bit number.*/
-    uint64_t bmLayoutPerStream;         /*!< This field contains 4U sub-fields, each of which is a 2U byte number.*/
+	uint8_t		bUsage;                         /*!< This bitmap enables features reported by the bmUsages field of the Video Frame Descriptor.*/
+	uint8_t		bBitDepthLuma;                  /*!< Represents bit_depth_luma_minus8 + 8U, which must be the same as bit_depth_chroma_minus8
+	                                                 + 8.*/
+	uint8_t		bmSettings;                     /*!< A bitmap of flags that is used to discover and control specific features of a temporally
+	                                                 * encoded video stream.*/
+	uint8_t		bMaxNumberOfRefFramesPlus1;     /*!< Host indicates the maximum number of frames stored for use as references.*/
+	uint16_t	bmRateControlModes;             /*!< This field contains 4U sub-fields, each of which is a 4U bit number.*/
+	uint64_t	bmLayoutPerStream;              /*!< This field contains 4U sub-fields, each of which is a 2U byte number.*/
 #endif
 } STRUCT_UNPACKED;
-typedef struct _usb_device_video_probe_and_commit_controls_struct usb_device_video_probe_and_commit_controls_struct_t;
+typedef struct _usb_device_video_probe_and_commit_controls_struct
+	usb_device_video_probe_and_commit_controls_struct_t;
 
 /*! @brief The Video still probe and still commit controls structure.*/
 STRUCT_PACKED
-struct _usb_device_video_still_probe_and_commit_controls_struct
-{
-    uint8_t bFormatIndex;              /*!< Video format index from a format descriptor.*/
-    uint8_t bFrameIndex;               /*!< Video frame index from a frame descriptor.*/
-    uint8_t bCompressionIndex;         /*!< Compression index from a frame descriptor.*/
-    uint32_t dwMaxVideoFrameSize;      /*!< Maximum still image size in bytes.*/
-    uint32_t dwMaxPayloadTransferSize; /*!< Specifies the maximum number of bytes that the device can transmit or
-                                          receive in a single payload transfer.*/
+struct _usb_device_video_still_probe_and_commit_controls_struct {
+	uint8_t		bFormatIndex;                   /*!< Video format index from a format descriptor.*/
+	uint8_t		bFrameIndex;                    /*!< Video frame index from a frame descriptor.*/
+	uint8_t		bCompressionIndex;              /*!< Compression index from a frame descriptor.*/
+	uint32_t	dwMaxVideoFrameSize;            /*!< Maximum still image size in bytes.*/
+	uint32_t	dwMaxPayloadTransferSize;       /*!< Specifies the maximum number of bytes that the device can transmit or
+	                                                 * receive in a single payload transfer.*/
 } STRUCT_UNPACKED;
 typedef struct _usb_device_video_still_probe_and_commit_controls_struct
-    usb_device_video_still_probe_and_commit_controls_struct_t;
+	usb_device_video_still_probe_and_commit_controls_struct_t;
 
 /*! @brief Available common event types in video class callback */
-typedef enum _usb_device_video_event
-{
-    kUSB_DeviceVideoEventStreamSendResponse = 0x01U, /*!< Send data completed or cancelled in stream pipe */
-    kUSB_DeviceVideoEventStreamRecvResponse,         /*!< Data received or cancelled in stream pipe */
-    kUSB_DeviceVideoEventControlSendResponse,        /*!< Send data completed or cancelled etc in video control pipe */
-    kUSB_DeviceVideoEventClassRequestBuffer, /*!< Get buffer to save the data of the video class-specific request. */
+typedef enum _usb_device_video_event {
+	kUSB_DeviceVideoEventStreamSendResponse = 0x01U,        /*!< Send data completed or cancelled in stream pipe */
+	kUSB_DeviceVideoEventStreamRecvResponse,                /*!< Data received or cancelled in stream pipe */
+	kUSB_DeviceVideoEventControlSendResponse,               /*!< Send data completed or cancelled etc in video control pipe */
+	kUSB_DeviceVideoEventClassRequestBuffer,                /*!< Get buffer to save the data of the video class-specific request. */
 } usb_device_video_event_t;
 
 /*!
@@ -851,11 +842,10 @@ typedef enum _usb_device_video_event
  *     entity type (unit or terminal type),
  *     and terminal type if the entity is a terminal.
  */
-typedef struct _usb_device_video_entity_struct
-{
-    uint8_t entityId;
-    uint8_t entityType;
-    uint16_t terminalType;
+typedef struct _usb_device_video_entity_struct {
+	uint8_t		entityId;
+	uint8_t		entityType;
+	uint16_t	terminalType;
 } usb_device_video_entity_struct_t;
 
 /*!
@@ -866,26 +856,24 @@ typedef struct _usb_device_video_entity_struct
  * such as, if there are three entities(out terminal, camera terminal, and processing unit),
  * the value of the count field is 3U and the entity field saves the every entity information.
  */
-typedef struct _usb_device_video_entities_struct
-{
-    usb_device_video_entity_struct_t *entity;
-    uint8_t count;
+typedef struct _usb_device_video_entities_struct {
+	usb_device_video_entity_struct_t *	entity;
+	uint8_t					count;
 } usb_device_video_entities_struct_t;
 
 /*! @brief The video device class status structure */
-typedef struct _usb_device_video_struct
-{
-    usb_device_handle handle;                              /*!< The device handle */
-    usb_device_class_config_struct_t *configStruct;        /*!< The configuration of the class. */
-    usb_device_interface_struct_t *controlInterfaceHandle; /*!< Current control interface handle */
-    usb_device_interface_struct_t *streamInterfaceHandle;  /*!< Current stream interface handle */
-    uint8_t configuration;                                 /*!< Current configuration */
-    uint8_t controlInterfaceNumber;                        /*!< The control interface number of the class */
-    uint8_t controlAlternate;                              /*!< Current alternate setting of the control interface */
-    uint8_t streamInterfaceNumber;                         /*!< The stream interface number of the class */
-    uint8_t streamAlternate;                               /*!< Current alternate setting of the stream interface */
-    uint8_t streamInPipeBusy;                              /*!< Stream IN pipe busy flag */
-    uint8_t streamOutPipeBusy;                             /*!< Stream OUT pipe busy flag */
+typedef struct _usb_device_video_struct {
+	usb_device_handle			handle;                 /*!< The device handle */
+	usb_device_class_config_struct_t *	configStruct;           /*!< The configuration of the class. */
+	usb_device_interface_struct_t *		controlInterfaceHandle; /*!< Current control interface handle */
+	usb_device_interface_struct_t *		streamInterfaceHandle;  /*!< Current stream interface handle */
+	uint8_t					configuration;          /*!< Current configuration */
+	uint8_t					controlInterfaceNumber; /*!< The control interface number of the class */
+	uint8_t					controlAlternate;       /*!< Current alternate setting of the control interface */
+	uint8_t					streamInterfaceNumber;  /*!< The stream interface number of the class */
+	uint8_t					streamAlternate;        /*!< Current alternate setting of the stream interface */
+	uint8_t					streamInPipeBusy;       /*!< Stream IN pipe busy flag */
+	uint8_t					streamOutPipeBusy;      /*!< Stream OUT pipe busy flag */
 } usb_device_video_struct_t;
 
 /*******************************************************************************
@@ -907,9 +895,9 @@ extern "C" {
  *
  * @return A USB error code or kStatus_USB_Success.
  */
-extern usb_status_t USB_DeviceVideoInit(uint8_t controllerId,
-                                        usb_device_class_config_struct_t *config,
-                                        class_handle_t *handle);
+extern usb_status_t USB_DeviceVideoInit(uint8_t					controllerId,
+					usb_device_class_config_struct_t *	config,
+					class_handle_t *			handle);
 
 /*!
  * @brief Deinitializes the device video class.
@@ -968,7 +956,8 @@ extern usb_status_t USB_DeviceVideoEvent(void *handle, uint32_t event, void *par
  * endpoint
  * callback).
  */
-extern usb_status_t USB_DeviceVideoSend(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t length);
+extern usb_status_t USB_DeviceVideoSend(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t
+					length);
 
 /*!
  * @brief Receives data through a specified endpoint.
@@ -994,7 +983,8 @@ extern usb_status_t USB_DeviceVideoSend(class_handle_t handle, uint8_t ep, uint8
  * endpoint
  * callback).
  */
-extern usb_status_t USB_DeviceVideoRecv(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t length);
+extern usb_status_t USB_DeviceVideoRecv(class_handle_t handle, uint8_t ep, uint8_t *buffer, uint32_t
+					length);
 
 /*! @}*/
 

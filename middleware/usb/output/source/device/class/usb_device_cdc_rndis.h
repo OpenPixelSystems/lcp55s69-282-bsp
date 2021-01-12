@@ -16,12 +16,12 @@
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
-#define USB_DEVICE_CONFIG_CDC_RNDIS_MAX_INSTANCE (1U) /*!< The maximum number of USB CDC RNDIS device instance*/
-                                                      /*!
-                                                       * @name RNDIS Control Message Type
-                                                       * See MSDN for details.
-                                                       * @{
-                                                       */
+#define USB_DEVICE_CONFIG_CDC_RNDIS_MAX_INSTANCE (1U)   /*!< The maximum number of USB CDC RNDIS device instance*/
+                                                        /*!
+                                                         * @name RNDIS Control Message Type
+                                                         * See MSDN for details.
+                                                         * @{
+                                                         */
 #define RNDIS_PACKET_MSG (0x00000001U)
 #define RNDIS_INITIALIZE_MSG (0x00000002U)
 #define RNDIS_HALT_MSG (0x00000003U)
@@ -107,10 +107,10 @@
 /* Optional OIDs */
 #define NDIS_OID_GEN_VENDOR_DRIVER_VERSION (0x00010116U)
 #define NDIS_OID_GEN_SUPPORTED_GUIDS (0x00010117U)
-#define NDIS_OID_GEN_NETWORK_LAYER_ADDRESSES (0x00010118U) /* Set only */
-#define NDIS_OID_GEN_TRANSPORT_HEADER_OFFSET (0x00010119U) /* Set only */
+#define NDIS_OID_GEN_NETWORK_LAYER_ADDRESSES (0x00010118U)      /* Set only */
+#define NDIS_OID_GEN_TRANSPORT_HEADER_OFFSET (0x00010119U)      /* Set only */
 #define NDIS_OID_GEN_MACHINE_NAME (0x0001021AU)
-#define NDIS_OID_GEN_RNDIS_CONFIG_PARAMETER (0x0001021BU) /* Set only */
+#define NDIS_OID_GEN_RNDIS_CONFIG_PARAMETER (0x0001021BU)       /* Set only */
 #define NDIS_OID_GEN_VLAN_ID (0x0001021CU)
 #define NDIS_OID_GEN_MEDIA_CAPABILITIES (0x00010201U)
 #define NDIS_OID_GEN_PHYSICAL_MEDIUM (0x00010202U)
@@ -345,7 +345,8 @@
  * being dynamically allocated  when command is received to avoid memory
  * fragmentation.
  */
-#define RNDIS_MAX_EXPECTED_RESPONSE_SIZE (RNDIS_RESPONSE_QUERY_MSG_SIZE + (RNDIS_NUM_OIDS_SUPPORTED << 2U))
+#define RNDIS_MAX_EXPECTED_RESPONSE_SIZE (RNDIS_RESPONSE_QUERY_MSG_SIZE + \
+					  (RNDIS_NUM_OIDS_SUPPORTED << 2U))
 
 /*!
  * @name Reserved for connection oriented devices. Set value to zero.
@@ -364,236 +365,217 @@
 #define RNDIS_MULTICAST_LIST_SIZE (0U)
 
 /*! @brief Physical Medium Type definitions. Used with OID_GEN_PHYSICAL_MEDIUM. */
-typedef enum _ndis_physical_medium_enum
-{
-    NDIS_PHYSICAL_MEDIUM_UNSPECIFIED,
-    NDIS_PHYSICAL_MEDIUM_WIRELESS_LAN,
-    NDIS_PHYSICAL_MEDIUM_CABLE_MODEM,
-    NDIS_PHYSICAL_MEDIUM_PHONE_LINE,
-    NDIS_PHYSICAL_MEDIUM_POWER_LINE,
-    NDIS_PHYSICAL_MEDIUMDSL, /* includes ADSL and UADSL (G.Lite) */
-    NDIS_PHYSICAL_MEDIUM_FIBRE_CHANNEL,
-    NDIS_PHYSICAL_MEDIUM1394,
-    NDIS_PHYSICAL_MEDIUM_WIRELESS_WAN,
-    NDIS_PHYSICAL_MEDIUM_NATIVE802_11,
-    NDIS_PHYSICAL_MEDIUM_BLUETOOTH,
-    NDIS_PHYSICAL_MEDIUM_MAX /* Not a real physical type, defined as an upper-bound. */
+typedef enum _ndis_physical_medium_enum {
+	NDIS_PHYSICAL_MEDIUM_UNSPECIFIED,
+	NDIS_PHYSICAL_MEDIUM_WIRELESS_LAN,
+	NDIS_PHYSICAL_MEDIUM_CABLE_MODEM,
+	NDIS_PHYSICAL_MEDIUM_PHONE_LINE,
+	NDIS_PHYSICAL_MEDIUM_POWER_LINE,
+	NDIS_PHYSICAL_MEDIUMDSL, /* includes ADSL and UADSL (G.Lite) */
+	NDIS_PHYSICAL_MEDIUM_FIBRE_CHANNEL,
+	NDIS_PHYSICAL_MEDIUM1394,
+	NDIS_PHYSICAL_MEDIUM_WIRELESS_WAN,
+	NDIS_PHYSICAL_MEDIUM_NATIVE802_11,
+	NDIS_PHYSICAL_MEDIUM_BLUETOOTH,
+	NDIS_PHYSICAL_MEDIUM_MAX /* Not a real physical type, defined as an upper-bound. */
 } ndis_physical_medium_enum_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_INITIALIZE_MSG. */
-typedef struct _rndis_init_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t majorVersion;
-    uint32_t minorVersion;
-    uint32_t maxTransferSize;
+typedef struct _rndis_init_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	majorVersion;
+	uint32_t	minorVersion;
+	uint32_t	maxTransferSize;
 } rndis_init_msg_struct_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_INITIALIZE_CMPLT. */
-typedef struct _rndis_init_cmplt_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t status;
-    uint32_t majorVersion;
-    uint32_t minorVersion;
-    uint32_t deviceFlags;
-    uint32_t medium;
-    uint32_t maxPacketsPerTransfer;
-    uint32_t maxTransferSize;
-    uint32_t packetAlignmentFactor;
-    uint32_t afListOffset;
-    uint32_t afListSize;
+typedef struct _rndis_init_cmplt_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	status;
+	uint32_t	majorVersion;
+	uint32_t	minorVersion;
+	uint32_t	deviceFlags;
+	uint32_t	medium;
+	uint32_t	maxPacketsPerTransfer;
+	uint32_t	maxTransferSize;
+	uint32_t	packetAlignmentFactor;
+	uint32_t	afListOffset;
+	uint32_t	afListSize;
 } rndis_init_cmplt_struct_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_HALT_MSG. */
-typedef struct _rndis_halt_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
+typedef struct _rndis_halt_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
 } rndis_halt_msg_struct_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_QUERY_MSG. */
-typedef struct _rndis_query_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t oid;
-    uint32_t informationBufferLength;
-    uint32_t informationBufferOffset;
-    uint32_t deviceVcHandle;
+typedef struct _rndis_query_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	oid;
+	uint32_t	informationBufferLength;
+	uint32_t	informationBufferOffset;
+	uint32_t	deviceVcHandle;
 } rndis_query_msg_struct_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_QUERY_CMPLT. */
-typedef struct _rndis_query_cmplt_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t status;
-    uint32_t informationBufferLength;
-    uint32_t informationBufferOffset;
+typedef struct _rndis_query_cmplt_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	status;
+	uint32_t	informationBufferLength;
+	uint32_t	informationBufferOffset;
 } rndis_query_cmplt_struct_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_SET_MSG. */
-typedef struct _rndis_set_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t oid;
-    uint32_t informationBufferLength;
-    uint32_t informationBufferOffset;
-    uint32_t deviceVcHandle;
+typedef struct _rndis_set_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	oid;
+	uint32_t	informationBufferLength;
+	uint32_t	informationBufferOffset;
+	uint32_t	deviceVcHandle;
 } rndis_set_msg_struct_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_SET_CMPLT. */
-typedef struct _rndis_set_cmplt_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t status;
+typedef struct _rndis_set_cmplt_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	status;
 } rndis_set_cmplt_struct_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_RESET_MSG. */
-typedef struct _rndis_reset_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t reserved;
+typedef struct _rndis_reset_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	reserved;
 } rndis_reset_msg_struct_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_RESET_CMPLT. */
-typedef struct _rndis_reset_cmplt_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t status;
-    uint32_t addressingReset;
+typedef struct _rndis_reset_cmplt_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	status;
+	uint32_t	addressingReset;
 } rndis_reset_cmplt_struct_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_INDICATE_STATUS_MSG. */
-typedef struct _rndis_indicate_status_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t status;
-    uint32_t statusBufferLength;
-    uint32_t statusBufferOffset;
+typedef struct _rndis_indicate_status_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	status;
+	uint32_t	statusBufferLength;
+	uint32_t	statusBufferOffset;
 } rndis_indicate_status_msg_struct_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_KEEPALIVE_MSG. */
-typedef struct _rndis_keepalive_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
+typedef struct _rndis_keepalive_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
 } rndis_keepalive_msg_struct_t;
 
 /*! @brief Define message structure for REMOTE_NDIS_KEEPALIVE_CMPLT. */
-typedef struct _rndis_keepalive_cmplt_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t requestID;
-    uint32_t status;
+typedef struct _rndis_keepalive_cmplt_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	requestID;
+	uint32_t	status;
 } rndis_keepalive_cmplt_struct_t;
 
 /*! @brief Define message structure for RNDIS_PACKET_MSG. */
-typedef struct _rndis_packet_msg_struct
-{
-    uint32_t messageType;
-    uint32_t messageLength;
-    uint32_t dataOffset;
-    uint32_t dataLength;
-    uint32_t oobDataOffset;
-    uint32_t oobDataLength;
-    uint32_t numOOBDataElements;
-    uint32_t perPacketInfoOffset;
-    uint32_t perPacketInfoLength;
-    uint32_t vcHandle;
-    uint32_t reserved;
+typedef struct _rndis_packet_msg_struct {
+	uint32_t	messageType;
+	uint32_t	messageLength;
+	uint32_t	dataOffset;
+	uint32_t	dataLength;
+	uint32_t	oobDataOffset;
+	uint32_t	oobDataLength;
+	uint32_t	numOOBDataElements;
+	uint32_t	perPacketInfoOffset;
+	uint32_t	perPacketInfoLength;
+	uint32_t	vcHandle;
+	uint32_t	reserved;
 } rndis_packet_msg_struct_t;
 
 /*! @brief Define RNDIS device state. See MSDN for details. */
-typedef enum _rndis_state_enum
-{
-    /*! Following bus-level initialization, the device is said to be in the RNDIS-uninitialized state.
-     * If the device receives a REMOTE_NDIS_HALT_MSG, a bus-level disconnects, or a hard-reset
-     * at any time, it forces the device to the RNDIS-uninitialized state.
-     */
-    RNDIS_UNINITIALIZED = 0U,
-    /*! After the device receives a REMOTE_NDIS_INITIALIZE_MSG and responds with
-     * a REMOTE_NDIS_INITIALIZE_CMPLT with a status of RNDIS_STATUS_SUCCESS, the
-     * device enters the RNDIS-initialized state.
-     * If the device is in the RNDIS-data-initialized state when it receives a REMOTE_NDIS_SET_MSG
-     * specifying a zero filter value for OID_GEN_CURRENT_PACKET_FILTER, this event forces
-     * the device back to the RNDIS-initialized state.
-     */
-    RNDIS_INITIALIZED,
-    /*! If the device receives a REMOTE_NDIS_SET_MSG that specifies a non-zero filter value
-     * for OID_GEN_CURRENT_PACKET_FILTER, the device enters the RNDIS-data-initialized state.
-     */
-    RNDIS_DATA_INITIALIZED,
+typedef enum _rndis_state_enum {
+	/*! Following bus-level initialization, the device is said to be in the RNDIS-uninitialized state.
+	 * If the device receives a REMOTE_NDIS_HALT_MSG, a bus-level disconnects, or a hard-reset
+	 * at any time, it forces the device to the RNDIS-uninitialized state.
+	 */
+	RNDIS_UNINITIALIZED = 0U,
+	/*! After the device receives a REMOTE_NDIS_INITIALIZE_MSG and responds with
+	 * a REMOTE_NDIS_INITIALIZE_CMPLT with a status of RNDIS_STATUS_SUCCESS, the
+	 * device enters the RNDIS-initialized state.
+	 * If the device is in the RNDIS-data-initialized state when it receives a REMOTE_NDIS_SET_MSG
+	 * specifying a zero filter value for OID_GEN_CURRENT_PACKET_FILTER, this event forces
+	 * the device back to the RNDIS-initialized state.
+	 */
+	RNDIS_INITIALIZED,
+	/*! If the device receives a REMOTE_NDIS_SET_MSG that specifies a non-zero filter value
+	 * for OID_GEN_CURRENT_PACKET_FILTER, the device enters the RNDIS-data-initialized state.
+	 */
+	RNDIS_DATA_INITIALIZED,
 } rndis_state_enum_t;
 
 /*! @brief Define structure for CDC RNDIS device. */
-typedef struct _usb_device_cdc_rndis_struct
-{
-    class_handle_t cdcAcmHandle;          /*!< USB CDC ACM class handle. */
-    uint8_t *rndisCommand;                /*!< The pointer to the buffer of the RNDIS request. */
-    uint8_t *responseData;                /*!< The pointer to the buffer of the RNDIS response. */
-    uint32_t rndisHostMaxTxSize;          /*!< The maximum transmit size in byte of the host. */
-    uint32_t rndisDevMaxTxSize;           /*!< The maximum transmit size in byte of the device. */
-    uint32_t rndisHwState;                /*!< The hardware state of the RNDIS device. */
-    uint32_t rndisPacketFilter;           /*!< The packet filter of the RNDIS device. */
-    uint32_t rndisMediaConnectStatus;     /*!< The media connection status of the RNDIS device. */
-    uint32_t numFramesTxOk;               /*!< The number of the frames sent successfully. */
-    uint32_t numFramesRxOk;               /*!< The number of the frames received successfully. */
-    uint32_t numFramesTxError;            /*!< The number of the frames sent failed. */
-    uint32_t numFramesRxError;            /*!< The number of the frames received failed. */
-    uint32_t numRecvFramesMissed;         /*!< The number of the frames missed to receive. */
-    uint32_t numRecvFramesAlignmentError; /*!< The number of the frames received that has alignment error. */
-    uint32_t numFramesTxOneCollision;     /*!< The number of the frames sent that has one collision. */
-    uint32_t numFramesTxManyCollision;    /*!< The number of the frames sent that has many collision. */
-    uint8_t rndisDeviceState;             /*!< The RNDIS device state. */
-    osa_mutex_handle_t statusMutex;       /*!< The mutex to guarantee the consistent access to the device state. */
-    uint32_t mutexBuffer[(OSA_MUTEX_HANDLE_SIZE + 3) / 4];
-    /*! The callback function provided by application for the RNDIS request. */
-    usb_status_t (*rndisCallback)(class_handle_t handle, uint32_t event, void *param);
+typedef struct _usb_device_cdc_rndis_struct {
+	class_handle_t		cdcAcmHandle;                   /*!< USB CDC ACM class handle. */
+	uint8_t *		rndisCommand;                   /*!< The pointer to the buffer of the RNDIS request. */
+	uint8_t *		responseData;                   /*!< The pointer to the buffer of the RNDIS response. */
+	uint32_t		rndisHostMaxTxSize;             /*!< The maximum transmit size in byte of the host. */
+	uint32_t		rndisDevMaxTxSize;              /*!< The maximum transmit size in byte of the device. */
+	uint32_t		rndisHwState;                   /*!< The hardware state of the RNDIS device. */
+	uint32_t		rndisPacketFilter;              /*!< The packet filter of the RNDIS device. */
+	uint32_t		rndisMediaConnectStatus;        /*!< The media connection status of the RNDIS device. */
+	uint32_t		numFramesTxOk;                  /*!< The number of the frames sent successfully. */
+	uint32_t		numFramesRxOk;                  /*!< The number of the frames received successfully. */
+	uint32_t		numFramesTxError;               /*!< The number of the frames sent failed. */
+	uint32_t		numFramesRxError;               /*!< The number of the frames received failed. */
+	uint32_t		numRecvFramesMissed;            /*!< The number of the frames missed to receive. */
+	uint32_t		numRecvFramesAlignmentError;    /*!< The number of the frames received that has alignment error. */
+	uint32_t		numFramesTxOneCollision;        /*!< The number of the frames sent that has one collision. */
+	uint32_t		numFramesTxManyCollision;       /*!< The number of the frames sent that has many collision. */
+	uint8_t			rndisDeviceState;               /*!< The RNDIS device state. */
+	osa_mutex_handle_t	statusMutex;                    /*!< The mutex to guarantee the consistent access to the device state. */
+	uint32_t		mutexBuffer[(OSA_MUTEX_HANDLE_SIZE + 3) / 4];
+	/*! The callback function provided by application for the RNDIS request. */
+	usb_status_t (*rndisCallback)(class_handle_t handle, uint32_t event, void *param);
 } usb_device_cdc_rndis_struct_t;
 
 /*! @brief Define structure for CDC RNDIS device. */
-typedef struct _usb_device_cdc_rndis_config_struct
-{
-    /*! The maximum transmit size in byte of the device. This value is configured by application. */
-    uint32_t devMaxTxSize;
-    /*! The callback function provided by application for the RNDIS request. */
-    usb_status_t (*rndisCallback)(class_handle_t handle, uint32_t event, void *param);
+typedef struct _usb_device_cdc_rndis_config_struct {
+	/*! The maximum transmit size in byte of the device. This value is configured by application. */
+	uint32_t devMaxTxSize;
+	/*! The callback function provided by application for the RNDIS request. */
+	usb_status_t (*rndisCallback)(class_handle_t handle, uint32_t event, void *param);
 } usb_device_cdc_rndis_config_struct_t;
 
 /*! @brief Define parameters for CDC RNDIS request. */
-typedef struct _usb_device_cdc_rndis_request_param_struct
-{
-    uint8_t *buffer; /*!< The pointer to the buffer for RNDIS request. */
-    uint32_t length; /*!< The length of the buffer for RNDIS request. */
+typedef struct _usb_device_cdc_rndis_request_param_struct {
+	uint8_t *	buffer; /*!< The pointer to the buffer for RNDIS request. */
+	uint32_t	length; /*!< The length of the buffer for RNDIS request. */
 } usb_device_cdc_rndis_request_param_struct_t;
 
 /*! @brief Define RNDIS event. */
-typedef enum _rndis_event_enum
-{
-    kUSB_DeviceCdcEventAppGetLinkSpeed,      /*!< This event indicates to get the link speed of the Ethernet. */
-    kUSB_DeviceCdcEventAppGetSendPacketSize, /*!< This event indicates to get the USB send packet size. */
-    kUSB_DeviceCdcEventAppGetRecvPacketSize, /*!< This event indicates to get the USB receive packet size. */
-    kUSB_DeviceCdcEventAppGetMacAddress,     /*!< This event indicates to get the mac address of the device. */
-    kUSB_DeviceCdcEventAppGetLinkStatus,     /*!< This event indicates to get the link status of the Ethernet. */
-    kUSB_DeviceCdcEventAppGetMaxFrameSize    /*!< This event indicates to get the Ethernet maximum frame size. */
+typedef enum _rndis_event_enum {
+	kUSB_DeviceCdcEventAppGetLinkSpeed,             /*!< This event indicates to get the link speed of the Ethernet. */
+	kUSB_DeviceCdcEventAppGetSendPacketSize,        /*!< This event indicates to get the USB send packet size. */
+	kUSB_DeviceCdcEventAppGetRecvPacketSize,        /*!< This event indicates to get the USB receive packet size. */
+	kUSB_DeviceCdcEventAppGetMacAddress,            /*!< This event indicates to get the mac address of the device. */
+	kUSB_DeviceCdcEventAppGetLinkStatus,            /*!< This event indicates to get the link status of the Ethernet. */
+	kUSB_DeviceCdcEventAppGetMaxFrameSize           /*!< This event indicates to get the Ethernet maximum frame size. */
 } rndis_event_enum_t;
 
 /*******************************************************************************
@@ -623,9 +605,9 @@ extern "C" {
  * @retval kStatus_USB_Success Initialize the RNDIS device successfully.
  * @retval kStatus_USB_Error Fails to allocate for the RNDIS device handle.
  */
-extern usb_status_t USB_DeviceCdcRndisInit(class_handle_t classHandle,
-                                           usb_device_cdc_rndis_config_struct_t *config,
-                                           usb_device_cdc_rndis_struct_t **handle);
+extern usb_status_t USB_DeviceCdcRndisInit(class_handle_t				classHandle,
+					   usb_device_cdc_rndis_config_struct_t *	config,
+					   usb_device_cdc_rndis_struct_t **		handle);
 
 /*!
  * @brief Deinitializes the USB CDC RNDIS device.
@@ -655,8 +637,7 @@ extern usb_status_t USB_DeviceCdcRndisDeinit(usb_device_cdc_rndis_struct_t *hand
  * @retval kStatus_USB_InvalidHandle The RNDIS device handle is invalid.
  */
 extern usb_status_t USB_DeviceCdcRndisMessageSet(usb_device_cdc_rndis_struct_t *handle,
-                                                 uint8_t **message,
-                                                 uint32_t *len);
+						 uint8_t **message, uint32_t *len);
 
 /*!
  * @brief Responds to kUSB_DeviceCdcEventGetEncapsulatedResponse.
@@ -672,8 +653,7 @@ extern usb_status_t USB_DeviceCdcRndisMessageSet(usb_device_cdc_rndis_struct_t *
  * @retval kStatus_USB_InvalidHandle The RNDIS device handle is invalid.
  */
 extern usb_status_t USB_DeviceCdcRndisMessageGet(usb_device_cdc_rndis_struct_t *handle,
-                                                 uint8_t **message,
-                                                 uint32_t *len);
+						 uint8_t **message, uint32_t *len);
 
 /*!
  * @brief Soft reset the RNDIS device.
@@ -688,8 +668,7 @@ extern usb_status_t USB_DeviceCdcRndisMessageGet(usb_device_cdc_rndis_struct_t *
  * @retval kStatus_USB_InvalidHandle The RNDIS device handle is invalid.
  */
 extern usb_status_t USB_DeviceCdcRndisResetCommand(usb_device_cdc_rndis_struct_t *handle,
-                                                   uint8_t **message,
-                                                   uint32_t *len);
+						   uint8_t **message, uint32_t *len);
 
 /*!
  * @brief Halts the RNDIS device.
