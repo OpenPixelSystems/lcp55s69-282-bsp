@@ -7,6 +7,7 @@
  */
 
 #include "usb_host_config.h"
+#include "usb_misc.h"
 #if (defined(USB_HOST_CONFIG_OHCI) && (USB_HOST_CONFIG_OHCI > 0U))
 #include "usb_host.h"
 #include "usb_host_hci.h"
@@ -2497,6 +2498,7 @@ void USB_HostOhciTaskFunction(void *hostHandle)
 	if (KOSA_StatusSuccess == OSA_EventWait(usbHostState->ohciEvent, 0xFFU, 0,
 						USB_OSA_WAIT_TIMEOUT, &bitSet)) {
 		if (0U != (bitSet & USB_HOST_OHCI_EVENT_PORT_CHANGE)) {
+			usb_echo("USB HOST OCHI Port change event");
 			(void)USB_HostOhciPortChange(usbHostState);
 		}
 		if (0U != (bitSet & USB_HOST_OHCI_EVENT_TOKEN_DONE)) {
@@ -2506,16 +2508,16 @@ void USB_HostOhciTaskFunction(void *hostHandle)
 			(void)USB_HostOhciSof(usbHostState);
 		}
 		if (0U != (bitSet & USB_HOST_OHCI_EVENT_ATTACH)) {
+			usb_echo("USB HOST OCHI Attach event");
 			for (uint8_t i = 0; i < usbHostState->portNumber; i++) {
 				if ((uint8_t)kUSB_DeviceOhciPortPhyAttached ==
 				    usbHostState->portState[i].portStatus) {
 					void *deviceHandle;
-					if (kStatus_USB_Success == USB_HostAttachDevice(
+					if (kStatus_USB_Success ==
+					    USB_HostAttachDevice(
 						    usbHostState->hostHandle,
-						    usbHostState
-						    ->portState[i].portSpeed, 0U, i, 1U,
-						    &
-						    deviceHandle)) {
+						    usbHostState->portState[i].portSpeed, 0U, i, 1U,
+						    &deviceHandle)) {
 						usbHostState->portState[i].portStatus =
 							(uint8_t)kUSB_DeviceOhciPortAttached;
 					}
@@ -2523,12 +2525,14 @@ void USB_HostOhciTaskFunction(void *hostHandle)
 			}
 		}
 		if (0U != (bitSet & USB_HOST_OHCI_EVENT_DETACH)) {
+			usb_echo("USB HOST OCHI Detach event");
 			for (uint8_t i = 0; i < usbHostState->portNumber; i++) {
 				if ((uint8_t)kUSB_DeviceOhciPortPhyDetached ==
 				    usbHostState->portState[i].portStatus) {
 					usbHostState->portState[i].portStatus =
 						(uint8_t)kUSB_DeviceOhciPortDetached;
-					(void)USB_HostDetachDevice(usbHostState->hostHandle, 0U, i);
+					(void)USB_HostDetachDevice(usbHostState->hostHandle, 0U,
+								   i);
 				}
 			}
 		}
