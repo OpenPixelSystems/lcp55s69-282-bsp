@@ -8,6 +8,7 @@
  */
 
 #include "ffconf.h"
+#include "usb_misc.h"
 /* This fatfs subcomponent is disabled by default
  * To enable it, define following macro in ffconf.h */
 #ifdef USB_DISK_ENABLE

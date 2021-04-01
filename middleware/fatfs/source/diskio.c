@@ -59,6 +59,7 @@ DSTATUS disk_status(
 #endif
 #ifdef USB_DISK_ENABLE
 	case USBDISK:
+	case USBDISK2:
 		stat = USB_HostMsdGetDiskStatus(pdrv);
 		return stat;
 #endif
@@ -107,6 +108,7 @@ DSTATUS disk_initialize(
 #endif
 #ifdef USB_DISK_ENABLE
 	case USBDISK:
+	case USBDISK2:
 		stat = USB_HostMsdInitializeDisk(pdrv);
 		return stat;
 #endif
@@ -159,6 +161,7 @@ DRESULT disk_read(
 #endif
 #ifdef USB_DISK_ENABLE
 	case USBDISK:
+	case USBDISK2:
 		res = USB_HostMsdReadDisk(pdrv, buff, sector, count);
 		return res;
 #endif
@@ -213,6 +216,7 @@ DRESULT disk_write(
 #endif
 #ifdef USB_DISK_ENABLE
 	case USBDISK:
+        case USBDISK2:
 		res = USB_HostMsdWriteDisk(pdrv, buff, sector, count);
 		return res;
 #endif
@@ -264,6 +268,7 @@ DRESULT disk_ioctl(
 #endif
 #ifdef USB_DISK_ENABLE
 	case USBDISK:
+	case USBDISK2:
 		res = USB_HostMsdIoctlDisk(pdrv, cmd, buff);
 		return res;
 #endif
